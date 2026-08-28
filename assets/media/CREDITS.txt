@@ -1,10 +1,11 @@
 Her Homes Co. — image credits
 =============================
 
-Service-chooser panel backgrounds are stock photography from Pexels.
-The Pexels Licence permits free commercial use and modification and
-does not require attribution; these are recorded anyway so the source
-of every image on the site is traceable.
+The service-chooser panel backgrounds and three of the style-world
+images are stock photography from Pexels. The Pexels Licence permits
+free commercial use and modification and does not require attribution;
+these are recorded anyway so the source of every image on the site is
+traceable.
 
   https://www.pexels.com/license/
 
@@ -12,6 +13,10 @@ These are stock photographs of homes and cleaning in general. They are
 NOT photographs of Her Homes Co.'s own work, and the site does not
 claim they are. Replace them with real photos of real jobs whenever
 those exist.
+
+The scandinavian, bohemian, college-core and minimalist style-world
+images were supplied with the project and are not fetched by this
+script.
 
 assets/media/service-deep-cleaning.jpg
   A gloved hand spraying cleaner onto a bathroom tap.
@@ -27,5 +32,20 @@ assets/media/service-interior-design.jpg
   A warm, softly lit living room styled in cream and taupe.
   Photo by Curtis Adams on Pexels
   https://www.pexels.com/photo/5793547/
+
+assets/media/modern.jpg
+  A clean architectural room — black bench, geometric pendant, marble floor.
+  Photo by Vecislavas Popa on Pexels
+  https://www.pexels.com/photo/20582004/
+
+assets/media/indian-heritage.jpg
+  A heritage Indian room — carved and mirrored furniture, arched niches, coloured glass lanterns, terracotta floor.
+  Photo by Pixabay on Pexels
+  https://www.pexels.com/photo/37415406/
+
+assets/media/japandi.jpg
+  A calm Japandi corner — warm wood, a black tray table, a single branch in a ceramic vase.
+  Photo by Cottonbro Studio on Pexels
+  https://www.pexels.com/photo/8251544/
 
 Regenerate with: npm run fetch:stock

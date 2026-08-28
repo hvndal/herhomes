@@ -277,12 +277,22 @@ headshot." on the live site. A slot with no real file is now simply absent.
 
 Two follow-on changes came out of that:
 
-- **"Modern" was removed from the style worlds** (five became four). No
-  modern-interior photo was ever supplied, so one of the five was always an
-  empty frame. To bring it back: restore the one commented-out line in
-  `styleWorlds` in `js/data.js`, drop `assets/media/modern.jpg` in, and
-  run `npm run build`. The image slot is generated from the id, so that is
-  genuinely the whole job.
+- **"Modern" is back, and there are now seven style worlds:**
+  Scandinavian, Japandi, Modern, Minimalist, Indian Heritage, Bohemian and
+  College Core. Modern, Japandi and Indian Heritage use photography
+  fetched by `npm run fetch:stock`; the other four were supplied with the
+  project. Adding another is one line in `styleWorlds` plus one image at
+  `assets/media/<id>.jpg` — the slot, the WebP, the schema and the scroll
+  pacing all follow automatically.
+
+  **There is deliberately no Punjabi style world.** Pexels has no genuine
+  Punjabi *interior* photography — searching it returns portraits,
+  gurdwaras and village exteriors. Labelling a Rajasthani haveli "Punjabi"
+  in front of a Mohali audience would be worse than not having one, so the
+  FAQ answers the question in words instead (and "Punjabi and North Indian
+  traditional interiors" is in the schema's `knowsAbout`). **Send one
+  photo of a real Punjabi interior and it becomes a one-line addition** —
+  the commented-out entry is already sitting in `js/data.js`.
 - **The founder section lays out as a single centred column** instead of a
   two-column grid with a hole in it. Set
   `mediaSlots["founder-portrait"].src` and rebuild, and the two-column
@@ -437,6 +447,22 @@ is keyboard-accessible and indexable with no JavaScript.
 Nothing about turnaround time, team size, insurance, guarantees or payment
 terms is claimed. Read them once and correct anything that doesn't match how
 the business really works — see the comment above `faq` in `js/data.js`.
+
+### Vastu and Feng Shui
+
+Home Organising now says it will work to **Vastu** (or Feng Shui) if that
+matters in the home, there is a dedicated FAQ answering it, and both are in
+the schema's `knowsAbout`. This is one of the strongest local-SEO moves
+available here: "vastu for home" is a very high-volume Indian search and
+almost no local cleaning or organising business has any content answering
+it.
+
+**Read the wording before launch.** It deliberately claims *only* that the
+plan is built around whichever principles the client says matter to them —
+it does not claim Vastu consultancy, does not offer to audit a home against
+a chart, and promises nothing is moved on that basis unless asked. If the
+business wants to make a stronger claim than that, it needs to be one it
+can actually stand behind.
 
 ### Sharing and previews
 

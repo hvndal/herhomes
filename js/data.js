@@ -209,17 +209,33 @@ const HHC_DATA = {
    * genuinely one line here plus one file dropped into assets/media/
    * named to match the id (e.g. `modern` -> assets/media/modern.jpg).
    *
-   * "Modern" was removed for now: no modern-interior photo was supplied,
-   * and an empty grey frame reading "placeholder" is worse for a visitor
-   * (and for bounce rate) than four worlds that all look finished. To
-   * bring it back, restore this line and drop in assets/media/modern.jpg:
-   *   { id: "modern", name: "Modern", words: ["Clean", "Architectural", "Balanced", "Crisp"] },
+   * Every world needs a real image; a world with no photo renders an
+   * empty frame, which is why "Modern" was temporarily removed earlier.
+   * Modern, Indian Heritage and Japandi now have photographs fetched by
+   * `npm run fetch:stock`.
+   *
+   * These are starting points shown to a visitor, not a menu they have to
+   * order from — the copy says so, and the FAQ says so again. They are
+   * also, bluntly, some of the best SEO surface on the page: "japandi",
+   * "indian heritage interiors" and "modern interior design" are all real
+   * searches with far less competition locally than "interior designer".
+   *
+   * A PUNJABI WORLD IS DELIBERATELY MISSING. Pexels has no genuine
+   * Punjabi *interior* photography — its results for that are portraits,
+   * gurdwaras and village exteriors. Labelling a Rajasthani haveli
+   * "Punjabi" in front of a Mohali audience would be worse than not
+   * having one, so instead the FAQ answers the question in words. Send
+   * one photo of a real Punjabi interior and this becomes one line:
+   *   { id: "punjabi", name: "Punjabi Heritage", words: ["Phulkari", "Brass", "Handloom", "Generous"] },
    * ------------------------------------------------------------------ */
   styleWorlds: [
-    { id: "scandinavian",  name: "Scandinavian",  words: ["Light", "Natural", "Functional", "Quiet"] },
-    { id: "bohemian",      name: "Bohemian",      words: ["Layered", "Warm", "Textural", "Collected"] },
-    { id: "college-core",  name: "College Core",  words: ["Personal", "Playful", "Nostalgic", "Expressive"] },
-    { id: "minimalist",    name: "Minimalist",    words: ["Sparse", "Considered", "Calm", "Essential"] },
+    { id: "scandinavian",    name: "Scandinavian",    words: ["Light", "Natural", "Functional", "Quiet"] },
+    { id: "japandi",         name: "Japandi",         words: ["Calm", "Wooden", "Restrained", "Tactile"] },
+    { id: "modern",          name: "Modern",          words: ["Clean", "Architectural", "Balanced", "Crisp"] },
+    { id: "minimalist",      name: "Minimalist",      words: ["Sparse", "Considered", "Calm", "Essential"] },
+    { id: "indian-heritage", name: "Indian Heritage", words: ["Ornate", "Handcrafted", "Jewelled", "Storied"] },
+    { id: "bohemian",        name: "Bohemian",        words: ["Layered", "Warm", "Textural", "Collected"] },
+    { id: "college-core",    name: "College Core",    words: ["Personal", "Playful", "Nostalgic", "Expressive"] },
   ],
 
   /* ------------------------------------------------------------------
@@ -241,8 +257,8 @@ const HHC_DATA = {
         index: "02",
         name: "Home Organising",
         summary: "Actual parts of the home, made functional without looking sterile.",
-        includes: ["Wardrobes", "Kitchens", "Drawers", "Shelves", "Pantries", "Fridges", "Desks", "Storage", "Utility spaces"],
-        note: "Beautiful and practical — good organising shouldn't feel like organising. It should just work.",
+        includes: ["Wardrobes", "Kitchens", "Drawers", "Shelves", "Pantries", "Fridges", "Desks", "Storage", "Utility spaces", "Vastu-aligned placement"],
+        note: "Beautiful and practical — good organising shouldn't feel like organising. It should just work. If Vastu or Feng Shui matters in your home, say so at the start and the plan is built around it.",
       },
       {
         id: "deep-cleaning",
@@ -380,6 +396,14 @@ const HHC_DATA = {
       a: "Six stages. You tell us what you like; we spend time understanding how you actually move through your home; we build the look around your aesthetic; we organise the details so the styling holds; we reset the space with a full deep clean; and then you walk into it.",
     },
     {
+      q: "Can you organise our home according to Vastu?",
+      a: "Yes. If Vastu matters in your home, say so at the start and it shapes the plan — which direction storage faces, where things live in the kitchen and the wardrobe, what stays out of particular corners. The same applies if you follow Feng Shui instead. To be straight about it: we work to the principles you tell us matter to you. We are not Vastu consultants, we don't audit a home against a chart, and nothing gets moved on that basis unless you ask for it.",
+    },
+    {
+      q: "Do you work with traditional Indian or Punjabi interiors?",
+      a: "Very much so. The style worlds on this page — Scandinavian, Japandi, Modern, Minimalist, Indian Heritage, Bohemian and College Core — are starting points, not a menu you have to order from. If what you want is carved wood, brass, jewel colours, phulkari and handloom rather than pale Scandinavian minimalism, that is a direction we build in. A home in Mohali, Kharar or Kurali does not have to look like a catalogue from somewhere else.",
+    },
+    {
       q: "How do I book?",
       a: "There is no form to fill in. Message on WhatsApp at +91 99152 17674 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling the same number works just as well.",
     },
@@ -445,10 +469,14 @@ const HHC_DATA = {
 // that adding or removing a world takes exactly one edit and not two.
 // Real intrinsic dimensions live in STYLE_IMAGE_DIMENSIONS below.
 const STYLE_IMAGE_DIMENSIONS = {
-  "scandinavian": { width: 1461, height: 2000 },
-  "bohemian":     { width: 1429, height: 2000 },
-  "college-core": { width: 1500, height: 2000 },
-  "minimalist":   { width: 1333, height: 2000 },
+  "scandinavian":    { width: 1461, height: 2000 },
+  "bohemian":        { width: 1429, height: 2000 },
+  "college-core":    { width: 1500, height: 2000 },
+  "minimalist":      { width: 1333, height: 2000 },
+  // Fetched by npm run fetch:stock, which crops them all to 1400x2000.
+  "japandi":         { width: 1400, height: 2000 },
+  "modern":          { width: 1400, height: 2000 },
+  "indian-heritage": { width: 1400, height: 2000 },
 };
 
 HHC_DATA.styleWorlds.forEach((w) => {

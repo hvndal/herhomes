@@ -38,11 +38,13 @@
    *      jittery and abrupt next to the eased hero — same idea, totally
    *      different feel.
    *   2. Scroll runways were hardcoded in CSS and had drifted out of
-   *      sync with their content. `.style-worlds` was 320vh with a
-   *      comment saying "tuned for 5" — but there are 4 worlds now, so
-   *      each one got a different amount of scroll than each process
-   *      step did. Runways are now derived from the item count, so every
-   *      beat of the page gets the same amount of scroll by construction.
+   *      sync with their content. `.style-worlds` was a hardcoded 320vh
+   *      with a comment saying "tuned for 5", while the actual count had
+   *      changed — so each world got a different amount of scroll than
+   *      each process step did. Runways are now derived from the item
+   *      count, so every beat of the page gets the same scroll by
+   *      construction, and adding style worlds (there are 7) cannot
+   *      silently change the pacing again.
    *   3. Everything below the process section had no scroll motion at
    *      all — pricing, FAQ, the founder and the service panels just
    *      appeared. The page went cinematic, cinematic, cinematic, then
@@ -63,7 +65,10 @@
     // step. Mobile-first: the long runway that reads as luxurious on a
     // trackpad is a lot of thumb-work on a phone, so a phone gets less
     // scrolling for the same content.
-    beatVh: window.matchMedia("(min-width: 768px)").matches ? 85 : 60,
+    // Trimmed from 85/60 when the style worlds went from 4 to 7: three
+    // more beats at the old rate would have added ~255vh of scrolling to
+    // the page for content that is a lookbook, not the main argument.
+    beatVh: window.matchMedia("(min-width: 768px)").matches ? 70 : 52,
   };
 
   /**
