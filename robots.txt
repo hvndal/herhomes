@@ -1,0 +1,21 @@
+# Her Homes Co.
+#
+# herhomesco.example below is a placeholder domain — RFC 2606 reserves the
+# .example TLD specifically so it can never resolve to a real site. Replace
+# every herhomesco.example URL in this file (and in sitemap.xml, and in
+# index.html's <meta>/<link>/JSON-LD tags) with the real domain the moment
+# the site is live. Nothing else about this file needs to change.
+#
+# The whole site is one public page with nothing to hide from crawlers —
+# no admin area, no staging copy, no duplicate/parameterised URLs — so this
+# stays a two-line file on purpose. If a staging/preview copy of this site
+# ever exists at another URL, give THAT copy its own robots.txt with:
+#   User-agent: *
+#   Disallow: /
+# (and ideally HTTP basic-auth on top of that) rather than adding rules
+# here — a real, indexable robots.txt should never carry disallow rules
+# meant for a different environment.
+User-agent: *
+Allow: /
+
+Sitemap: https://herhomesco.example/sitemap.xml

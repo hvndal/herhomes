@@ -1,0 +1,13 @@
+# Dependencies — vendor/ and assets/fonts/ already hold the built output
+# these would produce (see README: "If you ever need to update the vendor
+# libraries"), so node_modules never needs to be committed.
+node_modules/
+
+# Local QA scratch (Playwright scripts + screenshots) — useful while
+# working on the site, not part of the deliverable itself.
+qa/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log
