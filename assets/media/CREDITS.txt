@@ -43,9 +43,14 @@ assets/media/indian-heritage.jpg
   Photo by Pixabay on Pexels
   https://www.pexels.com/photo/37415406/
 
-assets/media/japandi.jpg
-  A calm Japandi corner — warm wood, a black tray table, a single branch in a ceramic vase.
-  Photo by Cottonbro Studio on Pexels
-  https://www.pexels.com/photo/8251544/
+assets/media/japanese.jpg
+  A traditional Japanese room — tatami, shoji screens, a lit paper lantern, garden beyond.
+  Photo by Ryutaro Tsukata on Pexels
+  https://www.pexels.com/photo/31153872/
+
+assets/media/punjabi.jpg
+  A densely hand-embroidered textile in marigold, rust and indigo.
+  Photo by Anna Nekrashevich on Pexels
+  https://www.pexels.com/photo/6786952/
 
 Regenerate with: npm run fetch:stock

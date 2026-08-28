@@ -102,12 +102,29 @@ const PHOTOS = [
       "A heritage Indian room — carved and mirrored furniture, arched niches, coloured glass lanterns, terracotta floor.",
   },
   {
-    file: "japandi.jpg",
+    file: "japanese.jpg",
     size: WORLD,
-    pexelsId: 8251544,
-    credit: "Photo by Cottonbro Studio on Pexels",
-    page: "https://www.pexels.com/photo/8251544/",
-    describes: "A calm Japandi corner — warm wood, a black tray table, a single branch in a ceramic vase.",
+    pexelsId: 31153872,
+    credit: "Photo by Ryutaro Tsukata on Pexels",
+    page: "https://www.pexels.com/photo/31153872/",
+    describes: "A traditional Japanese room — tatami, shoji screens, a lit paper lantern, garden beyond.",
+  },
+  {
+    file: "punjabi.jpg",
+    size: WORLD,
+    pexelsId: 6786952,
+    credit: "Photo by Anna Nekrashevich on Pexels",
+    page: "https://www.pexels.com/photo/6786952/",
+    // NOTE: this is an embroidered textile, not a Punjabi room. Pexels has
+    // no genuine Punjabi interior photography — its results for that are
+    // portraits, gurdwaras and village exteriors, and the one "Indian
+    // courtyard" candidate turned out to be a South Indian heritage-house
+    // museum complete with mannequins. This dense floss-silk geometric
+    // embroidery in marigold, rust and indigo is visually very close to
+    // phulkari and is the most honest option available. The alt text
+    // describes it as embroidery and does not claim it is phulkari.
+    // Replace it with one real photo of a real Punjabi interior.
+    describes: "A densely hand-embroidered textile in marigold, rust and indigo.",
   },
 ];
 

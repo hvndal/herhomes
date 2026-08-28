@@ -40,6 +40,7 @@
  */
 
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { createRequire } from "node:module";
@@ -81,11 +82,35 @@ const today = () => new Date().toISOString().slice(0, 10);
  * <img> for a media slot, with the attributes that keep CLS at zero
  * and stop the browser blocking on off-screen images.
  * ------------------------------------------------------------------ */
+/**
+ * Append a short hash of the file's own bytes to its URL.
+ *
+ * This exists because of a real bug that reached production. vercel.json
+ * caches /assets/media/ for a year as `immutable`, which tells a browser
+ * never to revalidate. Meanwhile this project's whole media workflow is
+ * "drop a better photo at the same path and it takes over" — which is
+ * exactly the thing `immutable` forbids. The service-chooser panels were
+ * replaced in place, and every browser and CDN edge that had already seen
+ * the previous version kept serving it. For a year.
+ *
+ * Hashing the content into the URL makes those two decisions compatible:
+ * change the file and the URL changes with it, so caches miss and fetch
+ * the new bytes, while an unchanged file keeps its URL and stays cached.
+ * Cheap to compute, and it is derived from the file rather than a version
+ * number somebody has to remember to bump.
+ */
+function assetUrl(relPath) {
+  const abs = join(ROOT, relPath);
+  if (!existsSync(abs)) return relPath;
+  const hash = createHash("sha256").update(readFileSync(abs)).digest("hex").slice(0, 8);
+  return `${relPath}?v=${hash}`;
+}
+
 function imgTag(slotKey, { eager = false, extraClass = "" } = {}) {
   const cfg = D.mediaSlots[slotKey];
   if (!cfg || !cfg.src) return null; // no real file yet -> render nothing at all
   const attrs = [
-    `src="${esc(cfg.src)}"`,
+    `src="${esc(assetUrl(cfg.src))}"`,
     `alt="${esc(cfg.alt || "")}"`,
     cfg.width ? `width="${cfg.width}"` : null,
     cfg.height ? `height="${cfg.height}"` : null,
@@ -102,7 +127,7 @@ function imgTag(slotKey, { eager = false, extraClass = "" } = {}) {
   // the build having been run and old browsers still get an image.
   const webpRel = cfg.src.replace(/\.(jpe?g|png)$/i, ".webp");
   if (webpRel !== cfg.src && existsSync(join(ROOT, webpRel))) {
-    return `<picture><source type="image/webp" srcset="${esc(webpRel)}" />${img}</picture>`;
+    return `<picture><source type="image/webp" srcset="${esc(assetUrl(webpRel))}" />${img}</picture>`;
   }
   return img;
 }
@@ -223,7 +248,8 @@ function renderJsonLd() {
       "Feng Shui",
       "Indian heritage interiors",
       "Punjabi and North Indian traditional interiors",
-      "Japandi interiors",
+      "Japanese interiors",
+      "Punjabi interiors",
       "Scandinavian interiors",
       "Minimalist interiors",
     ],

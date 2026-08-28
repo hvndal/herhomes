@@ -220,20 +220,29 @@ const HHC_DATA = {
    * "indian heritage interiors" and "modern interior design" are all real
    * searches with far less competition locally than "interior designer".
    *
-   * A PUNJABI WORLD IS DELIBERATELY MISSING. Pexels has no genuine
-   * Punjabi *interior* photography — its results for that are portraits,
-   * gurdwaras and village exteriors. Labelling a Rajasthani haveli
-   * "Punjabi" in front of a Mohali audience would be worse than not
-   * having one, so instead the FAQ answers the question in words. Send
-   * one photo of a real Punjabi interior and this becomes one line:
-   *   { id: "punjabi", name: "Punjabi Heritage", words: ["Phulkari", "Brass", "Handloom", "Generous"] },
+   * THE PUNJABI WORLD USES A TEXTILE, NOT A ROOM — read this before
+   * swapping it. Pexels has no genuine Punjabi *interior* photography:
+   * searching returns portraits, gurdwaras and village exteriors, and the
+   * one promising "Indian courtyard" turned out to be a South Indian
+   * heritage-house museum with mannequins in it. Its image is therefore a
+   * close-up of dense floss-silk geometric embroidery in marigold, rust
+   * and indigo — visually very close to phulkari, honest as a swatch, and
+   * described in its alt text as embroidery rather than claimed to be
+   * phulkari or to be a Punjabi home.
+   *
+   * It is the one world illustrated by a material rather than a room.
+   * ONE photograph of a real Punjabi interior — even a phone photo of a
+   * real job — replaces it properly: drop it at assets/media/punjabi.jpg
+   * and remove the entry from scripts/fetch-stock.mjs so it is not
+   * overwritten.
    * ------------------------------------------------------------------ */
   styleWorlds: [
     { id: "scandinavian",    name: "Scandinavian",    words: ["Light", "Natural", "Functional", "Quiet"] },
-    { id: "japandi",         name: "Japandi",         words: ["Calm", "Wooden", "Restrained", "Tactile"] },
+    { id: "japanese",        name: "Japanese",        words: ["Serene", "Wooden", "Unhurried", "Tactile"] },
     { id: "modern",          name: "Modern",          words: ["Clean", "Architectural", "Balanced", "Crisp"] },
     { id: "minimalist",      name: "Minimalist",      words: ["Sparse", "Considered", "Calm", "Essential"] },
     { id: "indian-heritage", name: "Indian Heritage", words: ["Ornate", "Handcrafted", "Jewelled", "Storied"] },
+    { id: "punjabi",         name: "Punjabi",         words: ["Phulkari", "Brass", "Handloom", "Generous"] },
     { id: "bohemian",        name: "Bohemian",        words: ["Layered", "Warm", "Textural", "Collected"] },
     { id: "college-core",    name: "College Core",    words: ["Personal", "Playful", "Nostalgic", "Expressive"] },
   ],
@@ -401,7 +410,7 @@ const HHC_DATA = {
     },
     {
       q: "Do you work with traditional Indian or Punjabi interiors?",
-      a: "Very much so. The style worlds on this page — Scandinavian, Japandi, Modern, Minimalist, Indian Heritage, Bohemian and College Core — are starting points, not a menu you have to order from. If what you want is carved wood, brass, jewel colours, phulkari and handloom rather than pale Scandinavian minimalism, that is a direction we build in. A home in Mohali, Kharar or Kurali does not have to look like a catalogue from somewhere else.",
+      a: "Very much so. The style worlds on this page — Scandinavian, Japanese, Modern, Minimalist, Indian Heritage, Punjabi, Bohemian and College Core — are starting points, not a menu you have to order from. If what you want is carved wood, brass, jewel colours, phulkari and handloom rather than pale Scandinavian minimalism, that is a direction we build in. A home in Mohali, Kharar or Kurali does not have to look like a catalogue from somewhere else.",
     },
     {
       q: "How do I book?",
@@ -474,7 +483,8 @@ const STYLE_IMAGE_DIMENSIONS = {
   "college-core":    { width: 1500, height: 2000 },
   "minimalist":      { width: 1333, height: 2000 },
   // Fetched by npm run fetch:stock, which crops them all to 1400x2000.
-  "japandi":         { width: 1400, height: 2000 },
+  "japanese":        { width: 1400, height: 2000 },
+  "punjabi":         { width: 1400, height: 2000 },
   "modern":          { width: 1400, height: 2000 },
   "indian-heritage": { width: 1400, height: 2000 },
 };

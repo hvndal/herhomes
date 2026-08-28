@@ -66,6 +66,20 @@ the deploy if someone edited `js/data.js` without running `npm run build`,
 which would otherwise silently ship a page whose copy exists only in
 JavaScript. That check needs no dependencies.
 
+> **Media URLs carry a content hash** (`?v=<8 hex of the file's bytes>`,
+> added by `assetUrl()` in `scripts/prerender.mjs`). This is not
+> decoration — it fixes a bug that reached production. `/assets/media/`
+> was cached for a year as `immutable`, which tells browsers never to
+> revalidate, while this project's entire media workflow is "drop a better
+> photo at the same path and it takes over" — precisely what `immutable`
+> forbids. The service panels were replaced in place and every browser and
+> CDN edge that had seen the old ones kept serving them. Hashing the
+> content into the URL makes both decisions compatible: change the file,
+> the URL changes, caches miss. The media header was also softened from a
+> year-immutable to a week with `stale-while-revalidate`, so references
+> that can't carry a hash (the hero poster, which is a CSS background)
+> self-heal instead of being stuck.
+
 `vercel.json` also sets cache headers: a year and `immutable` for fonts,
 media and the vendor libraries (they only ever change under a new filename),
 an hour for CSS/JS, and always-revalidate for `index.html` so a content
@@ -285,14 +299,18 @@ Two follow-on changes came out of that:
   `assets/media/<id>.jpg` — the slot, the WebP, the schema and the scroll
   pacing all follow automatically.
 
-  **There is deliberately no Punjabi style world.** Pexels has no genuine
-  Punjabi *interior* photography — searching it returns portraits,
-  gurdwaras and village exteriors. Labelling a Rajasthani haveli "Punjabi"
-  in front of a Mohali audience would be worse than not having one, so the
-  FAQ answers the question in words instead (and "Punjabi and North Indian
-  traditional interiors" is in the schema's `knowsAbout`). **Send one
-  photo of a real Punjabi interior and it becomes a one-line addition** —
-  the commented-out entry is already sitting in `js/data.js`.
+  **The Punjabi world is illustrated by a textile, not a room — and that
+  needs replacing.** Pexels has no genuine Punjabi *interior* photography:
+  searching returns portraits, gurdwaras and village exteriors, and the one
+  promising "Indian courtyard" result turned out to be a South Indian
+  heritage-house museum with mannequins in it. Its image is therefore a
+  close-up of dense floss-silk geometric embroidery in marigold, rust and
+  indigo — visually very close to phulkari, honest as a swatch, and its alt
+  text says "embroidered textile" rather than claiming to be phulkari or a
+  Punjabi home. It is the only world shown as a material rather than a
+  space. **One photo of a real Punjabi interior fixes it properly:** drop
+  it at `assets/media/punjabi.jpg` and delete that entry from
+  `scripts/fetch-stock.mjs` so it isn't overwritten.
 - **The founder section lays out as a single centred column** instead of a
   two-column grid with a hole in it. Set
   `mediaSlots["founder-portrait"].src` and rebuild, and the two-column
