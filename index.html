@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Her Homes Co. — Interior Styling, Organising &amp; Deep Cleaning</title>
+<meta name="description" content="Your home doesn't need to look like everyone else's. Her Homes Co. styles, organises, and deep-cleans homes around the way you actually live — serving Tricity / Mohali." />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://herhomesco.example/" />
+<meta name="theme-color" content="#fff8f0" />
+<link rel="icon" type="image/png" href="assets/logo-mark.png" />
+<link rel="apple-touch-icon" href="assets/logo-mark.png" />
+
+<!-- Open Graph — how this page looks when shared on WhatsApp / Facebook / LinkedIn.
+     herhomesco.example is a placeholder: RFC 2606 reserves .example so it can
+     never resolve to a real site. Swap every herhomesco.example URL on this
+     page for the real domain the moment one exists — nothing else changes. -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Her Homes Co." />
+<meta property="og:locale" content="en_IN" />
+<meta property="og:title" content="Her Homes Co. — Interior Styling, Organising &amp; Deep Cleaning" />
+<meta property="og:description" content="Your home doesn't need to look like everyone else's. Her Homes Co. styles, organises, and deep-cleans homes around the way you actually live — serving Tricity / Mohali." />
+<meta property="og:url" content="https://herhomesco.example/" />
+<meta property="og:image" content="https://herhomesco.example/assets/logo-full.png" />
+<meta property="og:image:width" content="454" />
+<meta property="og:image:height" content="652" />
+<meta property="og:image:alt" content="Her Homes Co. logo — an illustrated smiling woman above the Her Homes Co. wordmark." />
+
+<!-- Twitter/X card. No confirmed @handle exists yet, so twitter:site /
+     twitter:creator are left out rather than invented. -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Her Homes Co. — Interior Styling, Organising &amp; Deep Cleaning" />
+<meta name="twitter:description" content="Your home doesn't need to look like everyone else's. Her Homes Co. styles, organises, and deep-cleans homes around the way you actually live." />
+<meta name="twitter:image" content="https://herhomesco.example/assets/logo-full.png" />
+
+<!-- Fonts: unchanged from the approved brand system — Anton + Hanken Grotesk,
+     self-hosted (see fonts.css) so the page has no external dependency.
+     Preloaded below since both render above the fold (logo/nav wordmark +
+     hero headline in Anton, hero support copy in Hanken Grotesk). -->
+<link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="assets/fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="fonts.css" />
+<link rel="stylesheet" href="styles.css" />
+
+<!-- Structured data — only confirmed facts. Address, opening hours,
+     review/rating data and social profiles (sameAs) are deliberately left
+     out rather than invented — add each the moment it's real; nothing else
+     here needs to change. This is static markup, not JS-injected, so it's
+     in the page source for every crawler, including ones that don't run
+     JavaScript. If a service in js/data.js (HHC_DATA.pricing.services)
+     changes name or description, mirror the change in "makesOffer" below. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HomeAndConstructionBusiness",
+      "@id": "https://herhomesco.example/#business",
+      "name": "Her Homes Co.",
+      "description": "Home styling, organising, and deep cleaning built around the way you actually live. Serving Tricity / Mohali.",
+      "url": "https://herhomesco.example/",
+      "logo": "https://herhomesco.example/assets/logo-full.png",
+      "image": "https://herhomesco.example/assets/logo-full.png",
+      "telephone": "+91 99152 17674",
+      "areaServed": "Tricity / Mohali, India",
+      "founder": { "@type": "Person", "name": "Rupinder Kaur" },
+      "makesOffer": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Home Styling", "description": "Decor direction, furniture placement, and full room styling around your aesthetic." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Home Organising", "description": "Wardrobes, kitchens, drawers, pantries, and storage — organised to actually hold." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Deep Cleaning", "description": "A full reset — the foundation the rest of the transformation is built on." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Combined Home Reset", "description": "Clean, organise, and style in one continuous engagement." } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Shelf / Detailed Organisation Add-on", "description": "Deeper organisation work for areas like shelving and the fridge, scoped to the agreed plan." }, "price": "5000", "priceCurrency": "INR" }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://herhomesco.example/#website",
+      "url": "https://herhomesco.example/",
+      "name": "Her Homes Co.",
+      "publisher": { "@id": "https://herhomesco.example/#business" },
+      "inLanguage": "en-IN"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://herhomesco.example/#webpage",
+      "url": "https://herhomesco.example/",
+      "name": "Her Homes Co. — Interior Styling, Organising & Deep Cleaning",
+      "description": "Your home doesn't need to look like everyone else's. Her Homes Co. styles, organises, and deep-cleans homes around the way you actually live.",
+      "isPartOf": { "@id": "https://herhomesco.example/#website" },
+      "about": { "@id": "https://herhomesco.example/#business" },
+      "inLanguage": "en-IN"
+    }
+  ]
+}
+</script>
+</head>
+<body class="is-loading">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ==================================================================
+     LOGO INTRO — the opening scene. Same DOM elements later hand off
+     into the live nav mark/wordmark below (see main.js: introTimeline
+     + heroScrollTimeline). Decorative + aria-hidden; a real <h1> lives
+     in the hero section for accessibility/SEO.
+     ================================================================== -->
+<div id="logo-intro" class="logo-intro" aria-hidden="true">
+  <div class="logo-intro__stage">
+    <div class="logo-intro__mark-wrap">
+      <img class="logo-intro__mark" src="assets/logo-mark.png" alt="" draggable="false" />
+    </div>
+    <div class="logo-intro__wordmark f-display">
+      <span class="word">Her</span><span class="word">Homes</span><span class="word">Co.</span>
+    </div>
+    <p class="logo-intro__tagline f-label">Interiors · Organising · Deep Cleaning</p>
+  </div>
+  <button class="logo-intro__skip f-label" type="button" data-skip-intro>Skip intro</button>
+</div>
+
+<!-- ==================================================================
+     NAVIGATION — hidden/inactive until the intro resolves into it.
+     ================================================================== -->
+<header class="site-nav" id="site-nav">
+  <a class="nav-mark" href="#top" data-nav-mark>
+    <img src="assets/logo-mark.png" alt="Her Homes Co. — home" draggable="false" />
+    <span class="nav-wordmark f-display" data-nav-wordmark>Her Homes Co.</span>
+  </a>
+  <nav class="nav-links f-label" id="nav-links" aria-label="Primary"></nav>
+  <a class="nav-cta f-label" id="nav-cta-desktop" href="#book" style="display:none;">Book</a>
+  <button class="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" data-nav-burger>
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+  <nav class="mobile-nav__links f-display" id="mobile-nav-links" aria-label="Primary"></nav>
+  <a class="mobile-nav__cta btn btn-primary" id="mobile-nav-cta" href="#book">Book</a>
+  <ul class="mobile-nav__contact f-label" id="mobile-nav-contact"></ul>
+</div>
+
+<!-- ==================================================================
+     QUICK CONTACT — persistent WhatsApp + Call widget. Visible from the
+     very first screen (including the logo intro, hence living outside
+     of it in the DOM) so reaching out never requires scrolling through
+     the page first. Same links as the final CTA section — see
+     js/data.js: contact.whatsapp / contact.phone. Hides itself while
+     the final CTA section is on screen (see main.js: initQuickContact)
+     since that section already has its own full-size WhatsApp button.
+     ================================================================== -->
+<div class="quick-contact" id="quick-contact">
+  <span class="quick-contact__label f-label" data-quick-contact-label></span>
+  <a class="quick-contact__btn quick-contact__btn--whatsapp" data-quick-whatsapp href="#" target="_blank" rel="noopener" aria-label="WhatsApp Her Homes Co. for a quote">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.04 4c-4.34 0-7.87 3.53-7.87 7.87 0 1.39.36 2.73 1.05 3.92L4 20l4.34-1.14a7.86 7.86 0 0 0 3.7.94c4.34 0 7.87-3.53 7.87-7.87 0-2.1-.82-4.08-2.31-5.57l-.04-.04zm-5.56 12.1a6.53 6.53 0 0 1-3.33-.91l-.24-.14-2.48.65.66-2.42-.16-.25a6.54 6.54 0 0 1-1-3.48c0-3.61 2.94-6.55 6.56-6.55a6.51 6.51 0 0 1 4.63 1.93 6.5 6.5 0 0 1 1.92 4.63c0 3.62-2.94 6.55-6.56 6.55zm3.59-4.9c-.2-.1-1.17-.58-1.35-.64-.18-.07-.31-.1-.44.1-.13.2-.51.64-.62.77-.11.13-.23.14-.43.05-.2-.1-.83-.31-1.58-.98-.58-.52-.98-1.16-1.09-1.36-.11-.2-.01-.3.09-.4.09-.1.2-.23.3-.35.1-.11.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.34-.11 0-.24-.01-.37-.01-.13 0-.34.05-.52.25-.18.2-.68.66-.68 1.62s.7 1.88.79 2.01c.1.13 1.37 2.09 3.32 2.93.46.2.83.32 1.11.41.47.15.89.13 1.23.08.38-.06 1.17-.48 1.33-.94.16-.46.16-.86.11-.94-.05-.08-.18-.13-.38-.23z" fill="currentColor"/></svg>
+    <span>WhatsApp</span>
+  </a>
+  <a class="quick-contact__btn quick-contact__btn--call" data-quick-call href="#" aria-label="Call Her Homes Co. for a quote">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.1 15.1 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z" fill="currentColor"/></svg>
+    <span>Call</span>
+  </a>
+</div>
+
+<main id="main">
+
+  <!-- ================================================================
+       01 — IMMERSIVE HERO
+       Starts as a small, curated, centered frame; expands to full-bleed
+       as the user scrolls (see main.js: heroScrollTimeline). The same
+       scroll range drives the logo-intro → nav handoff above.
+       ================================================================ -->
+  <section class="section hero" id="top">
+    <div class="hero__sizer">
+      <div class="hero__frame media-frame" data-media-slot="hero-film" data-empty="true">
+        <div class="media-frame__corner"></div>
+        <span class="media-frame__label f-label"><span class="dot"></span>Interior film — placeholder</span>
+      </div>
+    </div>
+    <div class="hero__copy">
+      <h1 class="sr-only">Her Homes Co. — Interior Styling, Organising and Deep Cleaning, built around how you actually live.</h1>
+      <p class="hero__eyebrow f-label" data-hero-reveal>Interiors · Organising · Deep Cleaning</p>
+      <h2 class="hero__headline f-display t-display-xl" data-hero-reveal>A HOME,<br />BUT YOURS.</h2>
+      <p class="hero__support f-body t-body-lg" data-hero-reveal>We build the space around the way you actually live — not the other way round.</p>
+    </div>
+    <button class="hero__scroll-cue f-label" type="button" data-scroll-to="#philosophy" aria-label="Scroll to explore">
+      <span>Scroll</span>
+      <span class="hero__scroll-line" aria-hidden="true"></span>
+    </button>
+  </section>
+
+  <!-- ================================================================
+       02 — PHILOSOPHY
+       A pinned typographic moment: the first statement resolves, then
+       becomes the second as the user keeps scrolling. Text only —
+       the point is restraint after the visual density of the hero.
+       ================================================================ -->
+  <section class="section philosophy" id="philosophy">
+    <h2 class="sr-only" data-phi-heading></h2>
+    <div class="philosophy__sizer">
+      <p class="philosophy__eyebrow f-label" data-phi="eyebrow"></p>
+      <div class="philosophy__line philosophy__line--a f-display" data-phi="line-a"></div>
+      <div class="philosophy__line philosophy__line--b f-display" data-phi="line-b"></div>
+      <p class="philosophy__support f-body t-body-lg" data-phi="support"></p>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       03 — STYLE WORLDS
+       A pinned lookbook: one image stage crossfades through all eight
+       aesthetics as the user scrolls; a vertical list controls it and
+       previews on hover. Not eight identical cards.
+       ================================================================ -->
+  <section class="section style-worlds" id="styles">
+    <h2 class="sr-only" data-sw-heading></h2>
+    <div class="style-worlds__sizer">
+      <div class="style-worlds__stage">
+        <div class="style-worlds__media" data-sw-media></div>
+        <div class="style-worlds__overlay">
+          <span class="style-worlds__count f-label" data-sw-count></span>
+          <h3 class="style-worlds__name f-display" data-sw-name></h3>
+          <ul class="style-worlds__words f-label" data-sw-words></ul>
+        </div>
+      </div>
+      <ul class="style-worlds__list f-display" data-sw-list aria-label="Style worlds"></ul>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       04 — WHAT WE DO
+       Three services, told concretely — not "we help you get organised"
+       but the actual rooms and objects. Sticky label, hover-invert rows.
+       ================================================================ -->
+  <section class="section section-pad what-we-do" id="what-we-do">
+    <h2 class="sr-only" data-wwd-heading></h2>
+    <div class="container editorial-grid">
+      <div class="what-we-do__sticky">
+        <p class="f-label" data-wwd-eyebrow>What We Do</p>
+        <ul class="what-we-do__narrative f-display" data-wwd-narrative></ul>
+      </div>
+      <div class="what-we-do__list" data-wwd-list></div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       05 — PROCESS
+       Typography-only, deliberately — a change of texture after three
+       image-driven sections. One huge stage number, shifting title
+       and detail, a thin progress rail.
+       ================================================================ -->
+  <section class="section process" id="process">
+    <h2 class="sr-only" data-proc-heading></h2>
+    <div class="process__sizer">
+      <span class="process__index f-display" data-proc-index aria-hidden="true"></span>
+      <div class="process__content">
+        <p class="f-label" data-proc-eyebrow>Process</p>
+        <h3 class="f-display t-headline-lg process__title" data-proc-title></h3>
+        <p class="f-body t-body-lg process__detail" data-proc-detail></p>
+      </div>
+      <ul class="process__progress" data-proc-progress aria-hidden="true"></ul>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       06 — PRICING
+       A premium service menu, not a calculator. Real number only where
+       one is confirmed; everything else reads as a personalised quote.
+       ================================================================ -->
+  <section class="section section-pad pricing" id="pricing">
+    <div class="container">
+      <div class="pricing__intro-block">
+        <p class="f-label" data-pr-eyebrow></p>
+        <h3 class="f-display t-headline-lg" data-pr-heading></h3>
+        <p class="f-body t-body-lg pricing__intro" data-pr-intro></p>
+      </div>
+
+      <div class="pricing__menu" data-pr-menu></div>
+      <div class="pricing__addons" data-pr-addons></div>
+
+      <div class="pricing__lower">
+        <div class="pricing__factors">
+          <h4 class="f-label">What shapes the number</h4>
+          <ul data-pr-factors></ul>
+        </div>
+        <div class="pricing__teller">
+          <h4 class="f-label">Tell us about your home</h4>
+          <div class="pricing__sizes" data-pr-sizes role="group" aria-label="Home size"></div>
+          <a class="btn btn-outline pricing__teller-cta" href="#book" target="_blank" rel="noopener" data-pr-teller-cta>Get a personalised quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       07 — FOUNDER
+       Warm, personal, not a corporate bio. She oversees the work.
+       ================================================================ -->
+  <section class="section section-pad founder" id="founder">
+    <div class="container founder__grid">
+      <div class="founder__media-wrap">
+        <div class="founder__media media-frame" data-media-slot="founder-portrait" data-empty="true" data-fo-parallax></div>
+      </div>
+      <div class="founder__copy">
+        <p class="f-label" data-fo-eyebrow></p>
+        <h3 class="f-display t-headline-lg" data-fo-heading></h3>
+        <p class="f-body t-body-lg founder__bio" data-fo-bio></p>
+        <div class="founder__signature">
+          <p class="f-display founder__name" data-fo-name></p>
+          <p class="f-label founder__role" data-fo-role></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       08 — FINAL CTA / BOOKING
+       Closing frame, not a hard sell. Useful form, elegant contact links.
+       ================================================================ -->
+  <section class="section section-pad final-cta" id="book">
+    <div class="container final-cta__top">
+      <h2 class="f-display final-cta__heading" data-cta-heading></h2>
+      <p class="f-body t-body-lg final-cta__support" data-cta-support></p>
+    </div>
+    <div class="container final-cta__actions">
+      <a class="final-cta__whatsapp" data-cta-whatsapp href="#" target="_blank" rel="noopener">
+        <span>Message her on WhatsApp</span>
+        <span class="final-cta__whatsapp-arrow" aria-hidden="true">↗</span>
+      </a>
+      <div class="final-cta__secondary" data-cta-contacts></div>
+    </div>
+  </section>
+
+  <div id="section-anchor-end"></div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__row">
+    <div class="site-footer__mark">
+      <img src="assets/logo-mark.png" alt="" draggable="false" />
+      <span class="f-display">Her Homes Co.</span>
+    </div>
+    <ul class="site-footer__links f-label" data-footer-links></ul>
+  </div>
+  <div class="container site-footer__bottom f-label">
+    <span data-footer-copyright></span>
+    <span data-footer-location></span>
+  </div>
+</footer>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
