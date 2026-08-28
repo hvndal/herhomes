@@ -26,6 +26,32 @@
   ScrollTrigger.defaults({ markers: false });
 
   /* ------------------------------------------------------------------
+   * ADOPT — the one rule that keeps prerendering safe.
+   *
+   * scripts/prerender.mjs writes the real markup for every section into
+   * index.html so that crawlers (and anything else that doesn't run JS,
+   * which is most link-preview and AI scrapers) see actual copy rather
+   * than empty divs. The functions below used to *create* that markup.
+   * If they still did, every service row, style world and FAQ answer
+   * would appear twice.
+   *
+   * So: if `container` already holds prerendered children, use them and
+   * build nothing. If it's empty — which happens if someone edits
+   * data.js and forgets to run `npm run build` — fall back to building
+   * at runtime exactly as before, so the page degrades to "correct but
+   * invisible to crawlers" rather than "blank".
+   *
+   * Returns the live child elements either way.
+   * ------------------------------------------------------------------ */
+  function adopt(container, selector, build) {
+    if (!container) return [];
+    const existing = container.querySelectorAll(selector);
+    if (existing.length) return Array.from(existing);
+    build();
+    return Array.from(container.querySelectorAll(selector));
+  }
+
+  /* ------------------------------------------------------------------
    * SMOOTH SCROLL (Lenis <-> ScrollTrigger)
    * ------------------------------------------------------------------ */
   function initSmoothScroll() {
@@ -96,16 +122,21 @@
     const mobileCta = document.getElementById("mobile-nav-cta");
     const mobileContact = document.getElementById("mobile-nav-contact");
 
-    HHC_DATA.nav.forEach((item) => {
-      const a = document.createElement("a");
-      a.href = item.href;
-      a.textContent = item.label;
-      links.appendChild(a);
-
-      const m = document.createElement("a");
-      m.href = item.href;
-      m.textContent = item.label;
-      mobileLinks.appendChild(m);
+    adopt(links, "a", () => {
+      HHC_DATA.nav.forEach((item) => {
+        const a = document.createElement("a");
+        a.href = item.href;
+        a.textContent = item.label;
+        links.appendChild(a);
+      });
+    });
+    adopt(mobileLinks, "a", () => {
+      HHC_DATA.nav.forEach((item) => {
+        const m = document.createElement("a");
+        m.href = item.href;
+        m.textContent = item.label;
+        mobileLinks.appendChild(m);
+      });
     });
 
     desktopCta.textContent = HHC_DATA.navCta.label;
@@ -114,18 +145,25 @@
     mobileCta.textContent = HHC_DATA.navCta.label;
     mobileCta.href = HHC_DATA.navCta.href;
 
-    [
-      { label: "WhatsApp", href: HHC_DATA.contact.whatsapp.href, external: true, event: "whatsapp_click" },
-      { label: "Call", href: HHC_DATA.contact.phone.href, external: false, event: "phone_click" },
-    ].forEach((item) => {
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = item.href;
-      a.textContent = item.label;
-      if (item.external) { a.target = "_blank"; a.rel = "noopener"; }
-      a.addEventListener("click", () => trackEvent(item.event, { location: "mobile_nav" }));
-      li.appendChild(a);
-      mobileContact.appendChild(li);
+    // Contact rows are prerendered as real <a href> links so they work with
+    // JavaScript off; all this adds is the analytics hook on top of them.
+    adopt(mobileContact, "li", () => {
+      [
+        { label: "WhatsApp", href: HHC_DATA.contact.whatsapp.href, external: true },
+        { label: "Call", href: HHC_DATA.contact.phone.href, external: false },
+      ].forEach((item) => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = item.href;
+        a.textContent = item.label;
+        if (item.external) { a.target = "_blank"; a.rel = "noopener"; }
+        li.appendChild(a);
+        mobileContact.appendChild(li);
+      });
+    });
+    mobileContact.querySelectorAll("a").forEach((a) => {
+      const event = a.href.indexOf("tel:") === 0 ? "phone_click" : "whatsapp_click";
+      a.addEventListener("click", () => trackEvent(event, { location: "mobile_nav" }));
     });
 
     document.querySelector("[data-nav-burger]").addEventListener("click", toggleMobileNav);
@@ -194,11 +232,20 @@
       const key = frame.getAttribute("data-media-slot");
       const cfg = HHC_DATA.mediaSlots[key];
       if (!cfg) return;
+
+      // Images are prerendered into the markup by scripts/prerender.mjs so
+      // crawlers see them (and so their alt text is in the page source).
+      // If one is already here, there is nothing to hydrate.
+      if (frame.querySelector("img, video")) { frame.removeAttribute("data-empty"); return; }
+
+      // `note` is an internal to-do for whoever is sourcing the photo — it
+      // is NOT visitor-facing copy, and it used to be rendered straight
+      // into the page, which meant real visitors read captions like
+      // "Founder portrait — warm, personal, not corporate headshot."
+      // A slot with no real file now renders nothing at all instead.
       const label = frame.querySelector(".media-frame__label");
-      if (label && cfg.note) {
-        const textNode = Array.from(label.childNodes).find((n) => n.nodeType === 3);
-        if (textNode) textNode.textContent = cfg.note;
-      }
+      if (label) label.remove();
+
       if (cfg.type === "video") {
         // Video slots may carry a plain `src`, or a responsive pair
         // (`mobileSrc` / `desktopSrc`) — pick whichever fits, falling
@@ -207,21 +254,28 @@
         const isMobile = window.matchMedia("(max-width: 767px)").matches;
         const chosenSrc = (isMobile ? cfg.mobileSrc : cfg.desktopSrc) || cfg.src || cfg.mobileSrc || cfg.desktopSrc;
         const chosenPoster = (isMobile ? cfg.mobilePoster : cfg.desktopPoster) || cfg.poster || cfg.mobilePoster || cfg.desktopPoster;
-        if (!chosenSrc) return; // keep styled placeholder
+        if (!chosenSrc) return; // nothing real to show — leave the frame empty
         frame.removeAttribute("data-empty");
-        if (label) label.style.display = "none"; // the note was for us, not visitors
         const v = document.createElement("video");
         v.src = chosenSrc; v.autoplay = true; v.muted = true; v.loop = true; v.playsInline = true;
         v.preload = "metadata";
+        // Decorative motion behind the headline — announcing it to a screen
+        // reader adds nothing, and it carries no information the copy in
+        // the hero doesn't already state.
+        v.setAttribute("aria-hidden", "true");
         if (chosenPoster) v.poster = chosenPoster; // instant paint if the video itself is still loading
         frame.prepend(v);
       } else {
-        if (!cfg.src) return; // keep styled placeholder
+        if (!cfg.src) return; // nothing real to show — leave the frame empty
         frame.removeAttribute("data-empty");
-        if (label) label.style.display = "none"; // the note was for us, not visitors
         const img = document.createElement("img");
-        img.src = cfg.src; img.alt = cfg.alt || cfg.note || "";
+        img.src = cfg.src; img.alt = cfg.alt || "";
         img.loading = "lazy";
+        img.decoding = "async";
+        // Intrinsic size, so the browser reserves the right box before the
+        // file lands and the layout never jumps (Cumulative Layout Shift).
+        if (cfg.width) img.width = cfg.width;
+        if (cfg.height) img.height = cfg.height;
         frame.prepend(img);
       }
     });
@@ -363,15 +417,19 @@
    * PHILOSOPHY — statement A masks in, holds, dissolves into statement B.
    * ------------------------------------------------------------------ */
   function buildMaskedLines(container, lines) {
-    container.innerHTML = "";
-    lines.forEach((text) => {
-      const span = document.createElement("span");
-      const i = document.createElement("i");
-      i.textContent = text;
-      span.appendChild(i);
-      container.appendChild(span);
+    // Prerendered markup already contains <span><i>LINE</i></span> per line;
+    // rebuilding it would throw away the copy a crawler reads. Only build
+    // when the container really is empty.
+    return adopt(container, "i", () => {
+      container.innerHTML = "";
+      lines.forEach((text) => {
+        const span = document.createElement("span");
+        const i = document.createElement("i");
+        i.textContent = text;
+        span.appendChild(i);
+        container.appendChild(span);
+      });
     });
-    return container.querySelectorAll("i");
   }
 
   function initPhilosophy() {
@@ -430,35 +488,30 @@
     const headingEl = section.querySelector('[data-sw-heading]');
     if (headingEl) headingEl.textContent = `Style Worlds: ${worlds.map((w) => w.name).join(", ")}`;
 
-    const frames = worlds.map((w, i) => {
-      const frame = document.createElement("div");
-      frame.className = "style-worlds__frame";
-      frame.dataset.swIndex = String(i);
-      const mf = document.createElement("div");
-      mf.className = "media-frame";
-      mf.setAttribute("data-media-slot", `style-${w.id}`);
-      mf.setAttribute("data-empty", "true");
-      const label = document.createElement("span");
-      label.className = "media-frame__label f-label";
-      const dot = document.createElement("span");
-      dot.className = "dot";
-      label.appendChild(dot);
-      label.appendChild(document.createTextNode(` ${w.name} — placeholder`));
-      mf.appendChild(label);
-      frame.appendChild(mf);
-      mediaContainer.appendChild(frame);
-      return frame;
+    const frames = adopt(mediaContainer, ".style-worlds__frame", () => {
+      worlds.forEach((w, i) => {
+        const frame = document.createElement("div");
+        frame.className = "style-worlds__frame";
+        frame.dataset.swIndex = String(i);
+        const mf = document.createElement("div");
+        mf.className = "media-frame";
+        mf.setAttribute("data-media-slot", `style-${w.id}`);
+        mf.setAttribute("data-empty", "true");
+        frame.appendChild(mf);
+        mediaContainer.appendChild(frame);
+      });
     });
 
-    const buttons = worlds.map((w, i) => {
-      const li = document.createElement("li");
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.textContent = w.name;
-      btn.dataset.swIndex = String(i);
-      li.appendChild(btn);
-      listContainer.appendChild(li);
-      return btn;
+    const buttons = adopt(listContainer, "button", () => {
+      worlds.forEach((w, i) => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = w.name;
+        btn.dataset.swIndex = String(i);
+        li.appendChild(btn);
+        listContainer.appendChild(li);
+      });
     });
 
     let scrollIndex = 0;
@@ -521,32 +574,34 @@
   function initWhatWeDo() {
     const section = document.getElementById("what-we-do");
     if (!section) return;
-    section.querySelector("[data-wwd-eyebrow]").textContent = "What We Do";
-    const headingEl = section.querySelector('[data-wwd-heading]');
-    if (headingEl) headingEl.textContent = `What We Do — ${HHC_DATA.services.items.map((s) => s.name).join(", ")}`;
+    // The eyebrow and the sr-only section heading are prerendered — they are
+    // static strings, so there is nothing to re-set at runtime.
     const narrativeEl = section.querySelector("[data-wwd-narrative]");
-    const narrativeItems = HHC_DATA.services.narrative.map((word) => {
-      const li = document.createElement("li");
-      li.textContent = word;
-      narrativeEl.appendChild(li);
-      return li;
+    const narrativeItems = adopt(narrativeEl, "li", () => {
+      HHC_DATA.services.narrative.forEach((word) => {
+        const li = document.createElement("li");
+        li.textContent = word;
+        narrativeEl.appendChild(li);
+      });
     });
     narrativeItems[0]?.classList.add("is-active");
 
     const list = section.querySelector("[data-wwd-list]");
-    HHC_DATA.services.items.forEach((svc) => {
-      const item = document.createElement("div");
-      item.className = "wwd-item";
-      item.innerHTML = `
-        <div class="wwd-item__top">
-          <h4 class="f-display wwd-item__name">${svc.name}</h4>
-          <span class="f-label wwd-item__index">${svc.index}</span>
-        </div>
-        <p class="f-body wwd-item__summary">${svc.summary}</p>
-        <div class="wwd-item__includes">${svc.includes.map((t) => `<span>${t}</span>`).join("")}</div>
-        <p class="f-body wwd-item__note">${svc.note}</p>
-      `;
-      list.appendChild(item);
+    adopt(list, ".wwd-item", () => {
+      HHC_DATA.services.items.forEach((svc) => {
+        const item = document.createElement("div");
+        item.className = "wwd-item";
+        item.innerHTML = `
+          <div class="wwd-item__top">
+            <h4 class="f-display wwd-item__name">${svc.name}</h4>
+            <span class="f-label wwd-item__index">${svc.index}</span>
+          </div>
+          <p class="f-body wwd-item__summary">${svc.summary}</p>
+          <div class="wwd-item__includes">${svc.includes.map((t) => `<span>${t}</span>`).join("")}</div>
+          <p class="f-body wwd-item__note">${svc.note}</p>
+        `;
+        list.appendChild(item);
+      });
     });
 
     if (HHC.reducedMotion) return;
@@ -566,17 +621,16 @@
     const section = document.getElementById("process");
     if (!section) return;
     const steps = HHC_DATA.process;
-    const headingEl = section.querySelector('[data-proc-heading]');
-    if (headingEl) headingEl.textContent = `Process — ${steps.map((s) => s.title).join(", ")}`;
+    // The sr-only heading and the full six-step <ol> are prerendered: the
+    // visible stage only ever shows one step at a time, so that list is the
+    // only place all six exist for a crawler or a screen reader.
     const indexEl = section.querySelector("[data-proc-index]");
     const titleEl = section.querySelector("[data-proc-title]");
     const detailEl = section.querySelector("[data-proc-detail]");
     const progressEl = section.querySelector("[data-proc-progress]");
 
-    const ticks = steps.map(() => {
-      const li = document.createElement("li");
-      progressEl.appendChild(li);
-      return li;
+    const ticks = adopt(progressEl, "li", () => {
+      steps.forEach(() => progressEl.appendChild(document.createElement("li")));
     });
 
     function render(i) {
@@ -617,42 +671,46 @@
     const section = document.getElementById("pricing");
     if (!section) return;
     const data = HHC_DATA.pricing;
-    section.querySelector("[data-pr-eyebrow]").textContent = data.eyebrow;
-    section.querySelector("[data-pr-heading]").textContent = data.heading;
-    section.querySelector("[data-pr-intro]").textContent = data.intro;
+    // Eyebrow / heading / intro are prerendered static text — nothing to set.
 
     const menu = section.querySelector("[data-pr-menu]");
-    data.services.forEach((svc) => {
-      const row = document.createElement("div");
-      row.className = "pr-row";
-      const priceLabel = svc.startingPrice ? `From ${formatINR(svc.startingPrice)}` : "Personalised quote";
-      row.innerHTML = `
-        <h4 class="f-display pr-row__name">${svc.name}</h4>
-        <p class="f-body pr-row__desc">${svc.description}</p>
-        <span class="f-label pr-row__price${svc.startingPrice ? "" : " is-quote"}">${priceLabel}</span>
-      `;
-      menu.appendChild(row);
+    adopt(menu, ".pr-row", () => {
+      data.services.forEach((svc) => {
+        const row = document.createElement("div");
+        row.className = "pr-row";
+        const priceLabel = svc.startingPrice ? `From ${formatINR(svc.startingPrice)}` : "Personalised quote";
+        row.innerHTML = `
+          <h4 class="f-display pr-row__name">${svc.name}</h4>
+          <p class="f-body pr-row__desc">${svc.description}</p>
+          <span class="f-label pr-row__price${svc.startingPrice ? "" : " is-quote"}">${priceLabel}</span>
+        `;
+        menu.appendChild(row);
+      });
     });
 
     const addons = section.querySelector("[data-pr-addons]");
-    data.addOns.forEach((addon) => {
-      const row = document.createElement("div");
-      row.className = "pr-addon";
-      row.innerHTML = `
-        <div>
-          <p class="f-label pr-addon__name">${addon.name}</p>
-          <p class="pr-addon__desc">${addon.description}</p>
-        </div>
-        <span class="f-label pr-addon__price">${formatINR(addon.price)} ${addon.priceUnit}</span>
-      `;
-      addons.appendChild(row);
+    adopt(addons, ".pr-addon", () => {
+      data.addOns.forEach((addon) => {
+        const row = document.createElement("div");
+        row.className = "pr-addon";
+        row.innerHTML = `
+          <div>
+            <p class="f-label pr-addon__name">${addon.name}</p>
+            <p class="pr-addon__desc">${addon.description}</p>
+          </div>
+          <span class="f-label pr-addon__price">${formatINR(addon.price)} ${addon.priceUnit}</span>
+        `;
+        addons.appendChild(row);
+      });
     });
 
     const factors = section.querySelector("[data-pr-factors]");
-    data.variables.factors.forEach((f) => {
-      const li = document.createElement("li");
-      li.textContent = f;
-      factors.appendChild(li);
+    adopt(factors, "li", () => {
+      data.variables.factors.forEach((f) => {
+        const li = document.createElement("li");
+        li.textContent = f;
+        factors.appendChild(li);
+      });
     });
 
     // The size picker feeds straight into the quote CTA below it: picking a
@@ -671,18 +729,44 @@
     teller.addEventListener("click", () => trackEvent("quote_request_click", { location: "pricing", home_size: selectedSize || "unselected" }));
 
     const sizes = section.querySelector("[data-pr-sizes]");
-    data.variables.homeSize.forEach((size) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.textContent = size;
+    const sizeButtons = adopt(sizes, "button", () => {
+      data.variables.homeSize.forEach((size) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = size;
+        sizes.appendChild(btn);
+      });
+    });
+    // Wired after adoption so it works on prerendered buttons and on
+    // runtime-built ones alike. The label is the button's own text, which
+    // means the two can never disagree about which size was picked.
+    sizeButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
-        sizes.querySelectorAll("button").forEach((b) => b.classList.remove("is-selected"));
+        const size = btn.textContent.trim();
+        sizeButtons.forEach((b) => b.classList.remove("is-selected"));
         btn.classList.add("is-selected");
         selectedSize = size;
         setTellerMessage(data.quoteMessageTemplate.replace("{size}", size), `Get a quote for your ${size}`);
         trackEvent("home_size_selected", { location: "pricing", home_size: size });
       });
-      sizes.appendChild(btn);
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * FAQ — no rendering to do: the questions and answers are real markup
+   * in index.html inside native <details>, which is keyboard-accessible
+   * and indexable without any JavaScript at all. All that's added here
+   * is analytics, so it's visible which questions people actually open
+   * (a genuinely useful signal for what to answer better, or to turn
+   * into its own page later).
+   * ------------------------------------------------------------------ */
+  function initFaq() {
+    document.querySelectorAll("#faq .faq-item").forEach((item, i) => {
+      item.addEventListener("toggle", () => {
+        if (!item.open) return;
+        const q = item.querySelector("summary");
+        trackEvent("faq_open", { location: "faq", position: i + 1, question: q ? q.textContent.trim() : "" });
+      });
     });
   }
 
@@ -692,15 +776,14 @@
   function initFounder() {
     const section = document.getElementById("founder");
     if (!section) return;
-    const data = HHC_DATA.founder;
-    section.querySelector("[data-fo-eyebrow]").textContent = data.eyebrow;
-    section.querySelector("[data-fo-heading]").textContent = data.heading;
-    section.querySelector("[data-fo-bio]").textContent = data.bio;
-    section.querySelector("[data-fo-name]").textContent = data.name;
-    section.querySelector("[data-fo-role]").textContent = data.role;
+    // All of this section's copy is prerendered static text.
 
     if (HHC.reducedMotion) return;
+    // Only present once a real founder portrait exists — until then the
+    // section is prerendered as a single centred column with no media
+    // frame at all, so there is nothing to parallax.
     const media = section.querySelector("[data-fo-parallax]");
+    if (!media) return;
     gsap.fromTo(media, { yPercent: -6 }, {
       yPercent: 6, ease: "none",
       scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true },
@@ -714,18 +797,19 @@
     const section = document.getElementById("book");
     if (!section) return;
 
-    // Heading — masked-line reveal, once, on first view.
+    // Heading — masked-line reveal, once, on first view. The lines
+    // themselves are prerendered; this only finds them.
     const headingEl = section.querySelector("[data-cta-heading]");
-    HHC_DATA.finalCta.lineA.forEach((text) => {
-      const line = document.createElement("span");
-      line.className = "line";
-      const i = document.createElement("i");
-      i.textContent = text;
-      line.appendChild(i);
-      headingEl.appendChild(line);
+    const chars = adopt(headingEl, "i", () => {
+      HHC_DATA.finalCta.lineA.forEach((text) => {
+        const line = document.createElement("span");
+        line.className = "line";
+        const i = document.createElement("i");
+        i.textContent = text;
+        line.appendChild(i);
+        headingEl.appendChild(line);
+      });
     });
-    section.querySelector("[data-cta-support]").textContent = HHC_DATA.finalCta.support;
-    const chars = headingEl.querySelectorAll("i");
     if (HHC.reducedMotion) {
       gsap.set(chars, { y: 0 });
     } else {
@@ -741,30 +825,30 @@
     const c = HHC_DATA.contact;
     const whatsappEl = section.querySelector("[data-cta-whatsapp]");
     if (whatsappEl) {
-      whatsappEl.href = c.whatsapp.href;
-      const whatsappLabelEl = whatsappEl.querySelector("span:first-child");
-      if (whatsappLabelEl && HHC_DATA.finalCta.whatsappButtonLabel) whatsappLabelEl.textContent = HHC_DATA.finalCta.whatsappButtonLabel;
       whatsappEl.addEventListener("click", () => trackEvent("whatsapp_click", { location: "final_cta" }));
     }
 
-    // Secondary contact links
+    // Secondary contact links — prerendered as real <a href>; this only
+    // adds the analytics hook.
     const contactsEl = section.querySelector("[data-cta-contacts]");
-    [
-      { label: c.phone.label, href: c.phone.href, external: false, event: "phone_click" },
-    ].forEach((item) => {
+    adopt(contactsEl, "a", () => {
       const a = document.createElement("a");
-      a.href = item.href;
-      if (item.external) { a.target = "_blank"; a.rel = "noopener"; }
-      a.textContent = item.label;
-      a.addEventListener("click", () => trackEvent(item.event, { location: "final_cta" }));
+      a.href = c.phone.href;
+      a.textContent = c.phone.display;
       contactsEl.appendChild(a);
+    }).forEach((a) => {
+      a.addEventListener("click", () => trackEvent("phone_click", { location: "final_cta" }));
     });
 
-    // Footer
+    // Footer links are prerendered too. The copyright year is the one thing
+    // worth re-setting at runtime: it keeps saying the right year even if
+    // nobody rebuilds the site on 1 January.
     const footerLinks = document.querySelector("[data-footer-links]");
-    if (footerLinks) {
+    adopt(footerLinks, "li", () => {
       [
         { label: "WhatsApp", href: c.whatsapp.href },
+        { label: c.phone.display, href: c.phone.href },
+        { label: "FAQ", href: "#faq" },
         { label: "Book", href: "#book" },
       ].forEach((item) => {
         const li = document.createElement("li");
@@ -774,14 +858,9 @@
         li.appendChild(a);
         footerLinks.appendChild(li);
       });
-    }
+    });
     const copyrightEl = document.querySelector("[data-footer-copyright]");
-    if (copyrightEl) copyrightEl.textContent = `© ${new Date().getFullYear()} Her Homes Co. All rights reserved.`;
-    const locationEl = document.querySelector("[data-footer-location]");
-    if (locationEl) {
-      if (HHC_DATA.contact.location) locationEl.textContent = HHC_DATA.contact.location;
-      else locationEl.style.display = "none"; // no real location yet — omit rather than show placeholder text
-    }
+    if (copyrightEl) copyrightEl.textContent = `© ${new Date().getFullYear()} ${HHC_DATA.brand.name} All rights reserved.`;
   }
 
   /* ------------------------------------------------------------------
@@ -829,10 +908,10 @@
     initWhatWeDo();
     initProcess();
     initPricing();
+    initFaq();
     initFounder();
     initFinalCta();
     initQuickContact();
-    document.body.classList.remove("is-loading");
     hydrateMediaSlots(); // runs last: picks up every dynamically-built media-frame too
     requestAnimationFrame(() => ScrollTrigger.refresh());
   }

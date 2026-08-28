@@ -3,110 +3,666 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Her Homes Co. — Interior Styling, Organising &amp; Deep Cleaning</title>
-<meta name="description" content="Your home doesn't need to look like everyone else's. Her Homes Co. styles, organises, and deep-cleans homes around the way you actually live — serving Tricity / Mohali." />
-<meta name="robots" content="index, follow" />
-<link rel="canonical" href="https://herhomesco.example/" />
-<meta name="theme-color" content="#fff8f0" />
-<link rel="icon" type="image/png" href="assets/logo-mark.png" />
-<link rel="apple-touch-icon" href="assets/logo-mark.png" />
 
-<!-- Open Graph — how this page looks when shared on WhatsApp / Facebook / LinkedIn.
-     herhomesco.example is a placeholder: RFC 2606 reserves .example so it can
-     never resolve to a real site. Swap every herhomesco.example URL on this
-     page for the real domain the moment one exists — nothing else changes. -->
+<!-- ==================================================================
+     EVERYTHING BETWEEN THE @gen MARKERS IS GENERATED.
+     Do not hand-edit it — the next `npm run build` will overwrite it.
+     The source of truth is js/data.js; the generator is
+     scripts/prerender.mjs. That includes the title, the description,
+     the canonical URL, all the social-share tags and the JSON-LD.
+     To change the domain, edit ONE line: `site.url` in js/data.js.
+     ================================================================== -->
+<!--@gen:head-->
+<title>Interior Styling, Home Organising &amp; Deep Cleaning in Mohali | Her Homes Co.</title>
+<meta name="description" content="Interior styling, home organising and deep cleaning in Mohali, Chandigarh, Panchkula and Zirakpur. Her Homes Co. builds your home around the way you actually live — not a template. Message for a personalised quote." />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<link rel="canonical" href="https://herhomes.shop/" />
+
+<!-- Open Graph — how the link looks when shared on WhatsApp / Facebook /
+     LinkedIn. This is the single highest-traffic surface for a local
+     business, and those scrapers do not run JavaScript, which is why
+     these tags are written into the file rather than injected. -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Her Homes Co." />
 <meta property="og:locale" content="en_IN" />
-<meta property="og:title" content="Her Homes Co. — Interior Styling, Organising &amp; Deep Cleaning" />
-<meta property="og:description" content="Your home doesn't need to look like everyone else's. Her Homes Co. styles, organises, and deep-cleans homes around the way you actually live — serving Tricity / Mohali." />
-<meta property="og:url" content="https://herhomesco.example/" />
-<meta property="og:image" content="https://herhomesco.example/assets/logo-full.png" />
-<meta property="og:image:width" content="454" />
-<meta property="og:image:height" content="652" />
-<meta property="og:image:alt" content="Her Homes Co. logo — an illustrated smiling woman above the Her Homes Co. wordmark." />
+<meta property="og:title" content="Interior Styling, Home Organising &amp; Deep Cleaning in Mohali | Her Homes Co." />
+<meta property="og:description" content="Interior styling, home organising and deep cleaning in Mohali, Chandigarh, Panchkula and Zirakpur. Her Homes Co. builds your home around the way you actually live — not a template. Message for a personalised quote." />
+<meta property="og:url" content="https://herhomes.shop/" />
+<meta property="og:image" content="https://herhomes.shop/assets/media/og-cover.jpg" />
+<meta property="og:image:secure_url" content="https://herhomes.shop/assets/media/og-cover.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="A sunlit, softly styled home interior — Her Homes Co." />
 
 <!-- Twitter/X card. No confirmed @handle exists yet, so twitter:site /
      twitter:creator are left out rather than invented. -->
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Her Homes Co. — Interior Styling, Organising &amp; Deep Cleaning" />
-<meta name="twitter:description" content="Your home doesn't need to look like everyone else's. Her Homes Co. styles, organises, and deep-cleans homes around the way you actually live." />
-<meta name="twitter:image" content="https://herhomesco.example/assets/logo-full.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Interior Styling, Home Organising &amp; Deep Cleaning in Mohali | Her Homes Co." />
+<meta name="twitter:description" content="Interior styling, home organising and deep cleaning in Mohali, Chandigarh, Panchkula and Zirakpur. Her Homes Co. builds your home around the way you actually live — not a template. Message for a personalised quote." />
+<meta name="twitter:image" content="https://herhomes.shop/assets/media/og-cover.jpg" />
+<meta name="twitter:image:alt" content="A sunlit, softly styled home interior — Her Homes Co." />
 
-<!-- Fonts: unchanged from the approved brand system — Anton + Hanken Grotesk,
-     self-hosted (see fonts.css) so the page has no external dependency.
-     Preloaded below since both render above the fold (logo/nav wordmark +
-     hero headline in Anton, hero support copy in Hanken Grotesk). -->
-<link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="preload" href="assets/fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="stylesheet" href="fonts.css" />
-<link rel="stylesheet" href="styles.css" />
-
-<!-- Structured data — only confirmed facts. Address, opening hours,
-     review/rating data and social profiles (sameAs) are deliberately left
-     out rather than invented — add each the moment it's real; nothing else
-     here needs to change. This is static markup, not JS-injected, so it's
-     in the page source for every crawler, including ones that don't run
-     JavaScript. If a service in js/data.js (HHC_DATA.pricing.services)
-     changes name or description, mirror the change in "makesOffer" below. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "HomeAndConstructionBusiness",
-      "@id": "https://herhomesco.example/#business",
+      "@id": "https://herhomes.shop/#business",
       "name": "Her Homes Co.",
-      "description": "Home styling, organising, and deep cleaning built around the way you actually live. Serving Tricity / Mohali.",
-      "url": "https://herhomesco.example/",
-      "logo": "https://herhomesco.example/assets/logo-full.png",
-      "image": "https://herhomesco.example/assets/logo-full.png",
+      "alternateName": "Her Homes",
+      "description": "Interior styling, home organising and deep cleaning in Mohali, Chandigarh, Panchkula and Zirakpur. Her Homes Co. builds your home around the way you actually live — not a template. Message for a personalised quote.",
+      "slogan": "Interiors · Organising · Deep Cleaning",
+      "url": "https://herhomes.shop/",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://herhomes.shop/#logo",
+        "url": "https://herhomes.shop/assets/logo-full.png",
+        "width": 454,
+        "height": 652,
+        "caption": "Her Homes Co."
+      },
+      "image": {
+        "@id": "https://herhomes.shop/#logo"
+      },
       "telephone": "+91 99152 17674",
-      "areaServed": "Tricity / Mohali, India",
-      "founder": { "@type": "Person", "name": "Rupinder Kaur" },
-      "makesOffer": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Home Styling", "description": "Decor direction, furniture placement, and full room styling around your aesthetic." } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Home Organising", "description": "Wardrobes, kitchens, drawers, pantries, and storage — organised to actually hold." } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Deep Cleaning", "description": "A full reset — the foundation the rest of the transformation is built on." } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Combined Home Reset", "description": "Clean, organise, and style in one continuous engagement." } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Shelf / Detailed Organisation Add-on", "description": "Deeper organisation work for areas like shelving and the fridge, scoped to the agreed plan." }, "price": "5000", "priceCurrency": "INR" }
-      ]
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Mohali",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Punjab"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Mohali",
+            "addressRegion": "Punjab",
+            "addressCountry": "IN"
+          }
+        },
+        {
+          "@type": "City",
+          "name": "Chandigarh",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Chandigarh"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Chandigarh",
+            "addressRegion": "Chandigarh",
+            "addressCountry": "IN"
+          }
+        },
+        {
+          "@type": "City",
+          "name": "Panchkula",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Haryana"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Panchkula",
+            "addressRegion": "Haryana",
+            "addressCountry": "IN"
+          }
+        },
+        {
+          "@type": "City",
+          "name": "Zirakpur",
+          "containedInPlace": {
+            "@type": "AdministrativeArea",
+            "name": "Punjab"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Zirakpur",
+            "addressRegion": "Punjab",
+            "addressCountry": "IN"
+          }
+        }
+      ],
+      "founder": {
+        "@id": "https://herhomes.shop/#founder"
+      },
+      "employee": {
+        "@id": "https://herhomes.shop/#founder"
+      },
+      "knowsAbout": [
+        "Interior styling",
+        "Home organising",
+        "Deep cleaning",
+        "Wardrobe organisation",
+        "Kitchen organisation",
+        "Home staging"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Her Homes Co. service menu",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Home Styling",
+              "description": "Decor direction, furniture placement, and full room styling around your aesthetic.",
+              "serviceType": "Home Styling",
+              "provider": {
+                "@id": "https://herhomes.shop/#business"
+              },
+              "areaServed": [
+                {
+                  "@type": "City",
+                  "name": "Mohali",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Punjab"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Mohali",
+                    "addressRegion": "Punjab",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Chandigarh",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Chandigarh"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Chandigarh",
+                    "addressRegion": "Chandigarh",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Panchkula",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Haryana"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Panchkula",
+                    "addressRegion": "Haryana",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Zirakpur",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Punjab"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Zirakpur",
+                    "addressRegion": "Punjab",
+                    "addressCountry": "IN"
+                  }
+                }
+              ]
+            },
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Home Organising",
+              "description": "Wardrobes, kitchens, drawers, pantries, and storage — organised to actually hold.",
+              "serviceType": "Home Organising",
+              "provider": {
+                "@id": "https://herhomes.shop/#business"
+              },
+              "areaServed": [
+                {
+                  "@type": "City",
+                  "name": "Mohali",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Punjab"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Mohali",
+                    "addressRegion": "Punjab",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Chandigarh",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Chandigarh"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Chandigarh",
+                    "addressRegion": "Chandigarh",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Panchkula",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Haryana"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Panchkula",
+                    "addressRegion": "Haryana",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Zirakpur",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Punjab"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Zirakpur",
+                    "addressRegion": "Punjab",
+                    "addressCountry": "IN"
+                  }
+                }
+              ]
+            },
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Deep Cleaning",
+              "description": "A full reset — the foundation the rest of the transformation is built on.",
+              "serviceType": "Deep Cleaning",
+              "provider": {
+                "@id": "https://herhomes.shop/#business"
+              },
+              "areaServed": [
+                {
+                  "@type": "City",
+                  "name": "Mohali",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Punjab"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Mohali",
+                    "addressRegion": "Punjab",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Chandigarh",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Chandigarh"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Chandigarh",
+                    "addressRegion": "Chandigarh",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Panchkula",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Haryana"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Panchkula",
+                    "addressRegion": "Haryana",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Zirakpur",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Punjab"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Zirakpur",
+                    "addressRegion": "Punjab",
+                    "addressCountry": "IN"
+                  }
+                }
+              ]
+            },
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Combined Home Reset",
+              "description": "Clean, organise, and style in one continuous engagement.",
+              "serviceType": "Combined Home Reset",
+              "provider": {
+                "@id": "https://herhomes.shop/#business"
+              },
+              "areaServed": [
+                {
+                  "@type": "City",
+                  "name": "Mohali",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Punjab"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Mohali",
+                    "addressRegion": "Punjab",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Chandigarh",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Chandigarh"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Chandigarh",
+                    "addressRegion": "Chandigarh",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Panchkula",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Haryana"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Panchkula",
+                    "addressRegion": "Haryana",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Zirakpur",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Punjab"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Zirakpur",
+                    "addressRegion": "Punjab",
+                    "addressCountry": "IN"
+                  }
+                }
+              ]
+            },
+            "availability": "https://schema.org/InStock"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Shelf / Detailed Organisation Add-on",
+              "description": "Deeper organisation work for areas like shelving and the fridge, scoped to the agreed plan.",
+              "provider": {
+                "@id": "https://herhomes.shop/#business"
+              },
+              "areaServed": [
+                {
+                  "@type": "City",
+                  "name": "Mohali",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Punjab"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Mohali",
+                    "addressRegion": "Punjab",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Chandigarh",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Chandigarh"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Chandigarh",
+                    "addressRegion": "Chandigarh",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Panchkula",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Haryana"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Panchkula",
+                    "addressRegion": "Haryana",
+                    "addressCountry": "IN"
+                  }
+                },
+                {
+                  "@type": "City",
+                  "name": "Zirakpur",
+                  "containedInPlace": {
+                    "@type": "AdministrativeArea",
+                    "name": "Punjab"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Zirakpur",
+                    "addressRegion": "Punjab",
+                    "addressCountry": "IN"
+                  }
+                }
+              ]
+            },
+            "price": "5000",
+            "priceCurrency": "INR"
+          }
+        ]
+      },
+      "potentialAction": {
+        "@type": "CommunicateAction",
+        "name": "Request a personalised quote on WhatsApp",
+        "target": "https://wa.me/919915217674?text=Hi!%20I'd%20love%20to%20know%20more%20about%20Her%20Homes%20Co."
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://herhomes.shop/#founder",
+      "name": "Rupinder Kaur",
+      "jobTitle": "Founder, Her Homes Co.",
+      "description": "Rupinder Kaur is entirely self-made. Her journey started in a small village and led, one step at a time, to building her own company — on the strength of a natural knack for organising and interior design, long before it was ever a business plan. That same instinct is still behind every home Her Homes Co. takes on today.",
+      "worksFor": {
+        "@id": "https://herhomes.shop/#business"
+      }
     },
     {
       "@type": "WebSite",
-      "@id": "https://herhomesco.example/#website",
-      "url": "https://herhomesco.example/",
+      "@id": "https://herhomes.shop/#website",
+      "url": "https://herhomes.shop/",
       "name": "Her Homes Co.",
-      "publisher": { "@id": "https://herhomesco.example/#business" },
+      "description": "Interior styling, home organising and deep cleaning in Mohali, Chandigarh, Panchkula and Zirakpur. Her Homes Co. builds your home around the way you actually live — not a template. Message for a personalised quote.",
+      "publisher": {
+        "@id": "https://herhomes.shop/#business"
+      },
       "inLanguage": "en-IN"
     },
     {
       "@type": "WebPage",
-      "@id": "https://herhomesco.example/#webpage",
-      "url": "https://herhomesco.example/",
-      "name": "Her Homes Co. — Interior Styling, Organising & Deep Cleaning",
-      "description": "Your home doesn't need to look like everyone else's. Her Homes Co. styles, organises, and deep-cleans homes around the way you actually live.",
-      "isPartOf": { "@id": "https://herhomesco.example/#website" },
-      "about": { "@id": "https://herhomesco.example/#business" },
+      "@id": "https://herhomes.shop/#webpage",
+      "url": "https://herhomes.shop/",
+      "name": "Interior Styling, Home Organising & Deep Cleaning in Mohali | Her Homes Co.",
+      "description": "Interior styling, home organising and deep cleaning in Mohali, Chandigarh, Panchkula and Zirakpur. Her Homes Co. builds your home around the way you actually live — not a template. Message for a personalised quote.",
+      "isPartOf": {
+        "@id": "https://herhomes.shop/#website"
+      },
+      "about": {
+        "@id": "https://herhomes.shop/#business"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://herhomes.shop/assets/media/og-cover.jpg",
+        "width": 1200,
+        "height": 630
+      },
       "inLanguage": "en-IN"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://herhomes.shop/#faq",
+      "isPartOf": {
+        "@id": "https://herhomes.shop/#webpage"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What does Her Homes Co. actually do?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Three things, and usually together: home styling (decor direction, colour, furniture placement and room styling), home organising (wardrobes, kitchens, drawers, shelves, pantries, fridges, desks, storage and utility spaces), and deep cleaning (a full-home reset including kitchen degreasing, bathroom detailing, and the insides of cabinets and appliances). You can book any one of them on its own, or all three together as a Combined Home Reset."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which areas do you serve?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Her Homes Co. works across Mohali and the wider Tricity area — Chandigarh, Panchkula and Zirakpur included. If you are just outside that, message on WhatsApp and ask; it is a quick answer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does it cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Every home is a different scope, so styling, organising, deep cleaning and the Combined Home Reset are each quoted individually rather than sold at a fixed rate. What shapes the number: how much organising is required, the number of areas or rooms, design complexity, the cleaning requirement, and any special requests. The one fixed price is the Shelf / Detailed Organisation add-on at ₹5,000 one-time. Send your home size on WhatsApp and a personalised quote comes back."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to already know what style I want?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, and most people don't — that is the normal starting point. The first step of the process is simply telling us what you like: your references, and the things you already own and love. We translate those preferences into a visual direction for the space. Scandinavian, Bohemian, College Core and Minimalist are shown on this page as starting points, not as a menu you have to pick from."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you organise just one room, like a wardrobe or a kitchen?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Home Organising covers wardrobes, kitchens, drawers, shelves, pantries, fridges, desks, storage and utility spaces, and the work is scoped to whatever plan is agreed with you — it does not have to be the whole house."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is deep cleaning included when you style or organise a home?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is a separate service, and it is also available bundled: the Combined Home Reset is a clean, an organise and a style run as one continuous engagement. Deep cleaning is deliberately the foundation — organising and styling both land better on a space that has already been properly reset."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does the process look like from start to finish?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Six stages. You tell us what you like; we spend time understanding how you actually move through your home; we build the look around your aesthetic; we organise the details so the styling holds; we reset the space with a full deep clean; and then you walk into it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I book?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no form to fill in. Message on WhatsApp at +91 99152 17674 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling the same number works just as well."
+          }
+        }
+      ]
     }
   ]
 }
 </script>
+<!--/@gen:head-->
+
+<meta name="theme-color" content="#fff8f0" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+<link rel="manifest" href="site.webmanifest" />
+
+<!-- Fonts: Anton + Hanken Grotesk, self-hosted (see fonts.css) so the page
+     has no external dependency and no third-party connection to negotiate.
+     Preloaded because both render above the fold (logo/nav wordmark + hero
+     headline in Anton, hero support copy in Hanken Grotesk). -->
+<link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="assets/fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+
+<!-- The hero still is the Largest Contentful Paint element on nearly every
+     visit, so it is fetched at the same time as the CSS rather than after
+     it. Two files, one per breakpoint, matching the same 768px split that
+     styles.css and main.js already use — so a phone never downloads the
+     1600px desktop still and vice versa. -->
+<link rel="preload" as="image" href="assets/media/hero-poster-mobile.webp" type="image/webp" media="(max-width: 767px)" fetchpriority="high" />
+<link rel="preload" as="image" href="assets/media/hero-poster-desktop.webp" type="image/webp" media="(min-width: 768px)" fetchpriority="high" />
+
+<link rel="stylesheet" href="fonts.css" />
+<link rel="stylesheet" href="styles.css" />
 </head>
-<body class="is-loading">
+<body>
 <a class="skip-link" href="#main">Skip to content</a>
 
 <!-- ==================================================================
      LOGO INTRO — the opening scene. Same DOM elements later hand off
      into the live nav mark/wordmark below (see main.js: introTimeline
-     + heroScrollTimeline). Decorative + aria-hidden; a real <h1> lives
-     in the hero section for accessibility/SEO.
+     + heroScrollTimeline). Decorative + aria-hidden; the real <h1>
+     lives in the hero section for accessibility and search.
      ================================================================== -->
 <div id="logo-intro" class="logo-intro" aria-hidden="true">
   <div class="logo-intro__stage">
     <div class="logo-intro__mark-wrap">
-      <img class="logo-intro__mark" src="assets/logo-mark.png" alt="" draggable="false" />
+      <img class="logo-intro__mark" src="assets/logo-mark.png" alt="" width="298" height="383" draggable="false" />
     </div>
     <div class="logo-intro__wordmark f-display">
       <span class="word">Her</span><span class="word">Homes</span><span class="word">Co.</span>
@@ -121,20 +677,41 @@
      ================================================================== -->
 <header class="site-nav" id="site-nav">
   <a class="nav-mark" href="#top" data-nav-mark>
-    <img src="assets/logo-mark.png" alt="Her Homes Co. — home" draggable="false" />
+    <img src="assets/logo-mark.png" alt="Her Homes Co. — home" width="298" height="383" draggable="false" />
     <span class="nav-wordmark f-display" data-nav-wordmark>Her Homes Co.</span>
   </a>
-  <nav class="nav-links f-label" id="nav-links" aria-label="Primary"></nav>
-  <a class="nav-cta f-label" id="nav-cta-desktop" href="#book" style="display:none;">Book</a>
+  <nav class="nav-links f-label" id="nav-links" aria-label="Primary">
+    <!--@gen:nav-links-->
+    <a href="#styles">Styles</a>
+    <a href="#what-we-do">What We Do</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#founder">Founder</a>
+    <!--/@gen:nav-links-->
+  </nav>
+  <a class="nav-cta f-label" id="nav-cta-desktop" href="#book">Book</a>
   <button class="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" data-nav-burger>
     <span></span><span></span><span></span>
   </button>
 </header>
 
 <div class="mobile-nav" id="mobile-nav" aria-hidden="true">
-  <nav class="mobile-nav__links f-display" id="mobile-nav-links" aria-label="Primary"></nav>
+  <nav class="mobile-nav__links f-display" id="mobile-nav-links" aria-label="Primary (mobile)">
+    <!--@gen:mobile-nav-links-->
+    <a href="#styles">Styles</a>
+    <a href="#what-we-do">What We Do</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#founder">Founder</a>
+    <!--/@gen:mobile-nav-links-->
+  </nav>
   <a class="mobile-nav__cta btn btn-primary" id="mobile-nav-cta" href="#book">Book</a>
-  <ul class="mobile-nav__contact f-label" id="mobile-nav-contact"></ul>
+  <ul class="mobile-nav__contact f-label" id="mobile-nav-contact">
+    <!--@gen:mobile-nav-contact-->
+    <li><a href="https://wa.me/919915217674?text=Hi!%20I'd%20love%20to%20know%20more%20about%20Her%20Homes%20Co." target="_blank" rel="noopener">WhatsApp</a></li>
+    <li><a href="tel:+919915217674">Call</a></li>
+    <!--/@gen:mobile-nav-contact-->
+  </ul>
 </div>
 
 <!-- ==================================================================
@@ -147,7 +724,7 @@
      since that section already has its own full-size WhatsApp button.
      ================================================================== -->
 <div class="quick-contact" id="quick-contact">
-  <span class="quick-contact__label f-label" data-quick-contact-label></span>
+  <span class="quick-contact__label f-label" data-quick-contact-label>Ask her for a quote</span>
   <a class="quick-contact__btn quick-contact__btn--whatsapp" data-quick-whatsapp href="#" target="_blank" rel="noopener" aria-label="WhatsApp Her Homes Co. for a quote">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.04 4c-4.34 0-7.87 3.53-7.87 7.87 0 1.39.36 2.73 1.05 3.92L4 20l4.34-1.14a7.86 7.86 0 0 0 3.7.94c4.34 0 7.87-3.53 7.87-7.87 0-2.1-.82-4.08-2.31-5.57l-.04-.04zm-5.56 12.1a6.53 6.53 0 0 1-3.33-.91l-.24-.14-2.48.65.66-2.42-.16-.25a6.54 6.54 0 0 1-1-3.48c0-3.61 2.94-6.55 6.56-6.55a6.51 6.51 0 0 1 4.63 1.93 6.5 6.5 0 0 1 1.92 4.63c0 3.62-2.94 6.55-6.56 6.55zm3.59-4.9c-.2-.1-1.17-.58-1.35-.64-.18-.07-.31-.1-.44.1-.13.2-.51.64-.62.77-.11.13-.23.14-.43.05-.2-.1-.83-.31-1.58-.98-.58-.52-.98-1.16-1.09-1.36-.11-.2-.01-.3.09-.4.09-.1.2-.23.3-.35.1-.11.13-.2.2-.33.06-.13.03-.25-.02-.35-.05-.1-.44-1.06-.6-1.45-.16-.38-.32-.33-.44-.34-.11 0-.24-.01-.37-.01-.13 0-.34.05-.52.25-.18.2-.68.66-.68 1.62s.7 1.88.79 2.01c.1.13 1.37 2.09 3.32 2.93.46.2.83.32 1.11.41.47.15.89.13 1.23.08.38-.06 1.17-.48 1.33-.94.16-.46.16-.86.11-.94-.05-.08-.18-.13-.38-.23z" fill="currentColor"/></svg>
     <span>WhatsApp</span>
@@ -165,18 +742,29 @@
        Starts as a small, curated, centered frame; expands to full-bleed
        as the user scrolls (see main.js: heroScrollTimeline). The same
        scroll range drives the logo-intro → nav handoff above.
+
+       The frame carries no visible "placeholder" caption any more: the
+       poster still is painted by CSS the instant the page renders, and
+       main.js swaps in the right video for the viewport on top of it.
        ================================================================ -->
   <section class="section hero" id="top">
     <div class="hero__sizer">
-      <div class="hero__frame media-frame" data-media-slot="hero-film" data-empty="true">
+      <div class="hero__frame media-frame" data-media-slot="hero-film">
         <div class="media-frame__corner"></div>
-        <span class="media-frame__label f-label"><span class="dot"></span>Interior film — placeholder</span>
       </div>
     </div>
     <div class="hero__copy">
-      <h1 class="sr-only">Her Homes Co. — Interior Styling, Organising and Deep Cleaning, built around how you actually live.</h1>
       <p class="hero__eyebrow f-label" data-hero-reveal>Interiors · Organising · Deep Cleaning</p>
-      <h2 class="hero__headline f-display t-display-xl" data-hero-reveal>A HOME,<br />BUT YOURS.</h2>
+      <!-- One <h1> for the page. The visible line is the brand statement;
+           the visually hidden span in front of it carries the plain
+           description of what this business does and where, which is what
+           someone actually types into a search box. Both are real content
+           in the same heading — nothing is hidden from users that isn't
+           also read out to a screen reader. -->
+      <h1 class="hero__headline f-display t-display-xl" data-hero-reveal>
+        <span class="sr-only">Her Homes Co. — interior styling, home organising and deep cleaning in Mohali and Tricity. </span>
+        A HOME,<br />BUT YOURS.
+      </h1>
       <p class="hero__support f-body t-body-lg" data-hero-reveal>We build the space around the way you actually live — not the other way round.</p>
     </div>
     <button class="hero__scroll-cue f-label" type="button" data-scroll-to="#philosophy" aria-label="Scroll to explore">
@@ -192,34 +780,62 @@
        the point is restraint after the visual density of the hero.
        ================================================================ -->
   <section class="section philosophy" id="philosophy">
-    <h2 class="sr-only" data-phi-heading></h2>
+    <!--@gen:philosophy-->
+    <h2 class="sr-only" data-phi-heading>Our philosophy</h2>
     <div class="philosophy__sizer">
-      <p class="philosophy__eyebrow f-label" data-phi="eyebrow"></p>
-      <div class="philosophy__line philosophy__line--a f-display" data-phi="line-a"></div>
-      <div class="philosophy__line philosophy__line--b f-display" data-phi="line-b"></div>
-      <p class="philosophy__support f-body t-body-lg" data-phi="support"></p>
+      <p class="philosophy__eyebrow f-label" data-phi="eyebrow">The Philosophy</p>
+      <div class="philosophy__line philosophy__line--a f-display" data-phi="line-a"><span><i>YOUR HOME</i></span><span><i>DOESN'T NEED</i></span><span><i>TO LOOK LIKE</i></span><span><i>EVERYONE ELSE'S.</i></span></div>
+      <div class="philosophy__line philosophy__line--b f-display" data-phi="line-b"><span><i>IT SHOULD</i></span><span><i>FEEL LIKE</i></span><span><i>YOU.</i></span></div>
+      <p class="philosophy__support f-body t-body-lg" data-phi="support">We start with the person — taste, lifestyle, routines, the objects already loved — and build the space around that. Not the other way round.</p>
     </div>
+    <!--/@gen:philosophy-->
   </section>
 
   <!-- ================================================================
        03 — STYLE WORLDS
-       A pinned lookbook: one image stage crossfades through all eight
-       aesthetics as the user scrolls; a vertical list controls it and
-       previews on hover. Not eight identical cards.
+       A pinned lookbook: one image stage crossfades through every
+       aesthetic as the user scrolls; a vertical list controls it and
+       previews on hover. Not a grid of identical cards.
        ================================================================ -->
   <section class="section style-worlds" id="styles">
-    <h2 class="sr-only" data-sw-heading></h2>
+    <!--@gen:style-worlds-->
+    <h2 class="sr-only" data-sw-heading>Style worlds we work in</h2>
     <div class="style-worlds__sizer">
       <div class="style-worlds__stage">
-        <div class="style-worlds__media" data-sw-media></div>
+        <div class="style-worlds__media" data-sw-media>
+        <div class="style-worlds__frame is-active" data-sw-index="0">
+          <div class="media-frame" data-media-slot="style-scandinavian"><picture><source type="image/webp" srcset="assets/media/scandinavian.webp" /><img src="assets/media/scandinavian.jpg" alt="Scandinavian-style home interior styled by Her Homes Co. — light, natural, functional, quiet." width="1461" height="2000" loading="eager" decoding="async" fetchpriority="high" /></picture></div>
+        </div>
+        <div class="style-worlds__frame" data-sw-index="1">
+          <div class="media-frame" data-media-slot="style-bohemian"><picture><source type="image/webp" srcset="assets/media/bohemian.webp" /><img src="assets/media/bohemian.jpg" alt="Bohemian-style home interior styled by Her Homes Co. — layered, warm, textural, collected." width="1429" height="2000" loading="lazy" decoding="async" /></picture></div>
+        </div>
+        <div class="style-worlds__frame" data-sw-index="2">
+          <div class="media-frame" data-media-slot="style-college-core"><picture><source type="image/webp" srcset="assets/media/college-core.webp" /><img src="assets/media/college-core.jpg" alt="College Core-style home interior styled by Her Homes Co. — personal, playful, nostalgic, expressive." width="1500" height="2000" loading="lazy" decoding="async" /></picture></div>
+        </div>
+        <div class="style-worlds__frame" data-sw-index="3">
+          <div class="media-frame" data-media-slot="style-minimalist"><picture><source type="image/webp" srcset="assets/media/minimalist.webp" /><img src="assets/media/minimalist.jpg" alt="Minimalist-style home interior styled by Her Homes Co. — sparse, considered, calm, essential." width="1333" height="2000" loading="lazy" decoding="async" /></picture></div>
+        </div>
+        </div>
         <div class="style-worlds__overlay">
-          <span class="style-worlds__count f-label" data-sw-count></span>
-          <h3 class="style-worlds__name f-display" data-sw-name></h3>
-          <ul class="style-worlds__words f-label" data-sw-words></ul>
+          <span class="style-worlds__count f-label" data-sw-count>01 / 04</span>
+          <h3 class="style-worlds__name f-display" data-sw-name>SCANDINAVIAN</h3>
+          <ul class="style-worlds__words f-label" data-sw-words><li>Light</li><li>Natural</li><li>Functional</li><li>Quiet</li></ul>
         </div>
       </div>
-      <ul class="style-worlds__list f-display" data-sw-list aria-label="Style worlds"></ul>
+      <ul class="style-worlds__list f-display" data-sw-list aria-label="Style worlds">
+        <li><button type="button" data-sw-index="0" class="is-active">Scandinavian</button></li>
+        <li><button type="button" data-sw-index="1">Bohemian</button></li>
+        <li><button type="button" data-sw-index="2">College Core</button></li>
+        <li><button type="button" data-sw-index="3">Minimalist</button></li>
+      </ul>
+      <ul class="sr-only">
+        <li><strong>Scandinavian</strong> — Light, Natural, Functional, Quiet</li>
+        <li><strong>Bohemian</strong> — Layered, Warm, Textural, Collected</li>
+        <li><strong>College Core</strong> — Personal, Playful, Nostalgic, Expressive</li>
+        <li><strong>Minimalist</strong> — Sparse, Considered, Calm, Essential</li>
+      </ul>
     </div>
+    <!--/@gen:style-worlds-->
   </section>
 
   <!-- ================================================================
@@ -228,14 +844,49 @@
        but the actual rooms and objects. Sticky label, hover-invert rows.
        ================================================================ -->
   <section class="section section-pad what-we-do" id="what-we-do">
-    <h2 class="sr-only" data-wwd-heading></h2>
+    <!--@gen:what-we-do-->
+    <h2 class="sr-only" data-wwd-heading>What we do</h2>
     <div class="container editorial-grid">
       <div class="what-we-do__sticky">
         <p class="f-label" data-wwd-eyebrow>What We Do</p>
-        <ul class="what-we-do__narrative f-display" data-wwd-narrative></ul>
+        <ul class="what-we-do__narrative f-display" data-wwd-narrative>
+          <li class="is-active">CLEAN</li>
+          <li>ORGANISE</li>
+          <li>STYLE</li>
+          <li>RESET</li>
+        </ul>
       </div>
-      <div class="what-we-do__list" data-wwd-list></div>
+      <div class="what-we-do__list" data-wwd-list>
+          <div class="wwd-item">
+            <div class="wwd-item__top">
+              <h4 class="f-display wwd-item__name">Home Styling</h4>
+              <span class="f-label wwd-item__index">01</span>
+            </div>
+            <p class="f-body wwd-item__summary">We help shape how the home looks and feels around your preferred aesthetic.</p>
+            <div class="wwd-item__includes"><span>Decor</span><span>Colour direction</span><span>Furniture placement</span><span>Textures</span><span>Objects</span><span>Visual balance</span><span>Room styling</span><span>Theme development</span><span>Overall cohesion</span></div>
+            <p class="f-body wwd-item__note">You don't have to already know exactly what you want — we help translate your preferences into the space.</p>
+          </div>
+          <div class="wwd-item">
+            <div class="wwd-item__top">
+              <h4 class="f-display wwd-item__name">Home Organising</h4>
+              <span class="f-label wwd-item__index">02</span>
+            </div>
+            <p class="f-body wwd-item__summary">Actual parts of the home, made functional without looking sterile.</p>
+            <div class="wwd-item__includes"><span>Wardrobes</span><span>Kitchens</span><span>Drawers</span><span>Shelves</span><span>Pantries</span><span>Fridges</span><span>Desks</span><span>Storage</span><span>Utility spaces</span></div>
+            <p class="f-body wwd-item__note">Beautiful and practical — good organising shouldn't feel like organising. It should just work.</p>
+          </div>
+          <div class="wwd-item">
+            <div class="wwd-item__top">
+              <h4 class="f-display wwd-item__name">Deep Cleaning</h4>
+              <span class="f-label wwd-item__index">03</span>
+            </div>
+            <p class="f-body wwd-item__summary">The reset the rest of the transformation stands on.</p>
+            <div class="wwd-item__includes"><span>Full-home deep clean</span><span>Kitchen degreasing</span><span>Bathroom detailing</span><span>Inside cabinets &amp; appliances</span><span>Windows &amp; fixtures</span></div>
+            <p class="f-body wwd-item__note">Clean enough to breathe — then organisation and styling give the space its new identity.</p>
+          </div>
+      </div>
     </div>
+    <!--/@gen:what-we-do-->
   </section>
 
   <!-- ================================================================
@@ -245,85 +896,213 @@
        and detail, a thin progress rail.
        ================================================================ -->
   <section class="section process" id="process">
-    <h2 class="sr-only" data-proc-heading></h2>
+    <!--@gen:process-->
+    <h2 class="sr-only" data-proc-heading>Our process, step by step</h2>
+    <ol class="sr-only">
+      <li><strong>Tell Us What You Like</strong> — Your taste, your references, the things you already own and love.</li>
+      <li><strong>We Understand Your Home</strong> — How you move through it, what it needs to work harder at, what already feels right.</li>
+      <li><strong>We Build The Look</strong> — A visual direction around your aesthetic — not a template pulled off a shelf.</li>
+      <li><strong>We Organise The Details</strong> — Wardrobes, kitchens, drawers, shelving — function first, so the styling holds.</li>
+      <li><strong>We Reset The Space</strong> — A full deep clean, so everything that follows lands on a space that can breathe.</li>
+      <li><strong>You Walk Into It</strong> — A home that already feels like you, from the first day.</li>
+    </ol>
     <div class="process__sizer">
-      <span class="process__index f-display" data-proc-index aria-hidden="true"></span>
+      <span class="process__index f-display" data-proc-index aria-hidden="true">01</span>
       <div class="process__content">
         <p class="f-label" data-proc-eyebrow>Process</p>
-        <h3 class="f-display t-headline-lg process__title" data-proc-title></h3>
-        <p class="f-body t-body-lg process__detail" data-proc-detail></p>
+        <h3 class="f-display t-headline-lg process__title" data-proc-title>TELL US WHAT YOU LIKE</h3>
+        <p class="f-body t-body-lg process__detail" data-proc-detail>Your taste, your references, the things you already own and love.</p>
       </div>
-      <ul class="process__progress" data-proc-progress aria-hidden="true"></ul>
+      <ul class="process__progress" data-proc-progress aria-hidden="true">
+        <li class="is-active"></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
     </div>
+    <!--/@gen:process-->
   </section>
 
   <!-- ================================================================
        06 — PRICING
-       A premium service menu, not a calculator. Real number only where
-       one is confirmed; everything else reads as a personalised quote.
+       A premium service menu, not a calculator. A real number only
+       where one is confirmed; everything else reads as a personalised
+       quote rather than inventing a figure.
        ================================================================ -->
   <section class="section section-pad pricing" id="pricing">
+    <!--@gen:pricing-->
     <div class="container">
+      <h2 class="sr-only">Pricing — Home Styling, Home Organising, Deep Cleaning, Combined Home Reset</h2>
       <div class="pricing__intro-block">
-        <p class="f-label" data-pr-eyebrow></p>
-        <h3 class="f-display t-headline-lg" data-pr-heading></h3>
-        <p class="f-body t-body-lg pricing__intro" data-pr-intro></p>
+        <p class="f-label" data-pr-eyebrow>Investment</p>
+        <h3 class="f-display t-headline-lg" data-pr-heading>A PREMIUM SERVICE MENU, NOT A CALCULATOR.</h3>
+        <p class="f-body t-body-lg pricing__intro" data-pr-intro>Every home is a different scope — size, number of areas, how much organising versus styling, how deep the clean needs to go. Here's what shapes the number.</p>
       </div>
 
-      <div class="pricing__menu" data-pr-menu></div>
-      <div class="pricing__addons" data-pr-addons></div>
+      <div class="pricing__menu" data-pr-menu>
+          <div class="pr-row">
+            <h4 class="f-display pr-row__name">Home Styling</h4>
+            <p class="f-body pr-row__desc">Decor direction, furniture placement, and full room styling around your aesthetic.</p>
+            <span class="f-label pr-row__price is-quote">Personalised quote</span>
+          </div>
+          <div class="pr-row">
+            <h4 class="f-display pr-row__name">Home Organising</h4>
+            <p class="f-body pr-row__desc">Wardrobes, kitchens, drawers, pantries, and storage — organised to actually hold.</p>
+            <span class="f-label pr-row__price is-quote">Personalised quote</span>
+          </div>
+          <div class="pr-row">
+            <h4 class="f-display pr-row__name">Deep Cleaning</h4>
+            <p class="f-body pr-row__desc">A full reset — the foundation the rest of the transformation is built on.</p>
+            <span class="f-label pr-row__price is-quote">Personalised quote</span>
+          </div>
+          <div class="pr-row">
+            <h4 class="f-display pr-row__name">Combined Home Reset</h4>
+            <p class="f-body pr-row__desc">Clean, organise, and style in one continuous engagement.</p>
+            <span class="f-label pr-row__price is-quote">Personalised quote</span>
+          </div>
+      </div>
+      <div class="pricing__addons" data-pr-addons>
+          <div class="pr-addon">
+            <div>
+              <p class="f-label pr-addon__name">Shelf / Detailed Organisation Add-on</p>
+              <p class="pr-addon__desc">Deeper organisation work for areas like shelving and the fridge, scoped to the agreed plan.</p>
+            </div>
+            <span class="f-label pr-addon__price">₹5,000 one-time</span>
+          </div>
+      </div>
 
       <div class="pricing__lower">
         <div class="pricing__factors">
           <h4 class="f-label">What shapes the number</h4>
-          <ul data-pr-factors></ul>
+          <ul data-pr-factors>
+              <li>Amount of organising required</li>
+              <li>Number of areas / rooms</li>
+              <li>Design complexity</li>
+              <li>Cleaning requirement</li>
+              <li>Special requests</li>
+          </ul>
         </div>
         <div class="pricing__teller">
           <h4 class="f-label">Tell us about your home</h4>
-          <div class="pricing__sizes" data-pr-sizes role="group" aria-label="Home size"></div>
-          <a class="btn btn-outline pricing__teller-cta" href="#book" target="_blank" rel="noopener" data-pr-teller-cta>Get a personalised quote</a>
+          <div class="pricing__sizes" data-pr-sizes role="group" aria-label="Home size">
+              <button type="button">1 BHK</button>
+              <button type="button">2 BHK</button>
+              <button type="button">3 BHK</button>
+              <button type="button">4 BHK+</button>
+          </div>
+          <a class="btn btn-outline pricing__teller-cta" href="https://wa.me/919915217674?text=Hi!%20I'd%20love%20to%20know%20more%20about%20Her%20Homes%20Co." target="_blank" rel="noopener" data-pr-teller-cta>Get a personalised quote</a>
         </div>
       </div>
     </div>
+    <!--/@gen:pricing-->
   </section>
 
   <!-- ================================================================
-       07 — FOUNDER
+       07 — FAQ
+       Added for search as much as for visitors. A one-page site is thin
+       by nature; these answers are the only place the page says, in
+       plain words, what deep cleaning includes, which cities are
+       covered, and how the price is arrived at — which is exactly what
+       people type into a search box. Native <details>, so it needs no
+       JavaScript, is keyboard-accessible for free, and every answer is
+       real text in the document rather than a tooltip.
+       ================================================================ -->
+  <section class="section section-pad faq" id="faq">
+    <!--@gen:faq-->
+    <div class="container">
+      <div class="faq__intro">
+        <p class="f-label">Questions</p>
+        <h2 class="f-display t-headline-lg">THINGS PEOPLE ASK BEFORE THEY BOOK.</h2>
+        <p class="f-body t-body-lg faq__support">If the answer you need isn't here, WhatsApp is the fastest way to get it.</p>
+      </div>
+      <div class="faq__list">
+        <details class="faq-item" open>
+          <summary class="faq-item__q f-display">What does Her Homes Co. actually do?</summary>
+          <div class="faq-item__a"><p class="f-body">Three things, and usually together: home styling (decor direction, colour, furniture placement and room styling), home organising (wardrobes, kitchens, drawers, shelves, pantries, fridges, desks, storage and utility spaces), and deep cleaning (a full-home reset including kitchen degreasing, bathroom detailing, and the insides of cabinets and appliances). You can book any one of them on its own, or all three together as a Combined Home Reset.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q f-display">Which areas do you serve?</summary>
+          <div class="faq-item__a"><p class="f-body">Her Homes Co. works across Mohali and the wider Tricity area — Chandigarh, Panchkula and Zirakpur included. If you are just outside that, message on WhatsApp and ask; it is a quick answer.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q f-display">How much does it cost?</summary>
+          <div class="faq-item__a"><p class="f-body">Every home is a different scope, so styling, organising, deep cleaning and the Combined Home Reset are each quoted individually rather than sold at a fixed rate. What shapes the number: how much organising is required, the number of areas or rooms, design complexity, the cleaning requirement, and any special requests. The one fixed price is the Shelf / Detailed Organisation add-on at ₹5,000 one-time. Send your home size on WhatsApp and a personalised quote comes back.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q f-display">Do I need to already know what style I want?</summary>
+          <div class="faq-item__a"><p class="f-body">No, and most people don't — that is the normal starting point. The first step of the process is simply telling us what you like: your references, and the things you already own and love. We translate those preferences into a visual direction for the space. Scandinavian, Bohemian, College Core and Minimalist are shown on this page as starting points, not as a menu you have to pick from.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q f-display">Can you organise just one room, like a wardrobe or a kitchen?</summary>
+          <div class="faq-item__a"><p class="f-body">Yes. Home Organising covers wardrobes, kitchens, drawers, shelves, pantries, fridges, desks, storage and utility spaces, and the work is scoped to whatever plan is agreed with you — it does not have to be the whole house.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q f-display">Is deep cleaning included when you style or organise a home?</summary>
+          <div class="faq-item__a"><p class="f-body">It is a separate service, and it is also available bundled: the Combined Home Reset is a clean, an organise and a style run as one continuous engagement. Deep cleaning is deliberately the foundation — organising and styling both land better on a space that has already been properly reset.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q f-display">What does the process look like from start to finish?</summary>
+          <div class="faq-item__a"><p class="f-body">Six stages. You tell us what you like; we spend time understanding how you actually move through your home; we build the look around your aesthetic; we organise the details so the styling holds; we reset the space with a full deep clean; and then you walk into it.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q f-display">How do I book?</summary>
+          <div class="faq-item__a"><p class="f-body">There is no form to fill in. Message on WhatsApp at +91 99152 17674 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling the same number works just as well.</p></div>
+        </details>
+      </div>
+    </div>
+    <!--/@gen:faq-->
+  </section>
+
+  <!-- ================================================================
+       08 — FOUNDER
        Warm, personal, not a corporate bio. She oversees the work.
+       Renders as a single centred column until a real portrait exists
+       (see renderFounder in scripts/prerender.mjs).
        ================================================================ -->
   <section class="section section-pad founder" id="founder">
-    <div class="container founder__grid">
-      <div class="founder__media-wrap">
-        <div class="founder__media media-frame" data-media-slot="founder-portrait" data-empty="true" data-fo-parallax></div>
-      </div>
+    <!--@gen:founder-->
+    <div class="container founder__grid founder__grid--solo">
       <div class="founder__copy">
-        <p class="f-label" data-fo-eyebrow></p>
-        <h3 class="f-display t-headline-lg" data-fo-heading></h3>
-        <p class="f-body t-body-lg founder__bio" data-fo-bio></p>
+        <p class="f-label" data-fo-eyebrow>The Founder</p>
+        <h2 class="f-display t-headline-lg" data-fo-heading>SOMEONE SHOULD ACTUALLY CARE HOW YOUR HOME TURNS OUT.</h2>
+        <p class="f-body t-body-lg founder__bio" data-fo-bio>Rupinder Kaur is entirely self-made. Her journey started in a small village and led, one step at a time, to building her own company — on the strength of a natural knack for organising and interior design, long before it was ever a business plan. That same instinct is still behind every home Her Homes Co. takes on today.</p>
         <div class="founder__signature">
-          <p class="f-display founder__name" data-fo-name></p>
-          <p class="f-label founder__role" data-fo-role></p>
+          <p class="f-display founder__name" data-fo-name>Rupinder Kaur</p>
+          <p class="f-label founder__role" data-fo-role>Founder, Her Homes Co.</p>
         </div>
       </div>
     </div>
+    <!--/@gen:founder-->
   </section>
 
   <!-- ================================================================
-       08 — FINAL CTA / BOOKING
-       Closing frame, not a hard sell. Useful form, elegant contact links.
+       09 — FINAL CTA / BOOKING
+       Closing frame, not a hard sell. The WhatsApp link is a real href
+       in the markup, so it works with JavaScript disabled and is a
+       crawlable outbound link rather than a JS-only click handler.
        ================================================================ -->
   <section class="section section-pad final-cta" id="book">
+    <!--@gen:final-cta-->
     <div class="container final-cta__top">
-      <h2 class="f-display final-cta__heading" data-cta-heading></h2>
-      <p class="f-body t-body-lg final-cta__support" data-cta-support></p>
+      <h2 class="f-display final-cta__heading" data-cta-heading>
+        <span class="line"><i>LET'S MAKE</i></span>
+        <span class="line"><i>YOUR HOME</i></span>
+        <span class="line"><i>FEEL LIKE YOU.</i></span>
+      </h2>
+      <p class="f-body t-body-lg final-cta__support" data-cta-support>No long forms — this is a Tricity / Mohali operation. Message her on WhatsApp and tell her a bit about your home; she'll take it from there.</p>
     </div>
     <div class="container final-cta__actions">
-      <a class="final-cta__whatsapp" data-cta-whatsapp href="#" target="_blank" rel="noopener">
+      <a class="final-cta__whatsapp" data-cta-whatsapp href="https://wa.me/919915217674?text=Hi!%20I'd%20love%20to%20know%20more%20about%20Her%20Homes%20Co." target="_blank" rel="noopener">
         <span>Message her on WhatsApp</span>
         <span class="final-cta__whatsapp-arrow" aria-hidden="true">↗</span>
       </a>
-      <div class="final-cta__secondary" data-cta-contacts></div>
+      <div class="final-cta__secondary" data-cta-contacts>
+        <a href="tel:+919915217674">+91 99152 17674</a>
+      </div>
     </div>
+    <!--/@gen:final-cta-->
   </section>
 
   <div id="section-anchor-end"></div>
@@ -331,23 +1110,34 @@
 </main>
 
 <footer class="site-footer">
+  <!--@gen:footer-->
   <div class="container site-footer__row">
     <div class="site-footer__mark">
-      <img src="assets/logo-mark.png" alt="" draggable="false" />
+      <img src="assets/logo-mark.png" alt="" width="298" height="383" loading="lazy" decoding="async" draggable="false" />
       <span class="f-display">Her Homes Co.</span>
     </div>
-    <ul class="site-footer__links f-label" data-footer-links></ul>
+    <ul class="site-footer__links f-label" data-footer-links>
+      <li><a href="https://wa.me/919915217674?text=Hi!%20I'd%20love%20to%20know%20more%20about%20Her%20Homes%20Co." target="_blank" rel="noopener">WhatsApp</a></li>
+      <li><a href="tel:+919915217674">+91 99152 17674</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#book">Book</a></li>
+    </ul>
   </div>
   <div class="container site-footer__bottom f-label">
-    <span data-footer-copyright></span>
-    <span data-footer-location></span>
+    <span data-footer-copyright>© 2026 Her Homes Co. All rights reserved.</span>
+    <span data-footer-location>Serving Mohali &amp; Tricity, India</span>
   </div>
+  <!--/@gen:footer-->
 </footer>
 
-<script src="vendor/gsap.min.js"></script>
-<script src="vendor/ScrollTrigger.min.js"></script>
-<script src="vendor/lenis.min.js"></script>
-<script src="js/data.js"></script>
-<script src="js/main.js"></script>
+<!-- `defer` on all five: they no longer block the parser, they still run in
+     source order, and they still run before DOMContentLoaded — which is all
+     main.js's init() relies on. This is what lets the hero paint before the
+     136 KB of animation library has finished arriving. -->
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/ScrollTrigger.min.js" defer></script>
+<script src="vendor/lenis.min.js" defer></script>
+<script src="js/data.js" defer></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>

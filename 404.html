@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Page not found — Her Homes Co.</title>
+<!-- A 404 must never be indexed: if Google files this page under a real
+     keyword, that keyword now points at a dead end. GitHub Pages already
+     returns a genuine 404 status for this file, and this tag makes the
+     intent explicit for anything that ignores the status code. -->
+<meta name="robots" content="noindex, follow" />
+<meta name="theme-color" content="#fff8f0" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512.png" />
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+<link rel="preload" href="/assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="/fonts.css" />
+<style>
+  /* Self-contained on purpose — a 404 should render even if the main
+     stylesheet is the thing that went missing. */
+  :root { --cream: #fff8f0; --ink: #1A1A1A; --muted: #4e4632; --accent: #27638d; }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    min-height: 100svh; display: grid; place-items: center; padding: 2rem;
+    background: var(--cream); color: var(--ink);
+    font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 34rem; text-align: center; }
+  .code {
+    font-family: "Anton", Impact, sans-serif; letter-spacing: 0.02em; line-height: 0.95;
+    font-size: clamp(5rem, 22vw, 11rem); color: var(--ink);
+  }
+  h1 { font-family: "Anton", Impact, sans-serif; font-weight: 400;
+       font-size: clamp(1.4rem, 5vw, 2.1rem); margin-top: 0.5rem; letter-spacing: 0.01em; }
+  p { color: var(--muted); margin-top: 1rem; line-height: 1.6; font-size: 1.05rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 2.25rem; }
+  a.btn {
+    display: inline-block; padding: 0.95rem 1.9rem; border-radius: 8px; text-decoration: none;
+    font-size: 0.95rem; letter-spacing: 0.06em; text-transform: uppercase;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+  }
+  a.primary { background: #ffce00; color: var(--ink); }
+  a.secondary { border: 1px solid rgba(26,26,26,0.25); color: var(--ink); }
+  a.btn:hover { transform: translateY(-2px); }
+  a.primary:hover { background: #efc100; }
+  .mark { height: 3.5rem; width: auto; margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <img class="mark" src="/assets/logo-mark.png" alt="Her Homes Co." width="298" height="383" />
+    <p class="code">404</p>
+    <h1>THIS PAGE ISN'T HOME.</h1>
+    <p>The link you followed doesn't lead anywhere on this site — it may have been mistyped, or it may never have existed. Everything Her Homes Co. offers lives on the one main page.</p>
+    <div class="actions">
+      <a class="btn primary" href="/">Back to the home page</a>
+      <a class="btn secondary" href="https://wa.me/919915217674?text=Hi!%20I'd%20love%20to%20know%20more%20about%20Her%20Homes%20Co." target="_blank" rel="noopener">Message on WhatsApp</a>
+    </div>
+  </main>
+</body>
+</html>

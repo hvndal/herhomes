@@ -2,43 +2,89 @@
 
 A full rebuild of the Her Homes Co. site around the existing, approved brand
 (the illustrated logo mark, "Her Homes Co." wordmark, warm cream / charcoal /
-steel blue / yellow palette, Anton + Hanken Grotesk). No build step — static
-HTML, CSS and vanilla JS, animated with GSAP, ScrollTrigger and Lenis.
+steel blue / yellow palette, Anton + Hanken Grotesk). Static HTML, CSS and
+vanilla JS, animated with GSAP, ScrollTrigger and Lenis.
+
+**The site is live at https://herhomes.shop.**
+
+> ### ⚠️ One rule: after editing `js/data.js`, run `npm run build`
+>
+> This used to be a no-build project, and that was quietly costing it every
+> visitor it could have had. All the page's copy lived only inside
+> `js/data.js` and was written into the page by JavaScript at load time,
+> which meant the HTML a search engine actually downloads contained no
+> service names, no prices, no process, no founder bio — about 40 words in
+> total. Google renders JavaScript, but only on a slow second pass; Bing
+> often doesn't; and the WhatsApp / Facebook / LinkedIn link-preview
+> scrapers never do. For a business whose funnel is "someone forwards the
+> link on WhatsApp", that last one mattered most.
+>
+> `npm run build` fixes that by writing the real copy into `index.html`
+> before it ships (1,275 indexable words now, up from ~40). `js/data.js`
+> is still the only file you edit — the build just copies it into the HTML.
+> CI fails the deploy if you forget.
 
 The original Stitch export (`stitch_the_her_homes_lookbook/`) is left
 untouched next to this folder — it was the design/brand reference this
 rebuild was built from, not something this project modifies.
 
-## Opening it up
+## Running it locally
 
-There's no build step and nothing to install to just look at it. Two ways:
+```
+npm install
+npm start
+```
 
-1. **Double-click `index.html`.** Everything is self-hosted (fonts, GSAP,
-   ScrollTrigger, Lenis all live in this folder), so it mostly works straight
-   off disk. A couple of browsers are stricter about loading local video/font
-   files via a `file://` URL, which is the one reason to prefer option 2.
-2. **Serve it locally** (more reliable, closer to production):
-   ```
-   cd her-homes-co-website
-   python3 -m http.server 8000
-   ```
-   then open `http://localhost:8000`. Any static server works — this is a
-   plain folder of files.
+Then open http://localhost:4321. `npm start` runs a tiny dependency-free
+static server (`scripts/serve.mjs`) — it also serves `404.html` properly,
+which `file://` can't.
+
+Double-clicking `index.html` still mostly works, since everything is
+self-hosted (fonts, GSAP, ScrollTrigger, Lenis all live in this folder), but
+some browsers block local video and font files over `file://`.
+
+### The build commands
+
+| Command | What it does |
+|---|---|
+| `npm run build` | Everything below. **Run this before every deploy.** |
+| `npm run build:html` | Writes `js/data.js` into `index.html`, `sitemap.xml` and `robots.txt`. Run after any content edit. |
+| `npm run build:images` | Regenerates the share card, the favicons, and a WebP next to every photo. Only needed after adding or replacing a photo. |
+| `npm run check` | Fails if the committed HTML is stale versus `js/data.js`. This is what CI runs. |
+
+Only `build:images` needs `sharp` (a dev dependency); `build:html` and
+`check` are plain Node with nothing installed.
 
 ## File structure
 
 ```
-index.html          Page markup — all sections, no content baked in
-styles.css           All design tokens + section styles
-fonts.css             Self-hosted @font-face rules (Anton, Hanken Grotesk)
 js/data.js            *** THE ONLY FILE YOU SHOULD NEED TO EDIT ***
+index.html            Page markup. The parts between <!--@gen:...--> markers
+                        are GENERATED — don't hand-edit them, they get
+                        overwritten by the next build
+scripts/prerender.mjs Writes data.js into index.html/sitemap.xml/robots.txt
+scripts/optimize-images.mjs  Share card, favicons, WebP versions
+scripts/serve.mjs     Local preview server (npm start)
+styles.css            All design tokens + section styles
+fonts.css             Self-hosted @font-face rules (Anton, Hanken Grotesk)
 js/main.js            All animation/interaction logic
-assets/               Logo crops + font files
-assets/media/         Real photos/video dropped in so far (see below)
+assets/               Logo crops, generated icons, font files
+assets/media/         Photos + video, and the generated .webp next to each
 vendor/               Self-hosted GSAP, ScrollTrigger, Lenis (no CDN)
-package.json          Records exact library versions, for reference
-robots.txt             Crawler rules — see "SEO" below
-sitemap.xml            One-page sitemap — see "SEO" below
+
+GENERATED — do not hand-edit:
+robots.txt            Crawler rules
+sitemap.xml           One-page sitemap
+favicon.ico, assets/icon-*.png, assets/apple-touch-icon.png
+assets/media/og-cover.jpg      The WhatsApp/Facebook share image
+assets/media/*.webp
+
+Deployment:
+CNAME                 Custom domain for GitHub Pages (herhomes.shop)
+.nojekyll             Tells Pages to serve files as-is
+site.webmanifest      PWA/mobile metadata
+404.html              Branded not-found page (noindex)
+.github/workflows/pages.yml   Auto-deploys every push to main
 ```
 
 ## No booking form, by design
@@ -116,6 +162,9 @@ Already wired up with real media:
 | `style-college-core` | image | `assets/media/college-core.jpg` | |
 | `style-minimalist` | image | `assets/media/minimalist.jpg` | |
 
+Each of the above also has a generated `.webp` beside it, served via
+`<picture>` with the `.jpg` as the fallback.
+
 Two of the extra video files found in the folder were deliberately **not**
 used anywhere on the site: `stockvid.mp4` (an overhead flat-lay of flowers /
 pastries / journal-writing — no interior or home content, off-brand for a
@@ -125,14 +174,35 @@ Scandinavian / Bohemian / minimalist look the rest of the site is built
 around). If either was meant for a specific spot, say so and it's a quick
 add.
 
-Still placeholders — need a real file:
+**Empty media slots no longer render anything.** They used to draw a grey
+hatched frame captioned with the internal to-do note, so real visitors were
+reading things like "Founder portrait — warm, personal, not corporate
+headshot." on the live site. A slot with no real file is now simply absent.
+
+Two follow-on changes came out of that:
+
+- **"Modern" was removed from the style worlds** (five became four). No
+  modern-interior photo was ever supplied, so one of the five was always an
+  empty frame. To bring it back: restore the one commented-out line in
+  `styleWorlds` in `js/data.js`, drop `assets/media/modern.jpg` in, and
+  run `npm run build`. The image slot is generated from the id, so that is
+  genuinely the whole job.
+- **The founder section lays out as a single centred column** instead of a
+  two-column grid with a hole in it. Set
+  `mediaSlots["founder-portrait"].src` and rebuild, and the two-column
+  layout returns on its own — no markup edit.
+
+Still want a real file:
 
 | Key | Type | What it is |
 |---|---|---|
-| `style-modern` | image | Modern style-world image — no "modern" photo was among the ones provided this round |
-| `founder-portrait` | image | Founder photo |
+| `founder-portrait` | image | Founder photo. Highest value of the four — a real face is the single biggest trust signal on a page like this |
+| `style-modern` | image | Only needed if you restore the Modern style world |
 | `process-visual` | image | Pinned visual for the process section |
 | `styling-detail` / `organising-detail` / `deep-cleaning-detail` | image | "What We Do" supporting images |
+
+After adding any photo, run `npm run build` — that generates its WebP and
+prints its pixel dimensions for the `width`/`height` fields.
 
 **There's no before/after section any more.** It needs real photography to
 mean anything, and this build environment can't browse the web or fetch
@@ -195,77 +265,108 @@ descriptions, style-world names/words, footer links) is real, finished copy
 — not placeholder — written to the brief. Edit it like any other copy
 whenever you want, it isn't waiting on anything.
 
-## SEO — what's implemented, and where the rest lives
+## SEO — what's implemented
 
-Technical SEO for a real, in-depth build — not just a meta-description tag.
-Everything below is genuinely live and needs to be revisited only when the
-site gets a real domain (search this whole project for `herhomesco.example`
-— an intentionally-unusable RFC 2606 placeholder domain — and swap in the
-real one, once there is one, in `index.html`, `robots.txt`, and
-`sitemap.xml`).
+Everything here is live in the shipped files. The domain is written in
+exactly one place — `site.url` in `js/data.js` — and `npm run build`
+stamps it into the canonical link, the Open Graph and Twitter tags, all five
+JSON-LD `@id`s, `robots.txt` and `sitemap.xml`. Changing hosts is a
+one-line edit followed by a build.
 
-**Metadata** (`index.html` `<head>`) — canonical link, `robots` meta
-(`index, follow`), full Open Graph + Twitter Card tags (so a WhatsApp /
-Facebook / LinkedIn share shows the real title, description, and the logo
-as the preview image), `lang="en-IN"`, `apple-touch-icon`, and
-`<link rel="preload">` for both above-the-fold font files.
+### The big one: the page's copy is now in the HTML
 
-**Structured data** — a static (not JS-injected, so every crawler sees it,
-including ones that don't run JavaScript) JSON-LD `@graph` covering
-`HomeAndConstructionBusiness` (name, phone, service area, founder, and a
-`makesOffer` list mirroring the real service menu, with a real price only
-on the one add-on that actually has a confirmed one), `WebSite`, and
-`WebPage`. Deliberately absent: a street address, opening hours,
-review/rating data, and `sameAs` social links — none of those are real
-yet, and inventing them would be worse than leaving them out. Add each the
-moment it's real; there's a comment right above the block as a reminder.
+Previously the entire body of the page was written by JavaScript at runtime,
+so `view-source` showed empty `<div>`s and empty `sr-only` headings —
+roughly 40 words. It is now **1,275 words of real markup**, generated from
+the same `js/data.js` by `scripts/prerender.mjs`.
 
-**Crawling** — `robots.txt` (allows everything, points at the sitemap) and
-`sitemap.xml` (one `<url>`, since this is one page with in-page anchors,
-not separate URLs — see the comments in both files for what changes once
-the site has more than one page).
+`js/main.js` *adopts* that markup rather than rebuilding it (see the
+`adopt()` helper at the top of the file): if the container already has
+prerendered children it wires up behaviour and builds nothing, so there is
+exactly one copy of every string and the two can't drift. If someone edits
+`data.js` and forgets to build, the page still renders correctly at
+runtime — it just goes back to being invisible to non-rendering crawlers,
+which is why `npm run check` runs in CI.
 
-**Alt text** — every `mediaSlots` entry in `data.js` now carries a real,
-descriptive `alt` string (separate from the internal `note`, which is a
-to-do reminder for whoever's filling in the photo, not visitor-facing
-copy). `hydrateMediaSlots()` in `main.js` uses it automatically.
+Two sections are scroll-driven and only ever show one item at a time (the
+style-world lookbook and the six process stages). Those now also carry a
+visually hidden list of **all** their items, which is the only place a
+crawler — or a screen-reader user — can see the full set.
 
-**Headings** — Philosophy, Style Worlds, What We Do, and Process didn't
-have a section-level heading tag before (screen readers and crawlers had
-no label for them beyond individual item titles, e.g. one style-world
-name). Each now has a visually hidden (`.sr-only`) `<h2>`, populated at
-render time from the exact same copy already in `data.js` — nothing new
-was written, so there's no risk of it drifting out of sync with what's
-visible on screen. Nothing about how the page looks changed.
+### Structured data
 
-**Hero performance (Core Web Vitals)** — the hero video used to be a blank
-placeholder until JS created the `<video>` element and the file itself
-started downloading. It now has a real poster still, extracted straight
-from the two hero clips (`assets/media/hero-poster-{mobile,desktop}.jpg`),
-set directly in `styles.css` as `.hero__frame`'s background image (swapped
-at the same 768px breakpoint `main.js` already uses for `mobileSrc` /
-`desktopSrc`) — so there's real, correct visual content the instant the
-page paints, with zero dependency on JavaScript having run yet. The same
-still is also wired as each `<video>`'s `poster` attribute for the same
-reason once JS does hydrate. `.hero__sizer` was already a fixed `100vh`,
-so there was no layout-shift (CLS) risk here to begin with.
+A five-node JSON-LD `@graph`: `HomeAndConstructionBusiness`, `Person`
+(the founder), `WebSite`, `WebPage`, and `FAQPage`. The business node
+carries `areaServed` as four proper schema.org `City` entities (Mohali,
+Chandigarh, Panchkula, Zirakpur) rather than one free-text string, plus a
+`hasOfferCatalog` mirroring the real service menu, with a price only on
+the one add-on that actually has a confirmed one.
 
-**Analytics** — a small `trackEvent(name, params)` helper in `main.js` is
-already wired to every real conversion point: WhatsApp clicks and phone
-clicks from the quick-contact widget, the final CTA, and the mobile menu;
-quote-request clicks and home-size selections in the pricing section. It's
-intentionally dormant right now — no fake Measurement ID is hardcoded
-anywhere, since a fake one would look wired up while quietly tracking
-nothing. The moment a real Google Tag Manager container or GA4 `gtag.js`
-snippet is added to `index.html`'s `<head>`, every one of these events
-starts flowing with no other change needed (it pushes to `window.dataLayer`
-if GTM is present, else calls `window.gtag` directly if that's present,
-else does nothing at all — see the comment above `trackEvent()`).
+**Deliberately absent, because none of it is confirmed:** a street address,
+opening hours, `aggregateRating`/review data, and `sameAs` social
+profiles. Fabricated review markup in particular is a manual-action risk,
+not just bad manners. Each drops in the moment it is real — see the notes in
+`js/data.js`.
 
-A full technical-SEO strategy document — indexing/crawling rules, URL
-architecture for whenever this grows past one page, a severity-ranked
-audit, and a 7/30/60/90-day monitoring plan once there's a live domain and
-Search Console/GA4 access — was delivered separately alongside this build.
+### The FAQ section
+
+New, and it is the highest-value content addition available to a one-page
+site: it's the only place the page says in plain words what deep cleaning
+includes, which cities are covered, and how the price is arrived at — which
+is what people actually type into a search box. Native `<details>`, so it
+is keyboard-accessible and indexable with no JavaScript.
+
+**Every answer was composed strictly from facts already on the site.**
+Nothing about turnaround time, team size, insurance, guarantees or payment
+terms is claimed. Read them once and correct anything that doesn't match how
+the business really works — see the comment above `faq` in `js/data.js`.
+
+### Sharing and previews
+
+`og:image` was pointing at the 454×652 portrait logo, so every WhatsApp and
+Facebook preview cropped it into an unreadable strip. It is now a real
+1200×630 interior shot (`assets/media/og-cover.jpg`, generated from the
+hero still) with `summary_large_image`.
+
+### Performance / Core Web Vitals
+
+- All five scripts are `defer`red — 136 KB of animation library no longer
+  blocks the parser.
+- The hero still (the LCP element on essentially every visit) is preloaded
+  per breakpoint and served as WebP via `image-set()`, with the JPEG as
+  fallback. The `<video>` poster points at the same WebP, so it is a cache
+  hit instead of a second download of the same picture.
+- A `.webp` sits next to every photo — about 0.5 MB saved across the set,
+  served through `<picture>` with the JPEG as fallback.
+- Every `<img>` carries real `width`/`height`, so layout shift is zero.
+- Real `favicon.ico`, 192/512 PNG icons, an Apple touch icon and
+  `site.webmanifest` — all generated from the logo mark, squared onto the
+  brand cream so the portrait mark isn't stretched.
+
+### Analytics — still dormant, and now one line from live
+
+`trackEvent()` in `main.js` is wired to every conversion point: WhatsApp
+and phone clicks (quick-contact widget, final CTA, mobile menu), quote
+requests, home-size selections, and which FAQ questions get opened. Set
+`site.ga4MeasurementId` in `js/data.js` to a real `G-XXXXXXXXXX` and
+run `npm run build` — the GA4 snippet is written into `<head>` and every
+event starts flowing. Set `site.searchConsoleVerification` the same way for
+the Search Console meta tag. Both stay out of the page entirely while they
+are `null`, so nothing ever looks wired up while quietly tracking nothing.
+
+### What is NOT done, and needs a human
+
+1. **Google Business Profile.** For a local service business this drives more
+   traffic than the website does. Nothing in this repo can create it.
+2. **Search Console + GA4** — see above; needs real IDs.
+3. **A confirmed address and opening hours**, if the business wants to appear
+   in map results.
+4. **Real starting prices** — all four services still read "Personalised
+   quote".
+5. **Social profiles** — an Instagram account would populate `sameAs`.
+6. **Separate pages.** One page can only rank for so much. The natural next
+   step is a page per service and per city (`/home-organising-mohali`),
+   at which point `sitemap.xml` grows one `<url>` per page.
 
 ## What's animated, and why it's built this way
 

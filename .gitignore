@@ -11,3 +11,6 @@ qa/
 .DS_Store
 Thumbs.db
 *.log
+
+# Editor/agent tooling config — local preference, not part of the site
+.claude/

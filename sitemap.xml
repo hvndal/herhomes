@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Her Homes Co. — one page, one <url> entry. herhomesco.example is a
-  placeholder (RFC 2606) — replace with the real domain once one exists.
+  GENERATED FILE — do not edit by hand.
+  Produced by scripts/prerender.mjs from js/data.js (site.url).
+  Run `npm run build` after changing the domain.
 
-  Everything on this site lives at this one URL as same-page anchors
-  (#styles, #pricing, #founder, #book, etc.) rather than separate pages,
-  so there is nothing else that belongs in this file: an anchor is not a
-  distinct crawlable document, and a sitemap should only ever list real,
-  indexable, canonical URLs. The moment separate pages exist (say, a
-  dedicated /services/deep-cleaning or a blog), add one <url> block per
-  new canonical page here — never for a page that is noindex'd, redirected,
-  or canonicalised to somewhere else.
+  Her Homes Co. is one page. Everything on it lives at this one URL as
+  same-page anchors (#styles, #pricing, #faq, #book), and an anchor is not
+  a separate crawlable document, so listing them here would be wrong. The
+  moment a genuinely separate page exists — /services/deep-cleaning, a
+  blog, a per-city landing page — add one <url> block per canonical page.
+  Never list a page that is noindex'd, redirected, or canonicalised away.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://herhomesco.example/</loc>
+    <loc>https://herhomes.shop/</loc>
     <lastmod>2026-08-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>

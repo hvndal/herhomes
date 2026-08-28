@@ -2,15 +2,70 @@
  * HER HOMES CO. — CENTRAL EDITABLE CONFIG
  * ----------------------------------------------------------------
  * Every price, service description, style-world entry, founder detail,
- * and contact link lives here. Edit this file only — the page reads
- * from it at load time. Nothing else in the codebase should need to
- * change when the business updates a price or swaps a photo.
+ * FAQ answer, SEO string, and contact link lives here. Edit this file,
+ * then run `npm run build` — that regenerates the static HTML inside
+ * index.html (plus sitemap.xml and robots.txt) so that search engines
+ * see the real copy in the page source, not only after JavaScript runs.
  *
  * PLACEHOLDER marks anything not yet confirmed. Search this file for
  * "PLACEHOLDER" to find every value that still needs a real answer.
  */
 
 const HHC_DATA = {
+
+  /* ------------------------------------------------------------------
+   * SITE / SEO — the single source of truth for everything a search
+   * engine or a social-share preview reads. `url` is THE ONLY place the
+   * domain is written down: scripts/prerender.mjs stamps it into the
+   * canonical link, the Open Graph + Twitter tags, every JSON-LD @id,
+   * robots.txt and sitemap.xml. Change it here, run `npm run build`,
+   * and the whole site follows. No trailing slash.
+   * ------------------------------------------------------------------ */
+  site: {
+    url: "https://herhomes.shop",
+    lang: "en-IN",
+    locale: "en_IN",
+
+    // Title is keyword-first, brand-last on purpose: nobody is searching
+    // "Her Homes Co." yet, they are searching "home organiser in Mohali".
+    // Once the brand has recognition, flipping these is a one-line change.
+    title: "Interior Styling, Home Organising & Deep Cleaning in Mohali | Her Homes Co.",
+    description:
+      "Interior styling, home organising and deep cleaning in Mohali, Chandigarh, Panchkula and Zirakpur. Her Homes Co. builds your home around the way you actually live — not a template. Message for a personalised quote.",
+
+    // The image WhatsApp / Facebook / LinkedIn show when the link is
+    // shared. Generated at 1200x630 by `npm run build:images` from the
+    // desktop hero still — a real interior, which previews far better
+    // than the portrait-shaped logo that used to be used here.
+    shareImage: {
+      src: "assets/media/og-cover.jpg",
+      width: 1200,
+      height: 630,
+      alt: "A sunlit, softly styled home interior — Her Homes Co.",
+    },
+
+    // Service-area business: no street address is published, because none
+    // was confirmed. These render as proper schema.org City entities in
+    // `areaServed`, which is a far stronger local-search signal than one
+    // free-text string. If a real registered address exists, add an
+    // `address` block here and prerender.mjs emits PostalAddress from it.
+    areaServed: [
+      { name: "Mohali",     region: "Punjab",     country: "IN" },
+      { name: "Chandigarh", region: "Chandigarh", country: "IN" },
+      { name: "Panchkula",  region: "Haryana",    country: "IN" },
+      { name: "Zirakpur",   region: "Punjab",     country: "IN" },
+    ],
+    areaServedLabel: "Mohali · Chandigarh · Panchkula · Zirakpur",
+
+    // PLACEHOLDER — paste the real IDs and they go live on the next build.
+    // ga4MeasurementId: "G-XXXXXXXXXX" turns on Google Analytics 4 and
+    // every trackEvent() call in main.js starts reporting.
+    // searchConsoleVerification: "..." adds the Search Console meta tag.
+    // Both stay out of the page entirely while they are null, so nothing
+    // ever looks wired up while quietly tracking nothing.
+    ga4MeasurementId: null,
+    searchConsoleVerification: null,
+  },
 
   brand: {
     name: "Her Homes Co.",
@@ -38,8 +93,12 @@ const HHC_DATA = {
     // Instagram removed for now — no real account exists yet. Add it back
     // here (label/handle/href) the moment there is one; nothing else needs
     // to change, every place that lists contact links reads from this file.
+    // Adding it also populates schema.org `sameAs`, which is a genuine
+    // local-SEO signal, so it is worth doing as soon as an account exists.
     email: "PLACEHOLDER@herhomes.co",
-    location: null, // null = footer simply omits it, rather than showing placeholder text to visitors
+    // Shown in the footer. Repeating the service area as real text in the
+    // page is a genuine local-search signal, so this is no longer null.
+    location: "Serving Mohali & Tricity, India",
   },
 
   /* ------------------------------------------------------------------
@@ -60,6 +119,7 @@ const HHC_DATA = {
     { label: "Styles",     href: "#styles" },
     { label: "What We Do", href: "#what-we-do" },
     { label: "Pricing",    href: "#pricing" },
+    { label: "FAQ",        href: "#faq" },
     { label: "Founder",    href: "#founder" },
   ],
   navCta: { label: "Book", href: "#book" },
@@ -75,14 +135,21 @@ const HHC_DATA = {
   },
 
   /* ------------------------------------------------------------------
-   * STYLE WORLDS — a curated five. Each needs one strong image slot.
-   * `words` are the four descriptor words from the brief; keep to four.
+   * STYLE WORLDS — a curated set. Each gets an image slot generated for
+   * it automatically at the bottom of this file, so adding a world is
+   * genuinely one line here plus one file dropped into assets/media/
+   * named to match the id (e.g. `modern` -> assets/media/modern.jpg).
+   *
+   * "Modern" was removed for now: no modern-interior photo was supplied,
+   * and an empty grey frame reading "placeholder" is worse for a visitor
+   * (and for bounce rate) than four worlds that all look finished. To
+   * bring it back, restore this line and drop in assets/media/modern.jpg:
+   *   { id: "modern", name: "Modern", words: ["Clean", "Architectural", "Balanced", "Crisp"] },
    * ------------------------------------------------------------------ */
   styleWorlds: [
     { id: "scandinavian",  name: "Scandinavian",  words: ["Light", "Natural", "Functional", "Quiet"] },
     { id: "bohemian",      name: "Bohemian",      words: ["Layered", "Warm", "Textural", "Collected"] },
     { id: "college-core",  name: "College Core",  words: ["Personal", "Playful", "Nostalgic", "Expressive"] },
-    { id: "modern",        name: "Modern",        words: ["Clean", "Architectural", "Balanced", "Crisp"] },
     { id: "minimalist",    name: "Minimalist",    words: ["Sparse", "Considered", "Calm", "Essential"] },
   ],
 
@@ -125,17 +192,17 @@ const HHC_DATA = {
   process: [
     { index: "01", title: "Tell Us What You Like",      detail: "Your taste, your references, the things you already own and love." },
     { index: "02", title: "We Understand Your Home",    detail: "How you move through it, what it needs to work harder at, what already feels right." },
-    { index: "03", title: "We Build The Look",           detail: "A visual direction around your aesthetic — not a template pulled off a shelf." },
-    { index: "04", title: "We Organise The Details",     detail: "Wardrobes, kitchens, drawers, shelving — function first, so the styling holds." },
-    { index: "05", title: "We Reset The Space",          detail: "A full deep clean, so everything that follows lands on a space that can breathe." },
-    { index: "06", title: "You Walk Into It",             detail: "A home that already feels like you, from the first day." },
+    { index: "03", title: "We Build The Look",          detail: "A visual direction around your aesthetic — not a template pulled off a shelf." },
+    { index: "04", title: "We Organise The Details",    detail: "Wardrobes, kitchens, drawers, shelving — function first, so the styling holds." },
+    { index: "05", title: "We Reset The Space",         detail: "A full deep clean, so everything that follows lands on a space that can breathe." },
+    { index: "06", title: "You Walk Into It",           detail: "A home that already feels like you, from the first day." },
   ],
 
   /* ------------------------------------------------------------------
-   * PRICING — one editable structure. See PRICING_PLACEHOLDER below:
-   * any service whose startingPrice is `null` renders as a tasteful
-   * "personalised quote" treatment rather than a fabricated number.
-   * Only the shelf/organising add-on price is confirmed.
+   * PRICING — one editable structure. Any service whose startingPrice is
+   * `null` renders as a tasteful "personalised quote" treatment rather
+   * than a fabricated number. Only the shelf/organising add-on price is
+   * confirmed.
    * ------------------------------------------------------------------ */
   pricing: {
     eyebrow: "Investment",
@@ -196,7 +263,69 @@ const HHC_DATA = {
   },
 
   /* ------------------------------------------------------------------
+   * FAQ — the single biggest SEO addition to this site.
+   *
+   * A one-page site is thin by nature: there simply isn't much text for
+   * a search engine to match a query against. These answers add real,
+   * indexable copy for the long-tail questions people actually type
+   * ("home organiser in Mohali", "what does deep cleaning include",
+   * "how much does home styling cost"), and they are also emitted as
+   * schema.org FAQPage structured data by scripts/prerender.mjs.
+   *
+   * IMPORTANT — every answer below was composed strictly from facts
+   * already stated elsewhere on this site: the services and their
+   * `includes` lists, the process steps, the one confirmed add-on price,
+   * the service area, and WhatsApp-as-booking. Nothing about turnaround
+   * time, team size, guarantees, insurance or payment terms is claimed,
+   * because none of that was ever confirmed. Read these once and correct
+   * anything that doesn't match how the business actually works before
+   * launch — and if you add a claim, make it one you can stand behind.
+   * ------------------------------------------------------------------ */
+  faq: [
+    {
+      q: "What does Her Homes Co. actually do?",
+      a: "Three things, and usually together: home styling (decor direction, colour, furniture placement and room styling), home organising (wardrobes, kitchens, drawers, shelves, pantries, fridges, desks, storage and utility spaces), and deep cleaning (a full-home reset including kitchen degreasing, bathroom detailing, and the insides of cabinets and appliances). You can book any one of them on its own, or all three together as a Combined Home Reset.",
+    },
+    {
+      q: "Which areas do you serve?",
+      a: "Her Homes Co. works across Mohali and the wider Tricity area — Chandigarh, Panchkula and Zirakpur included. If you are just outside that, message on WhatsApp and ask; it is a quick answer.",
+    },
+    {
+      q: "How much does it cost?",
+      a: "Every home is a different scope, so styling, organising, deep cleaning and the Combined Home Reset are each quoted individually rather than sold at a fixed rate. What shapes the number: how much organising is required, the number of areas or rooms, design complexity, the cleaning requirement, and any special requests. The one fixed price is the Shelf / Detailed Organisation add-on at ₹5,000 one-time. Send your home size on WhatsApp and a personalised quote comes back.",
+    },
+    {
+      q: "Do I need to already know what style I want?",
+      a: "No, and most people don't — that is the normal starting point. The first step of the process is simply telling us what you like: your references, and the things you already own and love. We translate those preferences into a visual direction for the space. Scandinavian, Bohemian, College Core and Minimalist are shown on this page as starting points, not as a menu you have to pick from.",
+    },
+    {
+      q: "Can you organise just one room, like a wardrobe or a kitchen?",
+      a: "Yes. Home Organising covers wardrobes, kitchens, drawers, shelves, pantries, fridges, desks, storage and utility spaces, and the work is scoped to whatever plan is agreed with you — it does not have to be the whole house.",
+    },
+    {
+      q: "Is deep cleaning included when you style or organise a home?",
+      a: "It is a separate service, and it is also available bundled: the Combined Home Reset is a clean, an organise and a style run as one continuous engagement. Deep cleaning is deliberately the foundation — organising and styling both land better on a space that has already been properly reset.",
+    },
+    {
+      q: "What does the process look like from start to finish?",
+      a: "Six stages. You tell us what you like; we spend time understanding how you actually move through your home; we build the look around your aesthetic; we organise the details so the styling holds; we reset the space with a full deep clean; and then you walk into it.",
+    },
+    {
+      q: "How do I book?",
+      a: "There is no form to fill in. Message on WhatsApp at +91 99152 17674 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling the same number works just as well.",
+    },
+  ],
+  faqMeta: {
+    eyebrow: "Questions",
+    heading: "THINGS PEOPLE ASK BEFORE THEY BOOK.",
+    support: "If the answer you need isn't here, WhatsApp is the fastest way to get it.",
+  },
+
+  /* ------------------------------------------------------------------
    * FOUNDER — replace name / photo / bio once provided.
+   * The portrait frame renders only when mediaSlots["founder-portrait"]
+   * has a real `src`; until then the section lays out as a single
+   * centred column rather than showing visitors an empty grey frame.
    * ------------------------------------------------------------------ */
   founder: {
     eyebrow: "The Founder",
@@ -208,7 +337,7 @@ const HHC_DATA = {
   },
 
   /* ------------------------------------------------------------------
-   * FINAL CTA + BOOKING FORM
+   * FINAL CTA + BOOKING
    * ------------------------------------------------------------------ */
   finalCta: {
     lineA: ["LET'S MAKE", "YOUR HOME", "FEEL LIKE YOU."],
@@ -217,43 +346,77 @@ const HHC_DATA = {
   },
 
   /* ------------------------------------------------------------------
-   * MEDIA SLOTS — every placeholder image/video in the page renders
-   * from this list via [data-media-slot]. Swap real media by dropping
-   * a file into assets/media/ and setting `src` here — no HTML edits.
-   * type: "video" | "image". src: null means "keep the styled placeholder".
+   * MEDIA SLOTS — every image/video area in the page renders from this
+   * list via [data-media-slot]. Swap real media by dropping a file into
+   * assets/media/ and setting `src` here — no HTML edits.
+   * type: "video" | "image". src: null means the slot renders nothing
+   * at all (rather than an empty frame a visitor would see).
+   *
+   * `width`/`height` are the file's real pixel dimensions. They are
+   * written onto the <img> so the browser can reserve the right box
+   * before the image loads — that is what keeps Cumulative Layout Shift
+   * at zero. `npm run build:images` prints the numbers for any new file.
    * ------------------------------------------------------------------ */
   mediaSlots: {
-    "hero-film":               { type: "video", src: null, mobileSrc: null, desktopSrc: null, mobilePoster: null, desktopPoster: null, note: "Cinematic interior film — sunlight, hands, fabric, wood." },
-    "founder-portrait":        { type: "image", src: null, note: "Founder portrait — warm, personal, not corporate headshot.", alt: "Rupinder Kaur, founder of Her Homes Co., in a softly styled home interior." },
-    "process-visual":          { type: "image", src: null, note: "Pinned visual for the process section, can be one film loop.", alt: "A home mid-transformation during Her Homes Co.'s styling and organising process." },
-    "styling-detail":          { type: "image", src: null, note: "Home Styling supporting image.", alt: "Home styling by Her Homes Co. — decor, colour direction and furniture placement." },
-    "organising-detail":       { type: "image", src: null, note: "Home Organising supporting image (drawers/shelves/wardrobe).", alt: "Organised wardrobe and shelving by Her Homes Co." },
-    "deep-cleaning-detail":    { type: "image", src: null, note: "Deep Cleaning supporting image.", alt: "A freshly deep-cleaned home interior by Her Homes Co." },
-    // One image slot per style world, id-prefixed:
-    ...Object.fromEntries(
-      ["scandinavian","bohemian","college-core","modern","minimalist"]
-        .map(id => {
-          const label = id.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
-          return [`style-${id}`, { type: "image", src: null, note: `${id} style-world image.`, alt: `${label}-style home interior styled by Her Homes Co.` }];
-        })
-    ),
+    "hero-film":            { type: "video", src: null, mobileSrc: null, desktopSrc: null, mobilePoster: null, desktopPoster: null, note: "Cinematic interior film — sunlight, hands, fabric, wood." },
+    "founder-portrait":     { type: "image", src: null, note: "Founder portrait — warm, personal, not corporate headshot.", alt: "Rupinder Kaur, founder of Her Homes Co., in a softly styled home interior." },
+    "process-visual":       { type: "image", src: null, note: "Pinned visual for the process section, can be one film loop.", alt: "A home mid-transformation during Her Homes Co.'s styling and organising process." },
+    "styling-detail":       { type: "image", src: null, note: "Home Styling supporting image.", alt: "Home styling by Her Homes Co. — decor, colour direction and furniture placement." },
+    "organising-detail":    { type: "image", src: null, note: "Home Organising supporting image (drawers/shelves/wardrobe).", alt: "Organised wardrobe and shelving by Her Homes Co." },
+    "deep-cleaning-detail": { type: "image", src: null, note: "Deep Cleaning supporting image.", alt: "A freshly deep-cleaned home interior by Her Homes Co." },
   },
 };
 
-// Compute the WhatsApp href from the digits-only number + a friendly opener.
-HHC_DATA.contact.whatsapp.href = `https://wa.me/${HHC_DATA.contact.whatsapp.number}?text=${encodeURIComponent(HHC_DATA.contact.whatsapp.message)}`;
+/* --------------------------------------------------------------------
+ * DERIVED VALUES — everything below is computed, not configured.
+ * There is nothing here you need to edit by hand.
+ * -------------------------------------------------------------------- */
 
-// Real media, dropped in after the initial build. See README.md for the
-// full placeholder inventory of what (if anything) is still missing.
-HHC_DATA.mediaSlots["style-scandinavian"].src = "assets/media/scandinavian.jpg";
-HHC_DATA.mediaSlots["style-bohemian"].src = "assets/media/bohemian.jpg";
-HHC_DATA.mediaSlots["style-college-core"].src = "assets/media/college-core.jpg";
-HHC_DATA.mediaSlots["style-minimalist"].src = "assets/media/minimalist.jpg";
+// One image slot per style world, generated from `styleWorlds` above, so
+// that adding or removing a world takes exactly one edit and not two.
+// Real intrinsic dimensions live in STYLE_IMAGE_DIMENSIONS below.
+const STYLE_IMAGE_DIMENSIONS = {
+  "scandinavian": { width: 1461, height: 2000 },
+  "bohemian":     { width: 1429, height: 2000 },
+  "college-core": { width: 1500, height: 2000 },
+  "minimalist":   { width: 1333, height: 2000 },
+};
+
+HHC_DATA.styleWorlds.forEach((w) => {
+  HHC_DATA.mediaSlots["style-" + w.id] = Object.assign(
+    {
+      type: "image",
+      src: "assets/media/" + w.id + ".jpg",
+      note: w.name + " style-world image.",
+      alt: w.name + "-style home interior styled by Her Homes Co. — " + w.words.join(", ").toLowerCase() + ".",
+    },
+    STYLE_IMAGE_DIMENSIONS[w.id] || {}
+  );
+});
+
+// Compute the WhatsApp href from the digits-only number + a friendly opener.
+HHC_DATA.contact.whatsapp.href =
+  "https://wa.me/" + HHC_DATA.contact.whatsapp.number +
+  "?text=" + encodeURIComponent(HHC_DATA.contact.whatsapp.message);
+
+// Real hero media. Responsive: a portrait cut for phones, a wide cut for
+// desktop — main.js picks one at the same 768px breakpoint CSS uses.
 HHC_DATA.mediaSlots["hero-film"].mobileSrc = "assets/media/hero-mobile.mp4";
 HHC_DATA.mediaSlots["hero-film"].desktopSrc = "assets/media/hero-pc.mp4";
 // Poster frames (real stills pulled from the two clips above) — shown the
 // instant the page paints, before the video itself has loaded, so the hero
-// is never a blank/empty frame. Also set directly in CSS (see styles.css:
+// is never a blank frame. Also set directly in CSS (see styles.css:
 // .hero__frame) so the poster paints even before JS hydrates.
-HHC_DATA.mediaSlots["hero-film"].mobilePoster = "assets/media/hero-poster-mobile.jpg";
-HHC_DATA.mediaSlots["hero-film"].desktopPoster = "assets/media/hero-poster-desktop.jpg";
+// WebP, deliberately: styles.css already paints this exact still as the
+// frame's background (and index.html preloads it), so pointing the <video>
+// poster at the .jpg made every visit download the same picture twice —
+// once as WebP for the background, once as JPEG for the poster. Same URL
+// here means the second one is a cache hit. A browser too old for WebP
+// fails this poster and simply keeps showing the CSS background, which
+// falls back to the .jpg for exactly those browsers.
+HHC_DATA.mediaSlots["hero-film"].mobilePoster = "assets/media/hero-poster-mobile.webp";
+HHC_DATA.mediaSlots["hero-film"].desktopPoster = "assets/media/hero-poster-desktop.webp";
+
+// Node (scripts/prerender.mjs) reads this file by requiring it; the
+// browser just gets the global. The guard below makes both work.
+if (typeof module !== "undefined" && module.exports) module.exports = HHC_DATA;

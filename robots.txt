@@ -1,21 +1,25 @@
-# Her Homes Co.
+# Her Homes Co. — https://herhomes.shop
 #
-# herhomesco.example below is a placeholder domain — RFC 2606 reserves the
-# .example TLD specifically so it can never resolve to a real site. Replace
-# every herhomesco.example URL in this file (and in sitemap.xml, and in
-# index.html's <meta>/<link>/JSON-LD tags) with the real domain the moment
-# the site is live. Nothing else about this file needs to change.
+# GENERATED FILE — do not edit by hand.
+# Produced by scripts/prerender.mjs from js/data.js (site.url).
 #
 # The whole site is one public page with nothing to hide from crawlers —
-# no admin area, no staging copy, no duplicate/parameterised URLs — so this
-# stays a two-line file on purpose. If a staging/preview copy of this site
-# ever exists at another URL, give THAT copy its own robots.txt with:
-#   User-agent: *
-#   Disallow: /
-# (and ideally HTTP basic-auth on top of that) rather than adding rules
-# here — a real, indexable robots.txt should never carry disallow rules
-# meant for a different environment.
+# no admin area, no staging copy, no duplicate or parameterised URLs — so
+# this stays a short file on purpose.
+#
+# If a staging/preview copy ever exists at another URL, give THAT copy its
+# own robots.txt containing "User-agent: * / Disallow: /" (and ideally HTTP
+# basic auth on top) rather than adding disallow rules here. A real,
+# indexable robots.txt should never carry rules meant for another
+# environment — that is one of the most common ways a live site quietly
+# deindexes itself.
 User-agent: *
 Allow: /
 
-Sitemap: https://herhomesco.example/sitemap.xml
+# Crawl the CSS, JS and media too. Blocking them stops Google rendering
+# the page the way a visitor sees it, which costs more than it saves.
+Allow: /assets/
+Allow: /js/
+Allow: /vendor/
+
+Sitemap: https://herhomes.shop/sitemap.xml
