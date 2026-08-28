@@ -1,0 +1,18 @@
+# Normalise line endings.
+#
+# This machine has core.autocrlf=true, so a fresh clone on Windows rewrites
+# every text file to CRLF. scripts/prerender.mjs then writes its generated
+# blocks with LF, producing a file that is half CRLF and half LF — and
+# `npm run check` would report the HTML as stale when the only difference
+# is invisible whitespace. Pinning LF for text files removes that whole
+# class of confusion, and matches what the Linux CI runner sees.
+* text=auto eol=lf
+
+# Binaries: never touch these.
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.webp   binary
+*.ico    binary
+*.mp4    binary
+*.woff2  binary
