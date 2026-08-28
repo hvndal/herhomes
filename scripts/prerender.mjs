@@ -186,6 +186,9 @@ function renderJsonLd() {
   const areaServed = s.areaServed.map((a) => ({
     "@type": "City",
     name: a.name,
+    // Mohali is also SAS Nagar; Mullanpur is also New Chandigarh. People
+    // search both, so both are declared rather than picking a winner.
+    ...(a.alsoKnownAs ? { alternateName: a.alsoKnownAs } : {}),
     ...(a.region ? { containedInPlace: { "@type": "AdministrativeArea", name: a.region } } : {}),
     address: { "@type": "PostalAddress", addressLocality: a.name, addressRegion: a.region, addressCountry: a.country },
   }));
@@ -666,7 +669,19 @@ function renderFinalCta() {
 
 function renderFooter() {
   const c = D.contact;
+  // Every serviceable town, as real readable text. This is the single
+  // highest-value block on the page for a query like "home organiser in
+  // Kharar": schema.org areaServed tells a crawler what the business
+  // claims, but the words on the page are what the query matches.
+  const areas = D.site.areaServed
+    .map((a) => (a.alsoKnownAs ? `${esc(a.name)} (${esc(a.alsoKnownAs)})` : esc(a.name)))
+    .join(", ");
   return [
+    `<div class="container site-footer__areas">`,
+    `  <h2 class="f-label site-footer__areas-title">Areas we serve</h2>`,
+    `  <p class="f-body site-footer__areas-list">${areas}</p>`,
+    `  <p class="f-body site-footer__areas-note">Home styling, organising and deep cleaning across Mohali district and the wider Chandigarh Tricity. Not sure if you're in range? <a href="${esc(c.whatsapp.href)}" target="_blank" rel="noopener">Ask on WhatsApp</a> — it's a quick answer.</p>`,
+    `</div>`,
     `<div class="container site-footer__row">`,
     `  <div class="site-footer__mark">`,
     `    <img src="assets/logo-mark.png" alt="" width="298" height="383" loading="lazy" decoding="async" draggable="false" />`,

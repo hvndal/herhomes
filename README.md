@@ -389,6 +389,27 @@ style-world lookbook and the six process stages). Those now also carry a
 visually hidden list of **all** their items, which is the only place a
 crawler — or a screen-reader user — can see the full set.
 
+### Local SEO — the service areas
+
+Ten towns, all confirmed serviceable: **Mohali (SAS Nagar), Kharar,
+Kurali, Zirakpur, Mullanpur (New Chandigarh), Landran, Banur, Derabassi,
+Chandigarh and Panchkula.**
+
+They live in one list — `site.areaServed` in `js/data.js` — and one edit
+flows into all four places that matter:
+
+- schema.org `City` entities on the business node, with `alternateName`
+  where a place has two names people search (Mohali/SAS Nagar,
+  Mullanpur/New Chandigarh);
+- an **"Areas we serve" block in the footer as real readable text** — this
+  is the part that actually wins a query like "home organiser in Kharar".
+  Structured data tells a crawler what the business claims; the words on
+  the page are what the query matches against;
+- the FAQ answer for "Which areas do you serve?";
+- the meta description and the footer strapline.
+
+Adding a town is one line plus `npm run build`.
+
 ### Structured data
 
 A five-node JSON-LD `@graph`: `HomeAndConstructionBusiness`, `Person`
@@ -463,6 +484,57 @@ are `null`, so nothing ever looks wired up while quietly tracking nothing.
 6. **Separate pages.** One page can only rank for so much. The natural next
    step is a page per service and per city (`/home-organising-mohali`),
    at which point `sitemap.xml` grows one `<url>` per page.
+
+## Motion — one rhythm for the whole page
+
+All the pacing lives in one `MOTION` object at the top of `js/main.js`.
+Change it there and the whole page changes together.
+
+The top of the page used to feel cinematic while the bottom felt fast and
+scattered. Three separate causes, all fixed:
+
+1. **Inconsistent scrub smoothing.** The hero was scrubbed with easing
+   (`0.3` / `0.6`); the style worlds, process, what-we-do and founder all
+   used `scrub: true`, which is *zero* smoothing — it tracks the wheel
+   exactly, so it reads as jittery next to the eased hero. Everything now
+   uses `MOTION.scrub`, except the logo→nav handoff which keeps
+   `MOTION.scrubTight` because it should feel decisive.
+
+2. **Scroll runways had drifted from their content.** `.style-worlds` was
+   a hardcoded `320vh` with a comment reading "tuned for 5" — but there
+   are four worlds now, so each got a different amount of scroll than each
+   process step did. Runways are now derived from the item count
+   (`setRunway`), so every beat of the page costs the reader the same
+   scrolling **by construction**: philosophy, style worlds and process all
+   measure exactly `MOTION.beatVh` per beat. Removing a style world can
+   no longer silently change the pacing. `styles.css` keeps a sensible
+   `--runway` fallback for the no-JS case.
+
+3. **The second half had no motion at all.** Pricing, the FAQ, the founder
+   and the service panels simply appeared. `reveal()` gives them one
+   shared entrance, so the page reads as one website end to end.
+
+### The reveal is deliberately not GSAP
+
+An entrance animation works by hiding content until something decides to
+show it — which means the deciding mechanism can strand real copy at
+`opacity: 0`. On a site whose whole point is that its content is
+readable, that is the worst available bug, and a first attempt using
+`ScrollTrigger.batch` did exactly that.
+
+`reveal()` uses IntersectionObserver and a CSS transition instead:
+native, no dependency on GSAP's ticker or on Lenis and ScrollTrigger
+staying in sync, and it fires immediately for anything already on screen.
+It fails open three ways — the `.reveal` class that hides anything is
+added by JS (no JS, nothing hidden); it returns early with no
+IntersectionObserver or under reduced motion; and `styles.css` un-hides
+`.reveal` under `prefers-reduced-motion` regardless.
+
+### Mobile
+
+`MOTION.beatVh` is **60vh on phones against 85vh on desktop**. The long
+runway that reads as luxurious on a trackpad is a lot of thumb-work on a
+phone, so the same content costs about 30% less scrolling there.
 
 ## What's animated, and why it's built this way
 

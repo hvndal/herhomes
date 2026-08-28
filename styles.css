@@ -573,7 +573,9 @@ html.lenis, html.lenis body { height: auto; }
    statement B. Text only; the restraint here is deliberate after the
    hero's visual density.
    ========================================================================== */
-.philosophy { height: 240vh; background: var(--color-surface); }
+/* --runway is set by main.js from the item count (see setRunway) so every
+   section is paced identically; the fallback here keeps it sane without JS. */
+.philosophy { height: var(--runway, 240vh); background: var(--color-surface); }
 .philosophy__sizer {
   position: sticky; top: 0; height: 100vh; width: 100%;
   display: flex; align-items: center; justify-content: center;
@@ -611,7 +613,7 @@ html.lenis, html.lenis body { height: auto; }
    one pinned image stage crossfading through all eight aesthetics, a
    vertical list that both reflects and controls the active one.
    ========================================================================== */
-.style-worlds { height: 320vh; background: var(--color-charcoal); } /* ~64vh per world, tuned for 5 */
+.style-worlds { height: var(--runway, 340vh); background: var(--color-charcoal); }
 .style-worlds__sizer {
   position: sticky; top: 0; height: 100vh; width: 100%;
   display: flex; flex-direction: column;
@@ -735,7 +737,7 @@ html.lenis, html.lenis body { height: auto; }
    PROCESS — typography only. A huge stage number anchors the section
    while title/detail shift under it as the reader scrolls.
    ========================================================================== */
-.process { height: 480vh; background: var(--color-surface-container-low); }
+.process { height: var(--runway, 510vh); background: var(--color-surface-container-low); }
 .process__sizer {
   position: sticky; top: 0; height: 100vh; width: 100%;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -1157,3 +1159,111 @@ html.lenis, html.lenis body { height: auto; }
   .svc-panel__media img,
   .svc-panel__spine { transition: none; }
 }
+
+/* ==========================================================================
+   FOOTER — service areas.
+   Real, readable text naming every serviceable town. Structured data tells
+   a crawler what the business claims; this is what a query like "home
+   organiser in Kharar" actually matches against.
+   ========================================================================== */
+.site-footer__areas {
+  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(253,253,253,0.1);
+}
+.site-footer__areas-title { color: var(--color-inverse-primary); margin-bottom: 0.9rem; }
+.site-footer__areas-list {
+  color: var(--color-milky-white);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 52rem;
+}
+.site-footer__areas-note {
+  margin-top: 0.9rem;
+  color: rgba(253,253,253,0.6);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 52rem;
+}
+.site-footer__areas-note a {
+  color: var(--color-inverse-primary);
+  border-bottom: 1px solid currentColor;
+}
+
+/* ==========================================================================
+   REVEAL — the shared entrance for every section that isn't scroll-scrubbed
+   (service panels, what-we-do rows, pricing, FAQ, founder, footer areas).
+
+   The `.reveal` class is added by JavaScript, never written into the HTML,
+   so if scripts are blocked or fail nothing is ever hidden. main.js adds
+   `.is-revealed` via IntersectionObserver.
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  will-change: opacity, transform;
+}
+.reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.7s var(--ease-premium),
+    transform 0.7s var(--ease-premium);
+}
+/* Belt and braces: even if JS has already added `.reveal`, someone who has
+   asked for reduced motion must never be left looking at a blank section. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ==========================================================================
+   TAP TARGETS
+   Mobile-first housekeeping. Several controls were comfortably clickable
+   with a mouse but under 40px tall on a phone — including the two that
+   matter most, the menu button (38x31) and the nav "Book" CTA (40x20).
+   WCAG 2.5.8 asks for 24x24 as a floor; Apple and Google both recommend 44.
+
+   Where growing the box would move the design, the hit area is extended
+   with an ::after overlay instead, so the target grows and the layout
+   does not.
+   ========================================================================== */
+
+/* Menu button — the single most important control on a phone. */
+.nav-burger {
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Nav "Book" — keep the underline tight to the text, grow the hit area. */
+.nav-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.nav-cta::after {
+  content: "";
+  position: absolute;
+  inset: -12px -10px;
+}
+
+/* "Skip intro" sits alone in a corner, so it can simply be bigger. */
+.logo-intro__skip {
+  padding: 0.85rem 1rem;
+  margin: -0.85rem -1rem; /* cancel the padding so it stays put visually */
+}
+
+/* Footer and closing-CTA links: text links in flex rows, where vertical
+   padding costs nothing because the row is gap-spaced anyway. */
+.site-footer__links a,
+.final-cta__secondary a,
+.mobile-nav__contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* The FAQ summary is already tall; these are the small ones inside it. */
+.faq-item__q { min-height: 44px; }
