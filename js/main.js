@@ -26,6 +26,114 @@
   ScrollTrigger.defaults({ markers: false });
 
   /* ------------------------------------------------------------------
+   * MOTION — one place, so the whole page moves at one rhythm.
+   *
+   * The top of the page used to feel cinematic and the bottom felt fast
+   * and scattered, for three separate reasons:
+   *
+   *   1. The hero was scrubbed with smoothing (0.3 / 0.6) while the
+   *      style worlds, process, what-we-do and founder all used
+   *      `scrub: true`, which is *zero* smoothing. Scrubbing with no
+   *      smoothing tracks the scroll wheel exactly, so it reads as
+   *      jittery and abrupt next to the eased hero — same idea, totally
+   *      different feel.
+   *   2. Scroll runways were hardcoded in CSS and had drifted out of
+   *      sync with their content. `.style-worlds` was 320vh with a
+   *      comment saying "tuned for 5" — but there are 4 worlds now, so
+   *      each one got a different amount of scroll than each process
+   *      step did. Runways are now derived from the item count, so every
+   *      beat of the page gets the same amount of scroll by construction.
+   *   3. Everything below the process section had no scroll motion at
+   *      all — pricing, FAQ, the founder and the service panels just
+   *      appeared. The page went cinematic, cinematic, cinematic, then
+   *      nothing, which is what makes the second half feel unfinished.
+   *      `reveal()` below gives them one shared entrance.
+   * ------------------------------------------------------------------ */
+  const MOTION = {
+    // Only the logo->nav handoff, which should feel decisive.
+    scrubTight: 0.3,
+    // Everything else that is scroll-scrubbed.
+    scrub: 0.6,
+    // Shared entrance for non-scrubbed sections.
+    revealY: 24,
+    revealDur: 0.7,
+    revealStagger: 0.08,
+    revealEase: "power3.out",
+    // Scroll runway, in vh, per "beat" — one style world, one process
+    // step. Mobile-first: the long runway that reads as luxurious on a
+    // trackpad is a lot of thumb-work on a phone, so a phone gets less
+    // scrolling for the same content.
+    beatVh: window.matchMedia("(min-width: 768px)").matches ? 85 : 60,
+  };
+
+  /**
+   * Give a section a scroll runway proportional to how many things it has
+   * to get through, so one style world and one process step cost the
+   * reader the same amount of scrolling.
+   *
+   * Set as a custom property rather than a height, so styles.css keeps a
+   * sensible fallback if this never runs.
+   */
+  function setRunway(section, beats) {
+    if (!section) return;
+    section.style.setProperty("--runway", (beats * MOTION.beatVh).toFixed(0) + "vh");
+  }
+
+  /**
+   * The one entrance animation used by every section that isn't
+   * scroll-scrubbed.
+   *
+   * Built on IntersectionObserver and CSS transitions rather than GSAP,
+   * deliberately. An entrance animation works by hiding content until
+   * something decides to show it, which means the mechanism doing the
+   * deciding can strand real copy at opacity 0 — on a site whose whole
+   * point is that its content is readable, that is the worst available
+   * bug. IntersectionObserver is native, has no dependency on GSAP's
+   * ticker or on Lenis and ScrollTrigger staying in sync, and fires
+   * immediately for anything already on screen.
+   *
+   * Three separate ways this fails open, all leaving content visible:
+   *   - the `.reveal` class that hides anything is added by JS, so if
+   *     scripts never run, nothing is ever hidden;
+   *   - no IntersectionObserver, or reduced motion, and it returns
+   *     before hiding anything;
+   *   - and styles.css un-hides `.reveal` under prefers-reduced-motion
+   *     regardless of what happened here.
+   */
+  function reveal(elements, opts) {
+    const els = (typeof elements === "string"
+      ? Array.prototype.slice.call(document.querySelectorAll(elements))
+      : elements || []
+    ).filter(Boolean);
+    if (!els.length) return;
+    if (HHC.reducedMotion || !("IntersectionObserver" in window)) return;
+
+    const o = opts || {};
+    const stagger = o.stagger == null ? MOTION.revealStagger : o.stagger;
+
+    els.forEach((el) => el.classList.add("reveal"));
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        // Sort so a group entering together staggers top-to-bottom
+        // rather than in whatever order the observer reports them.
+        entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+          .forEach((entry, i) => {
+            entry.target.style.transitionDelay = (i * stagger).toFixed(2) + "s";
+            entry.target.classList.add("is-revealed");
+            io.unobserve(entry.target);
+          });
+      },
+      // Fire a little before the element is fully on screen, so the
+      // motion is finishing as the reader arrives rather than starting.
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.05 }
+    );
+    els.forEach((el) => io.observe(el));
+  }
+
+  /* ------------------------------------------------------------------
    * ADOPT — the one rule that keeps prerendering safe.
    *
    * scripts/prerender.mjs writes the real markup for every section into
@@ -321,7 +429,7 @@
       // Stage 1 — decisive, quick: the identity resolves into the nav
       // across the first ~55% of one viewport height of scroll.
       introHandoffTL = gsap.timeline({
-        scrollTrigger: { trigger: ".hero", start: "top top", end: "+=55%", scrub: 0.3, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "+=55%", scrub: MOTION.scrubTight, invalidateOnRefresh: true },
       })
         .to(markWrap, { x: markDX, y: markDY, scale: markScale, ease: "none", duration: 0.5 }, 0)
         .to(intro.querySelector(".logo-intro__wordmark"), { x: wordDX, y: wordDY, scale: wordScale, ease: "none", duration: 0.5 }, 0)
@@ -337,7 +445,7 @@
       // with the scroll cue pulsing briefly once the nav has docked, then
       // the headline/support copy settling in for a genuine, unhurried hold.
       heroExpandTL = gsap.timeline({
-        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom bottom", scrub: 0.6, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom bottom", scrub: MOTION.scrub, invalidateOnRefresh: true },
       })
         .to(heroFrame, { "--frame-v": 0, "--frame-h": 0, "--frame-radius": "0px", ease: "none", duration: 1 }, 0)
         .to(cornerEls, { opacity: 0, ease: "none", duration: 0.17 }, 0.15)
@@ -435,6 +543,10 @@
   function initPhilosophy() {
     const section = document.getElementById("philosophy");
     if (!section) return;
+    // Two statements plus the closing support line: three beats, paced
+    // identically to a style world or a process stage.
+    setRunway(section, 3);
+
     const data = HHC_DATA.philosophy;
     const eyebrow = section.querySelector('[data-phi="eyebrow"]');
     const lineAEl = section.querySelector('[data-phi="line-a"]');
@@ -458,7 +570,7 @@
     }
 
     gsap.timeline({
-      scrollTrigger: { trigger: section, start: "top top", end: "bottom bottom", scrub: 0.5 },
+      scrollTrigger: { trigger: section, start: "top top", end: "bottom bottom", scrub: MOTION.scrub },
     })
       .to(eyebrow, { opacity: 1, ease: "none", duration: 0.12 }, 0)
       .to(aChars, { y: "0%", ease: "none", duration: 0.28, stagger: 0.03 }, 0.05)
@@ -485,6 +597,10 @@
     const overlay = section.querySelector(".style-worlds__overlay");
     const worlds = HHC_DATA.styleWorlds;
     const total = worlds.length;
+    // One beat of scroll per world, so removing or adding a style world
+    // can never leave the section paced differently from the rest.
+    setRunway(section, worlds.length);
+
     const headingEl = section.querySelector('[data-sw-heading]');
     if (headingEl) headingEl.textContent = `Style Worlds: ${worlds.map((w) => w.name).join(", ")}`;
 
@@ -554,7 +670,7 @@
     if (HHC.reducedMotion) return;
 
     ScrollTrigger.create({
-      trigger: section, start: "top top", end: "bottom bottom", scrub: true,
+      trigger: section, start: "top top", end: "bottom bottom", scrub: MOTION.scrub,
       onUpdate: (self) => {
         const idx = Math.min(total - 1, Math.floor(self.progress * total));
         if (idx !== scrollIndex) {
@@ -606,7 +722,7 @@
 
     if (HHC.reducedMotion) return;
     ScrollTrigger.create({
-      trigger: list, start: "top 65%", end: "bottom 40%", scrub: true,
+      trigger: list, start: "top 75%", end: "bottom 55%", scrub: MOTION.scrub,
       onUpdate: (self) => {
         const idx = Math.min(narrativeItems.length - 1, Math.floor(self.progress * narrativeItems.length));
         narrativeItems.forEach((li, i) => li.classList.toggle("is-active", i === idx));
@@ -621,6 +737,8 @@
     const section = document.getElementById("process");
     if (!section) return;
     const steps = HHC_DATA.process;
+    setRunway(section, steps.length); // one beat of scroll per stage
+
     // The sr-only heading and the full six-step <ol> are prerendered: the
     // visible stage only ever shows one step at a time, so that list is the
     // only place all six exist for a crawler or a screen reader.
@@ -644,7 +762,7 @@
     if (HHC.reducedMotion) return;
     let current = 0;
     ScrollTrigger.create({
-      trigger: section, start: "top top", end: "bottom bottom", scrub: true,
+      trigger: section, start: "top top", end: "bottom bottom", scrub: MOTION.scrub,
       onUpdate: (self) => {
         const idx = Math.min(steps.length - 1, Math.floor(self.progress * steps.length));
         if (idx !== current) {
@@ -771,6 +889,39 @@
   }
 
   /* ------------------------------------------------------------------
+   * REVEALS — the shared entrance for everything that isn't scrubbed.
+   *
+   * Before this, the page ran three cinematic scroll-driven sections and
+   * then simply stopped moving: the service panels, pricing, the FAQ and
+   * the founder all just appeared. One consistent entrance across all of
+   * them is what makes the second half feel like the same website as the
+   * first, without adding a fourth different kind of motion.
+   *
+   * Deliberately NOT applied to the style worlds, the process or the
+   * philosophy: those are already scroll-scrubbed, and layering a reveal
+   * on top would fight the timeline that owns those elements.
+   * ------------------------------------------------------------------ */
+  function initReveals() {
+    // Section intros: heading blocks lead, so each section announces
+    // itself the same way.
+    reveal([
+      ".svc__intro",
+      ".pricing__intro-block",
+      ".faq__intro",
+      ".founder__copy",
+    ].map((s) => document.querySelector(s)).filter(Boolean), { stagger: 0 });
+
+    // Lists, staggered so the eye travels down them.
+    reveal("#services .svc-panel");
+    reveal("#what-we-do .wwd-item");
+    reveal("#pricing .pr-row");
+    reveal("#pricing .pr-addon");
+    reveal("#pricing .pricing__lower > *", { stagger: 0.1 });
+    reveal("#faq .faq-item", { stagger: 0.06 });
+    reveal(".site-footer__areas", { y: 16 });
+  }
+
+  /* ------------------------------------------------------------------
    * FAQ — no rendering to do: the questions and answers are real markup
    * in index.html inside native <details>, which is keyboard-accessible
    * and indexable without any JavaScript at all. All that's added here
@@ -804,7 +955,7 @@
     if (!media) return;
     gsap.fromTo(media, { yPercent: -6 }, {
       yPercent: 6, ease: "none",
-      scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: true },
+      scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: MOTION.scrub },
     });
   }
 
@@ -942,6 +1093,7 @@
     initWhatWeDo();
     initProcess();
     initServiceChooser();
+    initReveals();
     initPricing();
     initFaq();
     initFounder();

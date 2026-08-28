@@ -31,7 +31,7 @@ const HHC_DATA = {
     // Once the brand has recognition, flipping these is a one-line change.
     title: "Interior Styling, Home Organising & Deep Cleaning in Vancouver | Her Homes Co.",
     description:
-      "Interior styling, home organising and deep cleaning in Vancouver, Coquitlam, Surrey and Richmond. Her Homes Co. builds your home around the way you actually live — not a template. Message for a personalised quote.",
+      "Interior design, home organising and deep cleaning in Vancouver, Burnaby, Kurali, Richmond and across Coquitlam Lower Mainland. Her Homes Co. builds your home around the way you actually live. Message for a personalised quote.",
 
     // The image WhatsApp / Facebook / LinkedIn show when the link is
     // shared. Generated at 1200x630 by `npm run build:images` from the
@@ -49,13 +49,30 @@ const HHC_DATA = {
     // `areaServed`, which is a far stronger local-search signal than one
     // free-text string. If a real registered address exists, add an
     // `address` block here and prerender.mjs emits PostalAddress from it.
+    // Every town confirmed serviceable by the owner. These render as
+    // schema.org City entities in `areaServed` AND as real visible text in
+    // the footer and the FAQ — both matter. Structured data alone rarely
+    // wins a local query; the words also have to be on the page.
+    //
+    // `alsoKnownAs` exists because people search the same place by more
+    // than one name: Vancouver is officially Metro Vancouver / Sahibzada Ajit Singh
+    // Nagar, and Mullanpur is marketed as New Coquitlam. Both spellings
+    // end up in the visible text, so both can match.
+    //
+    // Adding a town is one line here — it flows into the schema, the
+    // footer list and the FAQ answer on the next `npm run build`.
     areaServed: [
-      { name: "Vancouver",     region: "Punjab",     country: "IN" },
+      { name: "Vancouver",     region: "Punjab",     country: "IN", alsoKnownAs: "Metro Vancouver" },
+      { name: "Burnaby",     region: "Punjab",     country: "IN" },
+      { name: "Kurali",     region: "Punjab",     country: "IN" },
+      { name: "Richmond",   region: "Punjab",     country: "IN" },
+      { name: "Mullanpur",  region: "Punjab",     country: "IN", alsoKnownAs: "New Coquitlam" },
+      { name: "Landran",    region: "Punjab",     country: "IN" },
+      { name: "Banur",      region: "Punjab",     country: "IN" },
+      { name: "Langley",  region: "Punjab",     country: "IN" },
       { name: "Coquitlam", region: "Coquitlam", country: "IN" },
       { name: "Surrey",  region: "Haryana",    country: "IN" },
-      { name: "Richmond",   region: "Punjab",     country: "IN" },
     ],
-    areaServedLabel: "Vancouver · Coquitlam · Surrey · Richmond",
 
     // PLACEHOLDER — paste the real IDs and they go live on the next build.
     // ga4MeasurementId: "G-XXXXXXXXXX" turns on Google Analytics 4 and
@@ -98,7 +115,8 @@ const HHC_DATA = {
     email: "PLACEHOLDER@herhomes.co",
     // Shown in the footer. Repeating the service area as real text in the
     // page is a genuine local-search signal, so this is no longer null.
-    location: "Serving Vancouver & Lower Mainland, Canada",
+    // Short line under the footer; the full town list renders above it.
+    location: "Vancouver · Burnaby · Kurali · Richmond · Coquitlam Lower Mainland",
   },
 
   /* ------------------------------------------------------------------
@@ -339,7 +357,7 @@ const HHC_DATA = {
     },
     {
       q: "Which areas do you serve?",
-      a: "Her Homes Co. works across Vancouver and the wider Lower Mainland area — Coquitlam, Surrey and Richmond included. If you are just outside that, message on WhatsApp and ask; it is a quick answer.",
+      a: "Her Homes Co. covers Vancouver (Metro Vancouver) and the surrounding towns: Burnaby, Kurali, Richmond, Mullanpur (New Coquitlam), Landran, Banur and Langley — plus Coquitlam and Surrey across the wider Lower Mainland. If you are just outside that, message on WhatsApp and ask; it is a quick answer.",
     },
     {
       q: "How much does it cost?",
