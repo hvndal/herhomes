@@ -449,12 +449,17 @@ HHC_DATA.styleWorlds.forEach((w) => {
 // each, both generated from the `id` so adding a fourth service is one entry
 // in `serviceChooser.items` plus one image file.
 //
-// The artwork is generated, not photographic — `npm run build:images` draws
-// it from the brand palette (see buildServicePanels in
-// scripts/optimize-images.mjs). That is deliberate: a stock interior photo
-// captioned "Deep Cleaning" would be implying it is a picture of their work.
-// Drop a real photo of an actual job at the same path and it takes over with
-// no other change.
+// Backgrounds are stock photography from Pexels, fetched and cropped to the
+// panel shape by `npm run fetch:stock` (see scripts/fetch-stock.mjs for the
+// photo IDs, credits and licence, and assets/media/CREDITS.txt alongside the
+// files). The Pexels Licence permits commercial use and modification and
+// needs no attribution; the sources are recorded anyway so every image on
+// this site is traceable.
+//
+// These are stock photographs of homes and cleaning in general — NOT photos
+// of Her Homes Co.'s own work, and nothing on the page says otherwise. Drop
+// a real photo of an actual job at the same path and it takes over with no
+// other change (`npm run build:images` will not overwrite it).
 HHC_DATA.serviceChooser.items.forEach((item) => {
   HHC_DATA.mediaSlots["service-" + item.id] = {
     type: "image",

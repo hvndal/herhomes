@@ -139,16 +139,15 @@ async function buildIcons() {
 /* ------------------------------------------------------------------ *
  * 2b — Service-chooser panel artwork
  *
- * The three panels under the hero need a background each. There are no
- * photographs of Her Homes Co. actually deep-cleaning or organising a
- * home, and dropping a stock interior behind the words "Deep Cleaning"
- * would be implying there is. So these are drawn instead: brand-palette
- * duotone fields with one geometric motif each, which read as design,
- * not as a claim about work that was done.
+ * FALLBACK ONLY. The three panels under the hero now use stock
+ * photography fetched by `npm run fetch:stock` (scripts/fetch-stock.mjs),
+ * and this never overwrites a file that already exists — so what follows
+ * only runs for a service that has no image at all yet, e.g. a fourth one
+ * added to serviceChooser before anybody has sourced a picture for it.
  *
- * Each is regenerated from scratch every run, so tweaking a colour here
- * and re-running is the whole edit loop. Replace any of them with a real
- * photo of a real job at the same path whenever one exists.
+ * When it does run it draws rather than downloads: brand-palette duotone
+ * fields with one geometric motif each, which read as design rather than
+ * as a claim about work that was done.
  * ------------------------------------------------------------------ */
 const PANELS = [
   {
@@ -201,6 +200,14 @@ const PANELS = [
 
 async function buildServicePanels() {
   for (const p of PANELS) {
+    // Never clobber a real photograph. The panels now use stock photos
+    // fetched by `npm run fetch:stock`, and will one day use real photos
+    // of real jobs. This drawn artwork is the fallback for a service that
+    // has no image yet — so it only ever writes a file that isn't there.
+    if (existsSync(join(MEDIA, `service-${p.id}.jpg`))) {
+      console.log(`  service-${p.id}.jpg`.padEnd(32) + "kept (real image present)");
+      continue;
+    }
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
