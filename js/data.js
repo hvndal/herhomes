@@ -125,6 +125,57 @@ const HHC_DATA = {
   navCta: { label: "Book", href: "#book" },
 
   /* ------------------------------------------------------------------
+   * SERVICE CHOOSER — the full-height three-panel picker that sits
+   * directly under the hero.
+   *
+   * Purpose is conversion, not explanation: it is the first thing after
+   * "A HOME, BUT YOURS.", and every panel is a real link straight into a
+   * WhatsApp message about that one service. Someone who already knows
+   * they want a deep clean should never have to scroll the whole page to
+   * say so. "What We Do" further down still carries the full detail —
+   * this is the short path to asking.
+   *
+   * NAMING — deliberately the owner's words: "Interior Design" rather
+   * than "Home Styling", which is what the detailed section and the
+   * schema still call it. "Interior design" is also the term people
+   * actually search for. If you want the whole site to say one or the
+   * other, change `name` here and in `services.items` / `pricing.services`
+   * together, then run `npm run build`.
+   *
+   * `blurb` for each is taken verbatim from that service's existing
+   * description — nothing new is claimed here.
+   * ------------------------------------------------------------------ */
+  serviceChooser: {
+    eyebrow: "Where would you like to start?",
+    heading: "PICK A SERVICE.",
+    support: "Tap whichever one you need — it opens a WhatsApp message about that service, already written.",
+    ctaLabel: "Ask about this",
+    items: [
+      {
+        id: "deep-cleaning",
+        index: "01",
+        name: "Deep Cleaning",
+        blurb: "A full-home reset — kitchen degreasing, bathroom detailing, and the insides of cabinets and appliances.",
+        whatsappMessage: "Hi! I'd love a quote for deep cleaning my home.",
+      },
+      {
+        id: "organising",
+        index: "02",
+        name: "Organising",
+        blurb: "Wardrobes, kitchens, drawers, pantries and storage — organised to actually hold.",
+        whatsappMessage: "Hi! I'd love a quote for organising my home.",
+      },
+      {
+        id: "interior-design",
+        index: "03",
+        name: "Interior Design",
+        blurb: "Decor direction, colour, furniture placement and full room styling around your aesthetic.",
+        whatsappMessage: "Hi! I'd love a quote for interior design and styling for my home.",
+      },
+    ],
+  },
+
+  /* ------------------------------------------------------------------
    * PHILOSOPHY SECTION
    * ------------------------------------------------------------------ */
   philosophy: {
@@ -392,6 +443,33 @@ HHC_DATA.styleWorlds.forEach((w) => {
     },
     STYLE_IMAGE_DIMENSIONS[w.id] || {}
   );
+});
+
+// Service-chooser panels: one image slot and one pre-written WhatsApp link
+// each, both generated from the `id` so adding a fourth service is one entry
+// in `serviceChooser.items` plus one image file.
+//
+// The artwork is generated, not photographic — `npm run build:images` draws
+// it from the brand palette (see buildServicePanels in
+// scripts/optimize-images.mjs). That is deliberate: a stock interior photo
+// captioned "Deep Cleaning" would be implying it is a picture of their work.
+// Drop a real photo of an actual job at the same path and it takes over with
+// no other change.
+HHC_DATA.serviceChooser.items.forEach((item) => {
+  HHC_DATA.mediaSlots["service-" + item.id] = {
+    type: "image",
+    src: "assets/media/service-" + item.id + ".jpg",
+    width: 900,
+    height: 1600,
+    note: item.name + " chooser panel artwork.",
+    // Decorative: the panel's own heading and blurb already say everything
+    // this image conveys, so announcing it again is noise for a screen
+    // reader. Empty alt is the correct answer here, not a missing one.
+    alt: "",
+  };
+  item.whatsappHref =
+    "https://wa.me/" + HHC_DATA.contact.whatsapp.number +
+    "?text=" + encodeURIComponent(item.whatsappMessage);
 });
 
 // Compute the WhatsApp href from the digits-only number + a friendly opener.

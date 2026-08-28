@@ -137,6 +137,101 @@ async function buildIcons() {
 }
 
 /* ------------------------------------------------------------------ *
+ * 2b — Service-chooser panel artwork
+ *
+ * The three panels under the hero need a background each. There are no
+ * photographs of Her Homes Co. actually deep-cleaning or organising a
+ * home, and dropping a stock interior behind the words "Deep Cleaning"
+ * would be implying there is. So these are drawn instead: brand-palette
+ * duotone fields with one geometric motif each, which read as design,
+ * not as a claim about work that was done.
+ *
+ * Each is regenerated from scratch every run, so tweaking a colour here
+ * and re-running is the whole edit loop. Replace any of them with a real
+ * photo of a real job at the same path whenever one exists.
+ * ------------------------------------------------------------------ */
+const PANELS = [
+  {
+    id: "deep-cleaning",
+    from: "#2d6b96", to: "#14364d", // steel blue, --color-secondary family
+    bloom: "#99cfff",
+    motif: (a) => {
+      // Concentric arcs — ripples, water, a surface being cleared.
+      let out = "";
+      for (let i = 0; i < 9; i++) {
+        out += `<circle cx="450" cy="1180" r="${170 + i * 118}" fill="none" stroke="${a}" stroke-width="1.6" opacity="${0.3 - i * 0.028}"/>`;
+      }
+      return out;
+    },
+  },
+  {
+    id: "organising",
+    from: "#242424", to: "#101010", // charcoal, --color-charcoal family
+    bloom: "#ffce00",
+    motif: (a) => {
+      // A modular grid — shelves, drawers, things given a place.
+      let out = "";
+      const cols = 3, rows = 6, m = 120, gap = 26;
+      const w = (900 - m * 2 - gap * (cols - 1)) / cols;
+      const h = 132;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const filled = (r * cols + c) % 4 === 1;
+          out += `<rect x="${m + c * (w + gap)}" y="${380 + r * (h + gap)}" width="${w}" height="${h}" rx="4" fill="${filled ? a : "none"}" opacity="${filled ? 0.22 : 0.5}" stroke="${a}" stroke-width="1.6"/>`;
+        }
+      }
+      return out;
+    },
+  },
+  {
+    id: "interior-design",
+    from: "#5a5138", to: "#26210f", // warm olive, --color-on-surface-variant family
+    bloom: "#ffce00",
+    motif: (a) => {
+      // Overlapping arches — rooms, doorways, a space being composed.
+      let out = "";
+      for (let i = 0; i < 4; i++) {
+        const w = 300 + i * 150, x = 450 - w / 2, y = 1500 - (240 + i * 190);
+        out += `<path d="M ${x} 1500 L ${x} ${y + w / 2} A ${w / 2} ${w / 2} 0 0 1 ${x + w} ${y + w / 2} L ${x + w} 1500" fill="none" stroke="${a}" stroke-width="1.8" opacity="${0.34 - i * 0.06}"/>`;
+      }
+      return out;
+    },
+  },
+];
+
+async function buildServicePanels() {
+  for (const p of PANELS) {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1600" viewBox="0 0 900 1600">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0%" stop-color="${p.from}"/>
+      <stop offset="100%" stop-color="${p.to}"/>
+    </linearGradient>
+    <radialGradient id="bloom" cx="0.32" cy="0.24" r="0.75">
+      <stop offset="0%" stop-color="${p.bloom}" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="${p.bloom}" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.42" r="0.78">
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.42"/>
+    </radialGradient>
+    <pattern id="hatch" width="34" height="34" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="34" stroke="#ffffff" stroke-width="1" opacity="0.05"/>
+    </pattern>
+  </defs>
+  <rect width="900" height="1600" fill="url(#g)"/>
+  <rect width="900" height="1600" fill="url(#bloom)"/>
+  <rect width="900" height="1600" fill="url(#hatch)"/>
+  ${p.motif(p.bloom)}
+  <rect width="900" height="1600" fill="url(#vig)"/>
+</svg>`;
+    const out = join(MEDIA, `service-${p.id}.jpg`);
+    await sharp(Buffer.from(svg)).jpeg({ quality: 86, mozjpeg: true, progressive: true }).toFile(out);
+    console.log(`  service-${p.id}.jpg`.padEnd(32) + "900x1600".padEnd(11) + kb(out));
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * 3 — WebP alongside every photo
  * ------------------------------------------------------------------ */
 async function buildWebp() {
@@ -177,6 +272,9 @@ console.log("\nOpen Graph share card");
 await buildOgCover();
 console.log("\nIcons");
 await buildIcons();
+// Must run before buildWebp(), which picks up every JPEG in assets/media.
+console.log("\nService-chooser panel artwork");
+await buildServicePanels();
 console.log("\nWebP");
 await buildWebp();
 console.log("\nIntrinsic dimensions (for mediaSlots width/height in js/data.js)");
