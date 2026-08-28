@@ -1,0 +1,31 @@
+Her Homes Co. — image credits
+=============================
+
+Service-chooser panel backgrounds are stock photography from Pexels.
+The Pexels Licence permits free commercial use and modification and
+does not require attribution; these are recorded anyway so the source
+of every image on the site is traceable.
+
+  https://www.pexels.com/license/
+
+These are stock photographs of homes and cleaning in general. They are
+NOT photographs of Her Homes Co.'s own work, and the site does not
+claim they are. Replace them with real photos of real jobs whenever
+those exist.
+
+assets/media/service-deep-cleaning.jpg
+  A gloved hand spraying cleaner onto a bathroom tap.
+  Photo by Karolina Grabowska on Pexels
+  https://www.pexels.com/photo/4239130/
+
+assets/media/service-organising.jpg
+  A woman arranging labelled storage jars in a white kitchen cabinet.
+  Photo by Cottonbro Studio on Pexels
+  https://www.pexels.com/photo/8580763/
+
+assets/media/service-interior-design.jpg
+  A warm, softly lit living room styled in cream and taupe.
+  Photo by Curtis Adams on Pexels
+  https://www.pexels.com/photo/5793547/
+
+Regenerate with: npm run fetch:stock

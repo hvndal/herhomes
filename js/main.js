@@ -899,17 +899,33 @@
     const labelEl = widget.querySelector("[data-quick-contact-label]");
     if (labelEl) labelEl.textContent = HHC_DATA.quickContact.label;
 
-    const bookSection = document.getElementById("book");
-    if (bookSection && "IntersectionObserver" in window) {
+    // Hide the widget over any section that already offers the same action
+    // full-size, so the floating button never sits on top of a real one.
+    // #book has the big "Message her on WhatsApp"; #services has three
+    // WhatsApp panels, and on mobile the widget landed directly on the
+    // middle panel's "Ask about this" link.
+    //
+    // Tracked as a Set rather than a boolean: with two observed sections
+    // a single flag would flicker, because leaving one section fires an
+    // entry with isIntersecting false and would un-hide the widget even
+    // while the other section is still on screen.
+    const sections = ["services", "book"]
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    if (sections.length && "IntersectionObserver" in window) {
+      const covering = new Set();
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            widget.classList.toggle("is-suppressed-cta", entry.isIntersecting);
+            if (entry.isIntersecting) covering.add(entry.target);
+            else covering.delete(entry.target);
           });
+          widget.classList.toggle("is-suppressed-cta", covering.size > 0);
         },
         { threshold: 0.15 }
       );
-      io.observe(bookSection);
+      sections.forEach((s) => io.observe(s));
     }
   }
 

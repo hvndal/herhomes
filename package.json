@@ -11,7 +11,8 @@
     "build:images": "node scripts/optimize-images.mjs",
     "check": "node scripts/prerender.mjs --check",
     "start": "node scripts/serve.mjs",
-    "serve": "node scripts/serve.mjs"
+    "serve": "node scripts/serve.mjs",
+    "fetch:stock": "node scripts/fetch-stock.mjs"
   },
   "dependencies": {
     "@fontsource/anton": "^5.3.0",

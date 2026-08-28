@@ -146,14 +146,36 @@ for it. Edit them in `serviceChooser` in `js/data.js`.
   Three narrow columns on a phone is unreadable, and hover doesn't exist
   there.
 
-**The artwork is drawn, not photographed.** `npm run build:images` renders
-each panel background from the brand palette (see `buildServicePanels` in
-`scripts/optimize-images.mjs`) — a duotone field plus one geometric motif
-each: ripples for cleaning, a modular grid for organising, arches for
-interior design. That is deliberate: there are no photos of Her Homes Co.
-actually doing this work, and putting a stock interior behind the words
-"Deep Cleaning" would imply there are. Drop a real photo of a real job at
-`assets/media/service-<id>.jpg` and it takes over with no other change.
+### The panel backgrounds
+
+Stock photography from Pexels, fetched and cropped to the tall panel shape
+by a separate manual script:
+
+```
+npm run fetch:stock
+```
+
+It is deliberately **not** part of `npm run build`: it needs network access
+(a build shouldn't), and its output is committed, so it only needs to run
+again when somebody wants different photographs. Photo IDs, credits and the
+licence are in `scripts/fetch-stock.mjs`, and it also writes
+`assets/media/CREDITS.txt` next to the images so provenance survives even
+if nobody opens the script.
+
+The Pexels Licence allows free commercial use and modification and requires
+no attribution. The sources are recorded anyway — attribution not being
+required doesn't make it less useful to know where an image came from, or
+which one to replace if it's ever pulled.
+
+> **These are stock photographs of homes and cleaning in general — not
+> photographs of Her Homes Co.'s own work,** and nothing on the page claims
+> they are. Replace them with real photos of real jobs the moment those
+> exist: drop one at `assets/media/service-<id>.jpg` and run
+> `npm run build`. `build:images` will not overwrite an existing file, so
+> your photo is safe; just don't run `fetch:stock` again afterwards.
+
+If a service has no image at all, `build:images` draws a brand-palette
+fallback panel for it (see `buildServicePanels`) rather than leaving a hole.
 
 > **Naming:** this section says "Interior Design" — the owner's words, and
 > the term people actually search for. "What We Do", the pricing menu and
