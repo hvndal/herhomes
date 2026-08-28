@@ -207,13 +207,25 @@ function renderJsonLd() {
     areaServed,
     founder: { "@id": id("founder") },
     employee: { "@id": id("founder") },
+    // Topical signals for the business entity. Every one of these is
+    // something the page actually talks about — knowsAbout is not a
+    // keyword dump, and stuffing it with services that aren't offered
+    // would be the schema equivalent of lying.
     knowsAbout: [
+      "Interior design",
       "Interior styling",
       "Home organising",
       "Deep cleaning",
       "Wardrobe organisation",
       "Kitchen organisation",
       "Home staging",
+      "Feng Shui Shastra",
+      "Feng Shui",
+      "Heritage Canadiana interiors",
+      "Pacific Northwest and North Canadian traditional interiors",
+      "Japandi interiors",
+      "Scandinavian interiors",
+      "Minimalist interiors",
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
