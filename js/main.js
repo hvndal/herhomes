@@ -753,6 +753,24 @@
   }
 
   /* ------------------------------------------------------------------
+   * SERVICE CHOOSER — nothing to render or wire up for it to work: the
+   * panels are prerendered, each is a real <a href> into a pre-written
+   * WhatsApp message, and the expand-on-hover/focus behaviour is pure
+   * CSS. This only reports which service was picked, which is the most
+   * useful number on the page — it says what people actually come for.
+   * ------------------------------------------------------------------ */
+  function initServiceChooser() {
+    document.querySelectorAll("[data-svc-cta]").forEach((link) => {
+      link.addEventListener("click", () => {
+        trackEvent("whatsapp_click", {
+          location: "service_chooser",
+          service: link.getAttribute("data-svc-id") || "",
+        });
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------
    * FAQ — no rendering to do: the questions and answers are real markup
    * in index.html inside native <details>, which is keyboard-accessible
    * and indexable without any JavaScript at all. All that's added here
@@ -907,6 +925,7 @@
     initStyleWorlds();
     initWhatWeDo();
     initProcess();
+    initServiceChooser();
     initPricing();
     initFaq();
     initFounder();

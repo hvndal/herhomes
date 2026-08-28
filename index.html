@@ -774,7 +774,74 @@
   </section>
 
   <!-- ================================================================
-       02 — PHILOSOPHY
+       02 — SERVICE CHOOSER
+       Three full-height panels, straight after the hero. This is a
+       conversion shortcut, not an explanation: every panel is a real
+       link into a WhatsApp message already written for that service, so
+       someone who arrives knowing they want a deep clean never has to
+       read the whole page to say so. "What We Do" further down still
+       carries the detail.
+
+       Desktop: three columns; hovering or tab-focusing one expands it.
+       Mobile: they stack into three bands with the copy always visible,
+       because three narrow columns on a phone is unreadable.
+       ================================================================ -->
+  <section class="section svc" id="services" aria-labelledby="svc-heading">
+    <!--@gen:service-chooser-->
+    <div class="container svc__intro">
+      <p class="f-label svc__eyebrow">Where would you like to start?</p>
+      <h2 id="svc-heading" class="f-display t-headline-lg svc__heading">PICK A SERVICE.</h2>
+      <p class="f-body svc__support">Tap whichever one you need — it opens a WhatsApp message about that service, already written.</p>
+    </div>
+    <ul class="svc__panels">
+        <li class="svc-panel" data-svc="deep-cleaning">
+          <a class="svc-panel__link" href="https://wa.me/919915217674?text=Hi!%20I'd%20love%20a%20quote%20for%20deep%20cleaning%20my%20home." target="_blank" rel="noopener"
+             data-svc-cta data-svc-id="deep-cleaning"
+             aria-label="Ask about Deep Cleaning on WhatsApp">
+            <span class="svc-panel__media"><picture><source type="image/webp" srcset="assets/media/service-deep-cleaning.webp" /><img src="assets/media/service-deep-cleaning.jpg" alt="" width="900" height="1600" loading="eager" decoding="async" fetchpriority="high" /></picture></span>
+            <span class="svc-panel__spine f-display" aria-hidden="true">Deep Cleaning</span>
+            <span class="svc-panel__body">
+              <span class="f-label svc-panel__index">01</span>
+              <h3 class="f-display svc-panel__name">Deep Cleaning</h3>
+              <span class="f-body svc-panel__blurb">A full-home reset — kitchen degreasing, bathroom detailing, and the insides of cabinets and appliances.</span>
+              <span class="f-label svc-panel__cta">Ask about this<span aria-hidden="true"> &#8599;</span></span>
+            </span>
+          </a>
+        </li>
+        <li class="svc-panel" data-svc="organising">
+          <a class="svc-panel__link" href="https://wa.me/919915217674?text=Hi!%20I'd%20love%20a%20quote%20for%20organising%20my%20home." target="_blank" rel="noopener"
+             data-svc-cta data-svc-id="organising"
+             aria-label="Ask about Organising on WhatsApp">
+            <span class="svc-panel__media"><picture><source type="image/webp" srcset="assets/media/service-organising.webp" /><img src="assets/media/service-organising.jpg" alt="" width="900" height="1600" loading="eager" decoding="async" fetchpriority="high" /></picture></span>
+            <span class="svc-panel__spine f-display" aria-hidden="true">Organising</span>
+            <span class="svc-panel__body">
+              <span class="f-label svc-panel__index">02</span>
+              <h3 class="f-display svc-panel__name">Organising</h3>
+              <span class="f-body svc-panel__blurb">Wardrobes, kitchens, drawers, pantries and storage — organised to actually hold.</span>
+              <span class="f-label svc-panel__cta">Ask about this<span aria-hidden="true"> &#8599;</span></span>
+            </span>
+          </a>
+        </li>
+        <li class="svc-panel" data-svc="interior-design">
+          <a class="svc-panel__link" href="https://wa.me/919915217674?text=Hi!%20I'd%20love%20a%20quote%20for%20interior%20design%20and%20styling%20for%20my%20home." target="_blank" rel="noopener"
+             data-svc-cta data-svc-id="interior-design"
+             aria-label="Ask about Interior Design on WhatsApp">
+            <span class="svc-panel__media"><picture><source type="image/webp" srcset="assets/media/service-interior-design.webp" /><img src="assets/media/service-interior-design.jpg" alt="" width="900" height="1600" loading="eager" decoding="async" fetchpriority="high" /></picture></span>
+            <span class="svc-panel__spine f-display" aria-hidden="true">Interior Design</span>
+            <span class="svc-panel__body">
+              <span class="f-label svc-panel__index">03</span>
+              <h3 class="f-display svc-panel__name">Interior Design</h3>
+              <span class="f-body svc-panel__blurb">Decor direction, colour, furniture placement and full room styling around your aesthetic.</span>
+              <span class="f-label svc-panel__cta">Ask about this<span aria-hidden="true"> &#8599;</span></span>
+            </span>
+          </a>
+        </li>
+    </ul>
+    <!--/@gen:service-chooser-->
+  </section>
+
+  <!-- ================================================================
+       03 — PHILOSOPHY
        A pinned typographic moment: the first statement resolves, then
        becomes the second as the user keeps scrolling. Text only —
        the point is restraint after the visual density of the hero.
@@ -792,7 +859,7 @@
   </section>
 
   <!-- ================================================================
-       03 — STYLE WORLDS
+       04 — STYLE WORLDS
        A pinned lookbook: one image stage crossfades through every
        aesthetic as the user scrolls; a vertical list controls it and
        previews on hover. Not a grid of identical cards.
@@ -839,7 +906,7 @@
   </section>
 
   <!-- ================================================================
-       04 — WHAT WE DO
+       05 — WHAT WE DO
        Three services, told concretely — not "we help you get organised"
        but the actual rooms and objects. Sticky label, hover-invert rows.
        ================================================================ -->
@@ -890,7 +957,7 @@
   </section>
 
   <!-- ================================================================
-       05 — PROCESS
+       06 — PROCESS
        Typography-only, deliberately — a change of texture after three
        image-driven sections. One huge stage number, shifting title
        and detail, a thin progress rail.
@@ -926,7 +993,7 @@
   </section>
 
   <!-- ================================================================
-       06 — PRICING
+       07 — PRICING
        A premium service menu, not a calculator. A real number only
        where one is confirmed; everything else reads as a personalised
        quote rather than inventing a figure.
@@ -1000,7 +1067,7 @@
   </section>
 
   <!-- ================================================================
-       07 — FAQ
+       08 — FAQ
        Added for search as much as for visitors. A one-page site is thin
        by nature; these answers are the only place the page says, in
        plain words, what deep cleaning includes, which cities are
@@ -1056,7 +1123,7 @@
   </section>
 
   <!-- ================================================================
-       08 — FOUNDER
+       09 — FOUNDER
        Warm, personal, not a corporate bio. She oversees the work.
        Renders as a single centred column until a real portrait exists
        (see renderFounder in scripts/prerender.mjs).
@@ -1078,7 +1145,7 @@
   </section>
 
   <!-- ================================================================
-       09 — FINAL CTA / BOOKING
+       10 — FINAL CTA / BOOKING
        Closing frame, not a hard sell. The WhatsApp link is a real href
        in the markup, so it works with JavaScript disabled and is a
        crawlable outbound link rather than a JS-only click handler.

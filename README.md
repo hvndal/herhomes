@@ -130,6 +130,37 @@ site.webmanifest      PWA/mobile metadata
 .github/workflows/pages.yml   Auto-deploys every push to main
 ```
 
+## The service chooser under the hero
+
+Three full-height panels — Deep Cleaning, Organising, Interior Design —
+sitting directly after "A HOME, BUT YOURS." Each one is a single real
+`<a href>` into a WhatsApp message already written for that service, so
+someone who lands knowing what they want never has to read the page to ask
+for it. Edit them in `serviceChooser` in `js/data.js`.
+
+- **Desktop:** three columns. Hovering or tab-focusing one expands it and
+  the others yield; idle panels show only a rotated spine label, which is
+  what makes them read as vertical tabs. Pure CSS — no JavaScript involved
+  in the interaction.
+- **Mobile:** they stack into three bands with the copy always visible.
+  Three narrow columns on a phone is unreadable, and hover doesn't exist
+  there.
+
+**The artwork is drawn, not photographed.** `npm run build:images` renders
+each panel background from the brand palette (see `buildServicePanels` in
+`scripts/optimize-images.mjs`) — a duotone field plus one geometric motif
+each: ripples for cleaning, a modular grid for organising, arches for
+interior design. That is deliberate: there are no photos of Her Homes Co.
+actually doing this work, and putting a stock interior behind the words
+"Deep Cleaning" would imply there are. Drop a real photo of a real job at
+`assets/media/service-<id>.jpg` and it takes over with no other change.
+
+> **Naming:** this section says "Interior Design" — the owner's words, and
+> the term people actually search for. "What We Do", the pricing menu and
+> the schema still call the same service "Home Styling". To make the whole
+> site agree, change `name` in `serviceChooser.items`, `services.items`
+> and `pricing.services` together, then run `npm run build`.
+
 ## No booking form, by design
 
 There's no on-page booking form. For a direct, local (Tricity / Mohali)

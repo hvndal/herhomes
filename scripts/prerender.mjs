@@ -322,6 +322,59 @@ function maskedLines(lines) {
   return lines.map((t) => `<span><i>${esc(t)}</i></span>`).join("");
 }
 
+/**
+ * SERVICE CHOOSER — three full-height panels directly under the hero.
+ *
+ * Every panel is one real <a href> straight into a pre-written WhatsApp
+ * message about that service, so it works with JavaScript disabled, is
+ * keyboard-focusable for free, and is a crawlable outbound link rather
+ * than a click handler.
+ *
+ * <a> has a transparent content model in HTML5, so wrapping the heading
+ * and copy in the link is valid and makes the whole panel the target —
+ * no nested interactive elements, which would not be.
+ *
+ * Each link gets its own aria-label. Without one, a screen reader's list
+ * of links on this page would read "Ask about this" three times with no
+ * way to tell them apart.
+ */
+function renderServiceChooser() {
+  const c = D.serviceChooser;
+
+  const panels = c.items
+    .map((item) => {
+      const img = imgTag(`service-${item.id}`, { eager: true });
+      return [
+        `    <li class="svc-panel" data-svc="${esc(item.id)}">`,
+        `      <a class="svc-panel__link" href="${esc(item.whatsappHref)}" target="_blank" rel="noopener"`,
+        `         data-svc-cta data-svc-id="${esc(item.id)}"`,
+        `         aria-label="Ask about ${esc(item.name)} on WhatsApp">`,
+        `        <span class="svc-panel__media">${img || ""}</span>`,
+        `        <span class="svc-panel__spine f-display" aria-hidden="true">${esc(item.name)}</span>`,
+        `        <span class="svc-panel__body">`,
+        `          <span class="f-label svc-panel__index">${esc(item.index)}</span>`,
+        `          <h3 class="f-display svc-panel__name">${esc(item.name)}</h3>`,
+        `          <span class="f-body svc-panel__blurb">${esc(item.blurb)}</span>`,
+        `          <span class="f-label svc-panel__cta">${esc(c.ctaLabel)}<span aria-hidden="true"> &#8599;</span></span>`,
+        `        </span>`,
+        `      </a>`,
+        `    </li>`,
+      ].join("\n");
+    })
+    .join("\n");
+
+  return [
+    `<div class="container svc__intro">`,
+    `  <p class="f-label svc__eyebrow">${esc(c.eyebrow)}</p>`,
+    `  <h2 id="svc-heading" class="f-display t-headline-lg svc__heading">${esc(c.heading)}</h2>`,
+    `  <p class="f-body svc__support">${esc(c.support)}</p>`,
+    `</div>`,
+    `<ul class="svc__panels">`,
+    panels,
+    `</ul>`,
+  ].join("\n");
+}
+
 function renderPhilosophy() {
   const p = D.philosophy;
   return [
@@ -642,6 +695,7 @@ const BLOCKS = {
   "nav-links": renderNavLinks,
   "mobile-nav-links": renderMobileNavLinks,
   "mobile-nav-contact": renderMobileNavContact,
+  "service-chooser": renderServiceChooser,
   philosophy: renderPhilosophy,
   "style-worlds": renderStyleWorlds,
   "what-we-do": renderWhatWeDo,
