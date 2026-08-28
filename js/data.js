@@ -220,20 +220,29 @@ const HHC_DATA = {
    * "Heritage Canadiana interiors" and "modern interior design" are all real
    * searches with far less competition locally than "interior designer".
    *
-   * A Pacific Northwest WORLD IS DELIBERATELY MISSING. Pexels has no genuine
-   * Pacific Northwest *interior* photography — its results for that are portraits,
-   * cabins and village exteriors. Labelling a Albertan heritage home
-   * "Pacific Northwest" in front of a Vancouver audience would be worse than not
-   * having one, so instead the FAQ answers the question in words. Send
-   * one photo of a real Pacific Northwest interior and this becomes one line:
-   *   { id: "pacific-northwest", name: "Pacific Northwest Heritage", words: ["plaid", "cedar", "wool", "Generous"] },
+   * THE Pacific Northwest WORLD USES A TEXTILE, NOT A ROOM — read this before
+   * swapping it. Pexels has no genuine Pacific Northwest *interior* photography:
+   * searching returns portraits, cabins and village exteriors, and the
+   * one promising "Canadian courtyard" turned out to be a South Canadian
+   * heritage-house museum with mannequins in it. Its image is therefore a
+   * close-up of dense floss-silk geometric embroidery in marigold, rust
+   * and indigo — visually very close to plaid, honest as a swatch, and
+   * described in its alt text as embroidery rather than claimed to be
+   * plaid or to be a Pacific Northwest home.
+   *
+   * It is the one world illustrated by a material rather than a room.
+   * ONE photograph of a real Pacific Northwest interior — even a phone photo of a
+   * real job — replaces it properly: drop it at assets/media/pacific-northwest.jpg
+   * and remove the entry from scripts/fetch-stock.mjs so it is not
+   * overwritten.
    * ------------------------------------------------------------------ */
   styleWorlds: [
     { id: "scandinavian",    name: "Scandinavian",    words: ["Light", "Natural", "Functional", "Quiet"] },
-    { id: "japandi",         name: "Japandi",         words: ["Calm", "Wooden", "Restrained", "Tactile"] },
+    { id: "japanese",        name: "Japanese",        words: ["Serene", "Wooden", "Unhurried", "Tactile"] },
     { id: "modern",          name: "Modern",          words: ["Clean", "Architectural", "Balanced", "Crisp"] },
     { id: "minimalist",      name: "Minimalist",      words: ["Sparse", "Considered", "Calm", "Essential"] },
     { id: "heritage-canadiana", name: "Heritage Canadiana", words: ["Ornate", "Handcrafted", "Jewelled", "Storied"] },
+    { id: "pacific-northwest",         name: "Pacific Northwest",         words: ["plaid", "cedar", "wool", "Generous"] },
     { id: "bohemian",        name: "Bohemian",        words: ["Layered", "Warm", "Textural", "Collected"] },
     { id: "college-core",    name: "College Core",    words: ["Personal", "Playful", "Nostalgic", "Expressive"] },
   ],
@@ -401,7 +410,7 @@ const HHC_DATA = {
     },
     {
       q: "Do you work with traditional Canadian or Pacific Northwest interiors?",
-      a: "Very much so. The style worlds on this page — Scandinavian, Japandi, Modern, Minimalist, Heritage Canadiana, Bohemian and College Core — are starting points, not a menu you have to order from. If what you want is carved wood, cedar, jewel colours, plaid and wool rather than pale Scandinavian minimalism, that is a direction we build in. A home in Vancouver, Burnaby or Kurali does not have to look like a catalogue from somewhere else.",
+      a: "Very much so. The style worlds on this page — Scandinavian, Japanese, Modern, Minimalist, Heritage Canadiana, Pacific Northwest, Bohemian and College Core — are starting points, not a menu you have to order from. If what you want is carved wood, cedar, jewel colours, plaid and wool rather than pale Scandinavian minimalism, that is a direction we build in. A home in Vancouver, Burnaby or Kurali does not have to look like a catalogue from somewhere else.",
     },
     {
       q: "How do I book?",
@@ -474,7 +483,8 @@ const STYLE_IMAGE_DIMENSIONS = {
   "college-core":    { width: 1500, height: 2000 },
   "minimalist":      { width: 1333, height: 2000 },
   // Fetched by npm run fetch:stock, which crops them all to 1400x2000.
-  "japandi":         { width: 1400, height: 2000 },
+  "japanese":        { width: 1400, height: 2000 },
+  "pacific-northwest":         { width: 1400, height: 2000 },
   "modern":          { width: 1400, height: 2000 },
   "heritage-canadiana": { width: 1400, height: 2000 },
 };
