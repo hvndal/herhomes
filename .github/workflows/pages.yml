@@ -1,9 +1,12 @@
 # Deploy Her Homes Co. to GitHub Pages.
 #
-# One-time setup in the repo, on github.com:
-#   Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
-#   Settings -> Pages -> Custom domain: herhomes.shop  (then tick "Enforce HTTPS"
-#   once the certificate has been issued, which usually takes a few minutes)
+# ⚠️ REQUIRED ONE-TIME SETUP — this workflow cannot do it for you, and it
+# fails at the "configure-pages" step until it is done:
+#
+#   github.com/hvndal/herhomes -> Settings -> Pages
+#     Build and deployment -> Source: "GitHub Actions"   <- not "Deploy from a branch"
+#     Custom domain: herhomes.shop
+#     Enforce HTTPS: tick it once the certificate is issued (a few minutes)
 #
 # DNS at whoever sells herhomes.shop — four A records for the apex plus one
 # CNAME for www:
@@ -13,12 +16,21 @@
 #   A     @      185.199.111.153
 #   CNAME www    hvndal.github.io
 #
-# After that, every push to main rebuilds and republishes the site.
+# ⚠️ CURRENTLY DISABLED ON PUSH — this repo deploys through Vercel.
+#
+# This workflow was written assuming GitHub Pages was the host. It turned
+# out Vercel is already connected to the repo and building it, and two
+# hosts cannot both own herhomes.shop. Rather than delete the work, the
+# push trigger is removed so it stops failing on every commit; it can
+# still be run by hand from the Actions tab.
+#
+# To switch to GitHub Pages instead of Vercel: restore the `push:` trigger
+# below, do the Settings -> Pages setup above, and disconnect the Vercel
+# project (or at least move the domain off it). To commit to Vercel for
+# good: delete this file and CNAME.
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -41,15 +53,17 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install build dependencies
-        run: npm ci --no-audit --no-fund
-
-      # The generated HTML is committed, so this guards against the one
-      # mistake that would silently undo the SEO work: editing js/data.js
-      # and deploying without re-running the prerender, which would ship
-      # copy that only exists in JavaScript again.
+      # No `npm ci` on purpose. The only thing CI needs to run is the
+      # prerender check, which is deliberately plain Node with zero
+      # dependencies. Installing anyway pulled in sharp (~100 MB of
+      # platform binaries) purely so it could sit in node_modules and get
+      # swept into the uploaded site artifact by the `path: .` below.
+      #
+      # This guards against the one mistake that would silently undo the
+      # SEO work: editing js/data.js and deploying without re-running the
+      # prerender, which would ship copy that only exists in JavaScript.
       - name: Verify prerendered HTML is up to date with js/data.js
-        run: npm run check
+        run: node scripts/prerender.mjs --check
 
       - uses: actions/configure-pages@v5
 

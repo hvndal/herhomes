@@ -55,6 +55,49 @@ some browsers block local video and font files over `file://`.
 Only `build:images` needs `sharp` (a dev dependency); `build:html` and
 `check` are plain Node with nothing installed.
 
+## Deployment
+
+**The site deploys through Vercel, on every push to `main`.** There is no
+build step on the host: `index.html` ships with its copy already
+prerendered, and `assets/media/` ships with the generated WebP, icons and
+share card. `vercel.json` therefore skips install and runs only
+`node scripts/prerender.mjs --check` as its "build" — a guard that fails
+the deploy if someone edited `js/data.js` without running `npm run build`,
+which would otherwise silently ship a page whose copy exists only in
+JavaScript. That check needs no dependencies.
+
+`vercel.json` also sets cache headers: a year and `immutable` for fonts,
+media and the vendor libraries (they only ever change under a new filename),
+an hour for CSS/JS, and always-revalidate for `index.html` so a content
+edit actually reaches people.
+
+> **A note on why `vercel.json` had to exist.** Vercel deployed this repo
+> fine until `package.json` gained a `build` script. Vercel auto-detects
+> that script, runs it, and then looks for an output directory it never
+> finds — its default guess is `public/` — so the deploy started failing.
+> `npm run build` also runs the image step, which needs `sharp`: a ~100 MB
+> native dependency with no business running on a deploy when its output is
+> already committed. If you ever remove `vercel.json`, expect that failure
+> to come back.
+
+### GitHub Pages
+
+`.github/workflows/pages.yml` and `CNAME` are a complete GitHub Pages
+setup, **currently disabled** (`workflow_dispatch` only). It was written
+before it was clear Vercel was already connected, and two hosts cannot both
+own `herhomes.shop`. It is left in place rather than deleted because it
+works and is one line from being live again.
+
+- **Staying on Vercel?** Delete `.github/workflows/pages.yml` and `CNAME`.
+- **Switching to Pages?** Restore the `push:` trigger in that workflow, set
+  Settings → Pages → Source to "GitHub Actions", point DNS at the four
+  GitHub A records listed in the workflow header, and move the domain off
+  the Vercel project.
+
+Note that the Pages workflow will fail at the `configure-pages` step until
+Settings → Pages → Source is set to "GitHub Actions" — that is a repository
+setting no workflow can set for itself.
+
 ## File structure
 
 ```
