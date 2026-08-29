@@ -574,11 +574,52 @@ added by JS (no JS, nothing hidden); it returns early with no
 IntersectionObserver or under reduced motion; and `styles.css` un-hides
 `.reveal` under `prefers-reduced-motion` regardless.
 
-### Mobile
+### Mobile — the phone gets a different layout, not a squeezed one
 
-`MOTION.beatVh` is **60vh on phones against 85vh on desktop**. The long
-runway that reads as luxurious on a trackpad is a lot of thumb-work on a
-phone, so the same content costs about 30% less scrolling there.
+Phones are this business's main audience, and the page was built
+desktop-out. Three sections (philosophy, style worlds, process) were
+pinned scroll-scrubbed stages: several viewports tall, contents stuck to
+the screen, scroll scrubbing through them in place. On a trackpad that's
+cinematic. On a phone it means **swiping stops moving the page** — which
+reads as broken — and it cost ~9 of the page's 24 screens on the device
+where scrolling is most expensive.
+
+`main.js` sets `HHC.isPhone` (and an `.is-phone` class on `<html>`)
+under 768px. Under it:
+
+| | Before | After |
+|---|---|---|
+| Scrolling | Lenis smooth-scroll | native (it was fighting OS momentum) |
+| Philosophy | 1.6 screens, pinned | 1.0, both halves of the statement at once |
+| Style worlds | 4.2 screens, scroll-scrubbed | 0.9, **tap a name to switch** |
+| Process | 3.1 screens, one step at a time | 1.7, all six as a plain numbered list |
+| Hero | 2.2 screens | 1.5 |
+| **Whole page** | **24 screens** | **18** |
+
+The process list is the same `<ol>` that is the screen-reader fallback on
+desktop — CSS just promotes it out of `.sr-only`. Same markup, same
+source, so a crawler never sees the six steps twice.
+
+Desktop is untouched: Lenis on, all three sections still pinned at 70vh
+per beat.
+
+**The floating contact widget became a bottom action bar.** Floating over
+the content meant it permanently sat on top of real copy — the hero
+headline, FAQ answers, whatever was underneath. Suppressing it section by
+section was whack-a-mole. A full-width bar with matching `padding-bottom`
+on `body` can't cover anything, makes the only two ways to actually book
+thumb-reachable at all times, and now spells out "WhatsApp" and "Call"
+rather than showing bare icons.
+
+Two bugs found while measuring, worth knowing about:
+
+- `.philosophy__support` was **188px wide on a 375px screen**.
+  `position:absolute; left:50%` with no width shrink-wraps to whatever
+  space is left to the right of the 50% mark. Fixed with an explicit
+  width, which also protects tablets.
+- **Scroll was frozen for the first ~2 seconds** while the logo intro
+  played, so a visitor who landed and swiped got nothing. Phones now keep
+  their scroll, and the first scroll or touch dismisses the intro.
 
 ## What's animated, and why it's built this way
 

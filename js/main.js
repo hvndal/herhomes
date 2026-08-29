@@ -18,9 +18,35 @@
     lenis: null,
     reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     isCoarsePointer: window.matchMedia("(pointer: coarse)").matches,
+    /**
+     * PHONE LAYOUT — the single most important flag in this file.
+     *
+     * Three sections (philosophy, style worlds, process) were built as
+     * pinned, scroll-scrubbed stages: the section is several viewports
+     * tall, its contents stick to the screen, and scrolling scrubs
+     * through them in place. On a desktop with a trackpad that reads as
+     * cinematic. On a phone — which is this business's main audience —
+     * it is actively hostile:
+     *
+     *   - Swiping stops moving the page. The content changes underneath
+     *     you instead, which reads as the page being broken or stuck.
+     *   - It cost about 9 of the page's 24 screens of scrolling, on the
+     *     device where scrolling is most expensive.
+     *   - Smooth-scroll libraries fight the OS's own momentum scrolling
+     *     and rubber-banding, so it never feels native.
+     *
+     * On a phone those three sections lay out as ordinary stacked
+     * content instead, Lenis is skipped in favour of native scrolling,
+     * and the style worlds become tap-to-switch rather than
+     * scroll-to-switch. Desktop is untouched.
+     */
+    isPhone: window.matchMedia("(max-width: 767px)").matches,
     mm: gsap.matchMedia(),
   };
   window.HHC = HHC;
+
+  // CSS needs to know too — see the "PHONE LAYOUT" block in styles.css.
+  if (HHC.isPhone) document.documentElement.classList.add("is-phone");
 
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.defaults({ markers: false });
@@ -81,6 +107,8 @@
    */
   function setRunway(section, beats) {
     if (!section) return;
+    if (HHC.isPhone) return; // phone lays these out statically; no runway
+
     section.style.setProperty("--runway", (beats * MOTION.beatVh).toFixed(0) + "vh");
   }
 
@@ -172,6 +200,10 @@
       document.documentElement.classList.add("reduced-motion");
       return; // native scroll only
     }
+    // Phones keep their own scrolling. A JS smooth-scroll layer competes
+    // with the OS's momentum and rubber-banding, and the result feels
+    // laggy in exactly the way native scrolling never does.
+    if (HHC.isPhone) return;
     HHC.lenis = new Lenis({
       duration: 1.1,
       easing: (t) => 1 - Math.pow(1 - t, 3), // cubic-out
@@ -508,7 +540,16 @@
       .to(tagline, { opacity: 1, duration: 0.6 }, 0.95)
       .to({}, { duration: 0.5 }); // brief hold — the logo dominates the screen
 
-    skipBtn.addEventListener("click", () => {
+    // Dismiss the intro. Bound to the button, and on a phone to the first
+    // scroll as well.
+    //
+    // Phones no longer have their scroll frozen while the intro plays, so
+    // a visitor can swipe immediately — but for the ~2.5s before the
+    // timeline finishes, buildHandoff() has not run yet, so there is no
+    // scroll-linked timeline to fade the intro out. The page would move
+    // underneath a fixed overlay that is still covering it. Treating the
+    // first scroll as "skip" is also just what a swipe means here.
+    function dismissIntro() {
       tl.kill();
       finishIntroInstantly();
       gsap.to(intro, { opacity: 0, duration: 0.4, onComplete: () => (intro.style.display = "none") });
@@ -517,7 +558,19 @@
       gsap.set(heroFrame, { "--frame-v": 0, "--frame-h": 0, "--frame-radius": "0px" });
       gsap.to(heroCopyEls, { opacity: 1, y: 0, stagger: 0.05, duration: 0.5 });
       gsap.to(scrollCue, { opacity: 1, duration: 0.5 });
-    });
+    }
+
+    let introDismissed = false;
+    function dismissOnce() {
+      if (introDismissed) return;
+      introDismissed = true;
+      dismissIntro();
+    }
+    skipBtn.addEventListener("click", dismissOnce);
+    if (HHC.isPhone) {
+      window.addEventListener("scroll", dismissOnce, { once: true, passive: true });
+      window.addEventListener("touchmove", dismissOnce, { once: true, passive: true });
+    }
 
     let resizeTimer;
     window.addEventListener("resize", () => {
@@ -565,6 +618,14 @@
     const aChars = buildMaskedLines(lineAEl, data.lineA);
     const bChars = buildMaskedLines(lineBEl, data.lineB);
 
+    // Phone: no pinning, so both halves of the statement are simply
+    // stacked and readable. Reduced motion keeps the pinned layout but
+    // jumps to its end state, where only the second line is showing.
+    if (HHC.isPhone) {
+      gsap.set([eyebrow, supportEl, lineAEl, lineBEl], { opacity: 1 });
+      gsap.set([aChars, bChars], { y: 0 });
+      return;
+    }
     if (HHC.reducedMotion) {
       gsap.set(eyebrow, { opacity: 1 });
       gsap.set([aChars, bChars], { y: 0 });
@@ -665,6 +726,15 @@
         btn.addEventListener("mouseleave", () => { previewIndex = null; render(scrollIndex); });
       }
       btn.addEventListener("click", () => {
+        // On a phone the section is one screen and is not scroll-driven,
+        // so a tap just switches the world. Scrolling somewhere would be
+        // meaningless — there is nowhere to scroll to.
+        if (HHC.isPhone) {
+          scrollIndex = i;
+          render(i);
+          trackEvent("style_world_select", { location: "style_worlds", style: worlds[i].name });
+          return;
+        }
         const rect = section.getBoundingClientRect();
         const innerScrollable = section.offsetHeight - window.innerHeight;
         const destY = window.scrollY + rect.top + innerScrollable * (i / total) + 20;
@@ -672,7 +742,7 @@
       });
     });
 
-    if (HHC.reducedMotion) return;
+    if (HHC.reducedMotion || HHC.isPhone) return;
 
     ScrollTrigger.create({
       trigger: section, start: "top top", end: "bottom bottom", scrub: MOTION.scrub,
@@ -764,7 +834,7 @@
     }
     render(0);
 
-    if (HHC.reducedMotion) return;
+    if (HHC.reducedMotion || HHC.isPhone) return;
     let current = 0;
     ScrollTrigger.create({
       trigger: section, start: "top top", end: "bottom bottom", scrub: MOTION.scrub,

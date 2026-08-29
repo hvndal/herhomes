@@ -474,6 +474,7 @@ function renderStyleWorlds() {
     `      <ul class="style-worlds__words f-label" data-sw-words>${worlds[0].words.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`,
     `    </div>`,
     `  </div>`,
+    `  <p class="style-worlds__hint f-label">Tap a style to see it</p>`,
     `  <ul class="style-worlds__list f-display" data-sw-list aria-label="Style worlds">`,
     buttons,
     `  </ul>`,
@@ -528,13 +529,18 @@ function renderProcess() {
   // Same reasoning as the style-worlds fallback: the visible stage shows one
   // stage at a time, so all six only exist in the page for a crawler or a
   // screen reader if they are written out somewhere that does not animate.
+  // On desktop this is the screen-reader fallback for a scroll-scrubbed
+  // stage that only ever shows one step at a time. On a phone it IS the
+  // section — styles.css promotes it out of .sr-only and the pinned stage
+  // is hidden. Same markup, same source, so a crawler never sees the six
+  // steps twice.
   const fallback = steps
-    .map((s) => `  <li><strong>${esc(s.title)}</strong> — ${esc(s.detail)}</li>`)
+    .map((s) => `  <li><strong>${esc(s.title)}</strong> <em>${esc(s.detail)}</em></li>`)
     .join("\n");
 
   return [
     `<h2 class="sr-only" data-proc-heading>Our process, step by step</h2>`,
-    `<ol class="sr-only">`,
+    `<ol class="process__list sr-only">`,
     fallback,
     `</ol>`,
     `<div class="process__sizer">`,
