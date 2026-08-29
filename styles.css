@@ -1267,3 +1267,175 @@ html.lenis, html.lenis body { height: auto; }
 
 /* The FAQ summary is already tall; these are the small ones inside it. */
 .faq-item__q { min-height: 44px; }
+
+/* ==========================================================================
+   PHONE LAYOUT
+   ==========================================================================
+   Phones are this business's main audience, and three sections were built
+   as pinned scroll-scrubbed stages: several viewports tall, contents stuck
+   to the screen, scroll scrubbing through them in place. On a trackpad
+   that is cinematic. On a phone it means swiping stops moving the page —
+   which reads as broken — and it cost ~9 of the page's 24 screens on the
+   device where scrolling is most expensive.
+
+   Under .is-phone (set by main.js) those sections become ordinary stacked
+   content. main.js skips the matching ScrollTriggers, so nothing is
+   fighting these rules.
+   ========================================================================== */
+
+/* ---- Philosophy: the whole statement at once, no pinning ---- */
+.is-phone .philosophy { height: auto; }
+.is-phone .philosophy__sizer {
+  position: static;
+  height: auto;
+  min-height: 0;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-block: var(--space-section-v-gap);
+  overflow: visible;
+}
+.is-phone .philosophy__eyebrow,
+.is-phone .philosophy__support,
+.is-phone .philosophy__line {
+  position: static;
+  transform: none;
+  inset: auto;
+  opacity: 1;
+}
+.is-phone .philosophy__line { gap: 0.05em; }
+.is-phone .philosophy__line span > i { transform: none; }
+.is-phone .philosophy__support { max-width: 34rem; margin-inline: auto; }
+
+/* ---- Style worlds: one screen, tap a name to switch ---- */
+.is-phone .style-worlds { height: auto; }
+.is-phone .style-worlds__sizer { position: static; height: auto; }
+.is-phone .style-worlds__stage { height: 78svh; flex: 0 0 auto; }
+.is-phone .style-worlds__hint {
+  display: block;
+  padding: 0.9rem var(--space-mobile) 0;
+  color: rgba(253,253,253,0.55);
+  background: color-mix(in srgb, var(--color-charcoal) 92%, black);
+  text-align: center;
+}
+
+/* ---- Process: all six stages as a plain list ---- */
+.is-phone .process { height: auto; background: var(--color-surface-container-low); }
+.is-phone .process__sizer { display: none; }
+.is-phone .process__list {
+  /* The global reset only clears markers on ul, so an ol keeps its native
+     "1." alongside the styled "01" counter below. */
+  list-style: none;
+  position: static;
+  width: auto; height: auto;
+  clip: auto; overflow: visible;
+  margin: 0; padding: var(--space-section-v-gap) var(--space-mobile);
+  white-space: normal;
+  max-width: 40rem;
+  margin-inline: auto;
+  counter-reset: step;
+}
+.is-phone .process__list > li {
+  counter-increment: step;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--color-outline-variant);
+}
+.is-phone .process__list > li::before {
+  content: counter(step, decimal-leading-zero);
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--color-primary-container);
+  margin-bottom: 0.5rem;
+}
+.is-phone .process__list strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.45rem;
+  line-height: 1.15;
+  color: var(--color-charcoal);
+  margin-bottom: 0.5rem;
+}
+.is-phone .process__list em {
+  font-style: normal;
+  color: var(--color-on-surface-variant);
+  line-height: 1.6;
+}
+
+/* ---- Hero: a shorter runway. The intro-to-nav handoff and the frame
+        expansion still need scroll to drive them, but 2.2 screens of it
+        before the first real content is too much on a phone. ---- */
+.is-phone .hero { height: 150vh; }
+
+/* The tap hint only means anything on the phone layout, where the style
+   worlds are switched by tapping rather than by scrolling. */
+.style-worlds__hint { display: none; }
+
+/* `position:absolute; left:50%` with no width shrink-wraps to whatever
+   space is left to the right of the 50% mark — 188px of a 375px screen.
+   An explicit width fixes it at every size, not just where there happened
+   to be room. (The phone layout makes this static anyway; this keeps
+   tablets honest.) */
+.philosophy__support { width: min(30rem, calc(100% - 2 * var(--space-mobile))); }
+
+/* ==========================================================================
+   QUICK CONTACT — phone becomes a bottom action bar, not floating pills.
+
+   Floating over the content meant it permanently sat on top of real copy:
+   the hero headline, FAQ answers, whichever paragraph happened to be
+   underneath it. Suppressing it section by section was whack-a-mole.
+
+   A full-width bar pinned to the bottom is the standard mobile pattern for
+   exactly this, and because the page gets matching bottom padding it can
+   never cover anything. It also makes the two actions that matter — the
+   only two ways to actually book — bigger and permanently reachable with
+   a thumb.
+   ========================================================================== */
+@media (max-width: 767px) {
+  .quick-contact {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--color-charcoal) 96%, transparent);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(253,253,253,0.12);
+  }
+  /* The caption is desktop affordance; the bar's buttons are self-evident. */
+  .quick-contact__label { display: none; }
+
+  .quick-contact__btn {
+    flex: 1;
+    justify-content: center;
+    min-height: 48px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+  }
+  .quick-contact__btn + .quick-contact__btn { margin-left: 0.5rem; }
+
+  /* So the bar never hides the last line of the page. */
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+
+  /* The bar is out of the content's way, so it no longer needs to hide
+     itself over the sections that carry their own WhatsApp buttons —
+     but a duplicate right under the real one still looks odd, so the
+     existing suppression is kept and just slides it away instead. */
+  .quick-contact.is-suppressed-cta,
+  .quick-contact.is-suppressed-nav {
+    transform: translateY(110%);
+    transition: transform var(--dur-fast) var(--ease-premium);
+  }
+}
+
+/* The narrow-screen rule that hides these labels was written for small
+   floating pills, where there genuinely wasn't room. In the bottom bar each
+   button is ~170px wide, and "WhatsApp" / "Call" spelled out is far clearer
+   than a bare glyph — particularly for anyone who doesn't read icons
+   fluently, which is a real part of this audience. */
+@media (max-width: 767px) {
+  .quick-contact__btn span { display: inline; }
+  .quick-contact__btn { gap: 0.55rem; }
+}
