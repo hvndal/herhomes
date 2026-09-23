@@ -23,63 +23,45 @@ const HHC_DATA = {
    * ------------------------------------------------------------------ */
   site: {
     url: "https://herhomes.shop",
-    lang: "en-IN",
-    locale: "en_IN",
+    lang: "en-CA",
+    locale: "en_CA",
 
-    // Title is keyword-first, brand-last on purpose: nobody is searching
-    // "Her Homes Co." yet, they are searching "home organiser in Mohali".
-    // Once the brand has recognition, flipping these is a one-line change.
-    title: "Interior Styling, Home Organising & Deep Cleaning in Mohali | Her Homes Co.",
+    title: "Interior Styling, Home Organising & Deep Cleaning in Vancouver | Her Homes Co.",
     description:
-      "Interior design, home organising and deep cleaning in Mohali, Kharar, Kurali, Zirakpur and across Chandigarh Tricity. Her Homes Co. builds your home around the way you actually live. Message for a personalised quote.",
+      "Interior design, home organising and deep cleaning across Vancouver, Downtown, Gastown, Kitsilano, and Metro Vancouver, BC. Design studio & showroom opening soon on E Hastings near Downtown. Built by MANDER.",
 
-    // The image WhatsApp / Facebook / LinkedIn show when the link is
-    // shared. Generated at 1200x630 by `npm run build:images` from the
-    // desktop hero still — a real interior, which previews far better
-    // than the portrait-shaped logo that used to be used here.
     shareImage: {
       src: "assets/media/og-cover.jpg",
       width: 1200,
       height: 630,
-      alt: "A sunlit, softly styled home interior — Her Homes Co.",
+      alt: "A sunlit, softly styled home interior — Her Homes Co. Vancouver",
     },
 
-    // Service-area business: no street address is published, because none
-    // was confirmed. These render as proper schema.org City entities in
-    // `areaServed`, which is a far stronger local-search signal than one
-    // free-text string. If a real registered address exists, add an
-    // `address` block here and prerender.mjs emits PostalAddress from it.
-    // Every town confirmed serviceable by the owner. These render as
-    // schema.org City entities in `areaServed` AND as real visible text in
-    // the footer and the FAQ — both matter. Structured data alone rarely
-    // wins a local query; the words also have to be on the page.
-    //
-    // `alsoKnownAs` exists because people search the same place by more
-    // than one name: Mohali is officially SAS Nagar / Sahibzada Ajit Singh
-    // Nagar, and Mullanpur is marketed as New Chandigarh. Both spellings
-    // end up in the visible text, so both can match.
-    //
-    // Adding a town is one line here — it flows into the schema, the
-    // footer list and the FAQ answer on the next `npm run build`.
+    address: {
+      streetAddress: "E Hastings St (near Downtown)",
+      addressLocality: "Vancouver",
+      addressRegion: "BC",
+      addressCountry: "CA",
+      note: "Design Studio & Showroom opening soon on E Hastings St near Downtown Vancouver",
+    },
+
     areaServed: [
-      { name: "Mohali",     region: "Punjab",     country: "IN", alsoKnownAs: "SAS Nagar" },
-      { name: "Kharar",     region: "Punjab",     country: "IN" },
-      { name: "Kurali",     region: "Punjab",     country: "IN" },
-      { name: "Zirakpur",   region: "Punjab",     country: "IN" },
-      { name: "Mullanpur",  region: "Punjab",     country: "IN", alsoKnownAs: "New Chandigarh" },
-      { name: "Landran",    region: "Punjab",     country: "IN" },
-      { name: "Banur",      region: "Punjab",     country: "IN" },
-      { name: "Derabassi",  region: "Punjab",     country: "IN" },
-      { name: "Chandigarh", region: "Chandigarh", country: "IN" },
-      { name: "Panchkula",  region: "Haryana",    country: "IN" },
+      { name: "Vancouver",          region: "British Columbia", country: "CA" },
+      { name: "Downtown Vancouver", region: "British Columbia", country: "CA" },
+      { name: "Gastown",            region: "British Columbia", country: "CA" },
+      { name: "Mount Pleasant",     region: "British Columbia", country: "CA" },
+      { name: "Kitsilano",          region: "British Columbia", country: "CA" },
+      { name: "Yaletown",           region: "British Columbia", country: "CA" },
+      { name: "West End",           region: "British Columbia", country: "CA" },
+      { name: "Burnaby",            region: "British Columbia", country: "CA" },
+      { name: "Richmond",           region: "British Columbia", country: "CA" },
+      { name: "North Vancouver",    region: "British Columbia", country: "CA" },
+      { name: "West Vancouver",     region: "British Columbia", country: "CA" },
+      { name: "Langley",            region: "British Columbia", country: "CA" },
+      { name: "Surrey",             region: "British Columbia", country: "CA" },
+      { name: "Coquitlam",          region: "British Columbia", country: "CA" },
     ],
 
-    // PLACEHOLDER — paste the real IDs and they go live on the next build.
-    // ga4MeasurementId: "G-XXXXXXXXXX" turns on Google Analytics 4 and
-    // every trackEvent() call in main.js starts reporting.
-    // searchConsoleVerification: "..." adds the Search Console meta tag.
-    // Both stay out of the page entirely while they are null, so nothing
-    // ever looks wired up while quietly tracking nothing.
     ga4MeasurementId: null,
     searchConsoleVerification: null,
   },
@@ -87,8 +69,6 @@ const HHC_DATA = {
   brand: {
     name: "Her Homes Co.",
     tagline: "Interiors · Organising · Deep Cleaning",
-    // Live-text wordmark color / display font are pulled from CSS tokens
-    // (--color-secondary / --font-display) — see styles.css :root.
   },
 
   /* ------------------------------------------------------------------
@@ -97,26 +77,17 @@ const HHC_DATA = {
   contact: {
     whatsapp: {
       label: "WhatsApp",
-      // Digits only, country code first, no + or spaces, e.g. "919876543210"
-      number: "919915217674",
-      message: "Hi! I'd love to know more about Her Homes Co.",
+      number: "18577587182",
+      message: "Hi! I'd love to know more about Her Homes Co. in Vancouver.",
       href: null, // computed at render time from `number` + `message`
     },
     phone: {
       label: "Call",
-      display: "+91 99152 17674",
-      href: "tel:+919915217674",
+      display: "+1 (857) 758-7182",
+      href: "tel:+18577587182",
     },
-    // Instagram removed for now — no real account exists yet. Add it back
-    // here (label/handle/href) the moment there is one; nothing else needs
-    // to change, every place that lists contact links reads from this file.
-    // Adding it also populates schema.org `sameAs`, which is a genuine
-    // local-SEO signal, so it is worth doing as soon as an account exists.
-    email: "PLACEHOLDER@herhomes.co",
-    // Shown in the footer. Repeating the service area as real text in the
-    // page is a genuine local-search signal, so this is no longer null.
-    // Short line under the footer; the full town list renders above it.
-    location: "Mohali · Kharar · Kurali · Zirakpur · Chandigarh Tricity",
+    email: "hello@herhomes.shop",
+    location: "Studio opening soon on E Hastings St (near Downtown) · Serving Vancouver & Metro Vancouver, BC",
   },
 
   /* ------------------------------------------------------------------
@@ -302,14 +273,14 @@ const HHC_DATA = {
     eyebrow: "Investment",
     heading: "A PREMIUM SERVICE MENU, NOT A CALCULATOR.",
     intro: "Every home is a different scope — size, number of areas, how much organising versus styling, how deep the clean needs to go. Here's what shapes the number.",
-    currency: "₹",
+    currency: "$",
     // Picking a home size below doesn't compute a price (nothing here is
     // fabricated) — it carries that choice straight into the WhatsApp
     // message, so the size picker ends in an actual quote request rather
     // than a dead end. {size} is replaced with whichever size was clicked.
-    quoteMessageTemplate: "Hi! I'd love a personalised quote for my {size} home.",
+    quoteMessageTemplate: "Hi! I'd love a personalised quote for my {size} home in Vancouver.",
     variables: {
-      homeSize: ["1 BHK", "2 BHK", "3 BHK", "4 BHK+"],
+      homeSize: ["Condo / 1-Bed", "2-Bed Apartment", "Townhouse", "Detached Home"],
       factors: [
         "Amount of organising required",
         "Number of areas / rooms",
@@ -349,7 +320,7 @@ const HHC_DATA = {
         id: "shelf-organising",
         name: "Shelf / Detailed Organisation Add-on",
         description: "Deeper organisation work for areas like shelving and the fridge, scoped to the agreed plan.",
-        price: 5000,
+        price: 150,
         priceUnit: "one-time",
         confirmed: true,
       },
@@ -362,7 +333,7 @@ const HHC_DATA = {
    * A one-page site is thin by nature: there simply isn't much text for
    * a search engine to match a query against. These answers add real,
    * indexable copy for the long-tail questions people actually type
-   * ("home organiser in Mohali", "what does deep cleaning include",
+   * ("home organiser in Vancouver", "what does deep cleaning include",
    * "how much does home styling cost"), and they are also emitted as
    * schema.org FAQPage structured data by scripts/prerender.mjs.
    *
@@ -382,11 +353,11 @@ const HHC_DATA = {
     },
     {
       q: "Which areas do you serve?",
-      a: "Her Homes Co. covers Mohali (SAS Nagar) and the surrounding towns: Kharar, Kurali, Zirakpur, Mullanpur (New Chandigarh), Landran, Banur and Derabassi — plus Chandigarh and Panchkula across the wider Tricity. If you are just outside that, message on WhatsApp and ask; it is a quick answer.",
+      a: "Her Homes Co. serves Vancouver and the wider Metro Vancouver region — including Downtown Vancouver, Gastown, Mount Pleasant, Kitsilano, Yaletown, West End, Burnaby, Richmond, North Vancouver, West Vancouver, Surrey, and Langley. Our design studio & showroom is opening soon on E Hastings St near Downtown Vancouver. If you are anywhere in Metro Vancouver, message us on WhatsApp and ask; it is a quick answer.",
     },
     {
       q: "How much does it cost?",
-      a: "Every home is a different scope, so styling, organising, deep cleaning and the Combined Home Reset are each quoted individually rather than sold at a fixed rate. What shapes the number: how much organising is required, the number of areas or rooms, design complexity, the cleaning requirement, and any special requests. The one fixed price is the Shelf / Detailed Organisation add-on at ₹5,000 one-time. Send your home size on WhatsApp and a personalised quote comes back.",
+      a: "Every home is a different scope, so styling, organising, deep cleaning and the Combined Home Reset are each quoted individually rather than sold at a fixed rate. What shapes the number: how much organising is required, the number of areas or rooms, design complexity, the cleaning requirement, and any special requests. The one fixed price is the Shelf / Detailed Organisation add-on at $150 one-time. Send your home size on WhatsApp and a personalised quote comes back.",
     },
     {
       q: "Do I need to already know what style I want?",
@@ -405,16 +376,16 @@ const HHC_DATA = {
       a: "Six stages. You tell us what you like; we spend time understanding how you actually move through your home; we build the look around your aesthetic; we organise the details so the styling holds; we reset the space with a full deep clean; and then you walk into it.",
     },
     {
-      q: "Can you organise our home according to Vastu?",
-      a: "Yes. If Vastu matters in your home, say so at the start and it shapes the plan — which direction storage faces, where things live in the kitchen and the wardrobe, what stays out of particular corners. The same applies if you follow Feng Shui instead. To be straight about it: we work to the principles you tell us matter to you. We are not Vastu consultants, we don't audit a home against a chart, and nothing gets moved on that basis unless you ask for it.",
+      q: "Can you organise our home according to Vastu or Feng Shui?",
+      a: "Yes. If Vastu or Feng Shui matters in your home, say so at the start and it shapes the plan — which direction storage faces, where things live in the kitchen and the wardrobe, what stays out of particular corners. To be straight about it: we work to the principles you tell us matter to you.",
     },
     {
-      q: "Do you work with traditional Indian or Punjabi interiors?",
-      a: "Very much so. The style worlds on this page — Scandinavian, Japanese, Modern, Minimalist, Indian Heritage, Punjabi, Bohemian and College Core — are starting points, not a menu you have to order from. If what you want is carved wood, brass, jewel colours, phulkari and handloom rather than pale Scandinavian minimalism, that is a direction we build in. A home in Mohali, Kharar or Kurali does not have to look like a catalogue from somewhere else.",
+      q: "Do you work with traditional Indian or diverse heritage interiors?",
+      a: "Very much so. The style worlds on this page — Scandinavian, Japanese, Modern, Minimalist, Indian Heritage, Bohemian and College Core — are starting points, not a menu you have to order from. A home in Vancouver, Kitsilano or Gastown does not have to look like a generic catalogue from somewhere else.",
     },
     {
       q: "How do I book?",
-      a: "There is no form to fill in. Message on WhatsApp at +91 99152 17674 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling the same number works just as well.",
+      a: "There is no form to fill in. Message on WhatsApp at +1 (857) 758-7182 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling works just as well.",
     },
   ],
   faqMeta: {
@@ -443,7 +414,7 @@ const HHC_DATA = {
    * ------------------------------------------------------------------ */
   finalCta: {
     lineA: ["LET'S MAKE", "YOUR HOME", "FEEL LIKE YOU."],
-    support: "No long forms — this is a Tricity / Mohali operation. Message her on WhatsApp and tell her a bit about your home; she'll take it from there.",
+    support: "No long forms — serving Vancouver and Metro Vancouver. Design studio & showroom opening soon on E Hastings near Downtown. Message her on WhatsApp and tell her a bit about your home; she'll take it from there.",
     whatsappButtonLabel: "Message her on WhatsApp",
   },
 
