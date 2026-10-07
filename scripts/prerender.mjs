@@ -570,7 +570,7 @@ function renderProcess() {
 
 function renderPricing() {
   const p = D.pricing;
-  const inr = (n) => "₹" + Number(n).toLocaleString("en-IN");
+  const cad = (n) => "$" + Number(n).toLocaleString("en-CA");
 
   const menu = p.services
     .map((s) =>
@@ -579,7 +579,7 @@ function renderPricing() {
         `        <h4 class="f-display pr-row__name">${esc(s.name)}</h4>`,
         `        <p class="f-body pr-row__desc">${esc(s.description)}</p>`,
         `        <span class="f-label pr-row__price${s.startingPrice ? "" : " is-quote"}">${
-          s.startingPrice ? "From " + esc(inr(s.startingPrice)) : "Personalised quote"
+          s.startingPrice ? "From " + esc(cad(s.startingPrice)) : "Personalised quote"
         }</span>`,
         `      </div>`,
       ].join("\n")
@@ -594,7 +594,7 @@ function renderPricing() {
         `          <p class="f-label pr-addon__name">${esc(a.name)}</p>`,
         `          <p class="pr-addon__desc">${esc(a.description)}</p>`,
         `        </div>`,
-        `        <span class="f-label pr-addon__price">${esc(inr(a.price))} ${esc(a.priceUnit)}</span>`,
+        `        <span class="f-label pr-addon__price">${esc(cad(a.price))} ${esc(a.priceUnit)}</span>`,
         `      </div>`,
       ].join("\n")
     )
