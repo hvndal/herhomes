@@ -748,7 +748,10 @@ function renderFooter() {
     `    <li><a href="${esc(c.whatsapp.href)}" target="_blank" rel="noopener">WhatsApp</a></li>`,
     `    <li><a href="${esc(c.phone.href)}">${esc(c.phone.display)}</a></li>`,
     `    <li><a href="https://share.google/6QXZ1NAflIyRcZrSn" target="_blank" rel="noopener">Google Profile</a></li>`,
-    `    <li><a href="#faq">FAQ</a></li>`,
+    `    <li><a href="/deep-cleaning">Deep Cleaning</a></li>
+    <li><a href="/organising">Organising</a></li>
+    <li><a href="/interior-design">Interior Design</a></li>
+    <li><a href="#faq">FAQ</a></li>`,
     `    <li><a href="#book">Book</a></li>`,
     `  </ul>`,
     `</div>`,
