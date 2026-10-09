@@ -93,7 +93,7 @@ const PHOTOS = [
     describes: "A clean architectural room — black bench, geometric pendant, marble floor.",
   },
   {
-    file: "heritage-canadiana.jpg",
+    file: "indian-heritage.jpg",
     size: WORLD,
     pexelsId: 37415406,
     credit: "Photo by Pixabay on Pexels",
@@ -118,7 +118,7 @@ const PHOTOS = [
     // NOTE: this is an embroidered textile, not a Pacific Northwest room. Pexels has
     // no genuine Pacific Northwest interior photography — its results for that are
     // portraits, cabins and village exteriors, and the one "Canadian
-    // courtyard" candidate turned out to be a South Heritage Canadiana-house
+    // courtyard" candidate turned out to be a South Indian heritage-house
     // museum complete with mannequins. This dense floss-silk geometric
     // embroidery in marigold, rust and indigo is visually very close to
     // plaid and is the most honest option available. The alt text

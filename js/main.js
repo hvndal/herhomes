@@ -856,7 +856,7 @@
    * startingPrice renders as a personalised-quote treatment rather
    * than a fabricated number.
    * ------------------------------------------------------------------ */
-  function formatCAD(n) {
+  function formatINR(n) {
     return `$${Number(n).toLocaleString("en-CA")}`;
   }
 
@@ -871,7 +871,7 @@
       data.services.forEach((svc) => {
         const row = document.createElement("div");
         row.className = "pr-row";
-        const priceLabel = svc.startingPrice ? `From ${formatCAD(svc.startingPrice)}` : "Personalised quote";
+        const priceLabel = svc.startingPrice ? `From ${formatINR(svc.startingPrice)}` : "Personalised quote";
         row.innerHTML = `
           <h4 class="f-display pr-row__name">${svc.name}</h4>
           <p class="f-body pr-row__desc">${svc.description}</p>
@@ -891,7 +891,7 @@
             <p class="f-label pr-addon__name">${addon.name}</p>
             <p class="pr-addon__desc">${addon.description}</p>
           </div>
-          <span class="f-label pr-addon__price">${formatCAD(addon.price)} ${addon.priceUnit}</span>
+          <span class="f-label pr-addon__price">${formatINR(addon.price)} ${addon.priceUnit}</span>
         `;
         addons.appendChild(row);
       });

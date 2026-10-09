@@ -570,7 +570,7 @@ function renderProcess() {
 
 function renderPricing() {
   const p = D.pricing;
-  const cad = (n) => "$" + Number(n).toLocaleString("en-CA");
+  const inr = (n) => "?" + Number(n).toLocaleString("en-IN");
 
   const menu = p.services
     .map((s) =>
@@ -579,7 +579,7 @@ function renderPricing() {
         `        <h3 class="f-display pr-row__name">${esc(s.name)}</h3>`,
         `        <p class="f-body pr-row__desc">${esc(s.description)}</p>`,
         `        <span class="f-label pr-row__price${s.startingPrice ? "" : " is-quote"}">${
-          s.startingPrice ? "From " + esc(cad(s.startingPrice)) : "Personalised quote"
+          s.startingPrice ? "From " + esc(inr(s.startingPrice)) : "Personalised quote"
         }</span>`,
         `      </div>`,
       ].join("\n")
@@ -594,7 +594,7 @@ function renderPricing() {
         `          <p class="f-label pr-addon__name">${esc(a.name)}</p>`,
         `          <p class="pr-addon__desc">${esc(a.description)}</p>`,
         `        </div>`,
-        `        <span class="f-label pr-addon__price">${esc(cad(a.price))} ${esc(a.priceUnit)}</span>`,
+        `        <span class="f-label pr-addon__price">${esc(inr(a.price))} ${esc(a.priceUnit)}</span>`,
         `      </div>`,
       ].join("\n")
     )
@@ -735,7 +735,7 @@ function renderFooter() {
     `<div class="container site-footer__areas">`,
     `  <h2 class="f-label site-footer__areas-title">Areas we serve</h2>`,
     `  <p class="f-body site-footer__areas-list">${areas}</p>`,
-    `  <p class="f-body site-footer__areas-note">Home styling, organising and deep cleaning across Vancouver and Metro Vancouver, BC. Design studio & showroom opening soon on E Hastings St (near Downtown). Not sure if you're in range? <a href="${esc(c.whatsapp.href)}" target="_blank" rel="noopener">Ask on WhatsApp</a> — it's a quick answer.</p>`,
+    `  <p class="f-body site-footer__areas-note">Home styling, organising and deep cleaning across Mohali, Punjab. Not sure if you're in range? <a href="${esc(c.whatsapp.href)}" target="_blank" rel="noopener">Ask on WhatsApp</a> — it's a quick answer.</p>`,
     `</div>`,
     `<div class="container site-footer__row">`,
     `  <div class="site-footer__mark">`,
@@ -754,7 +754,7 @@ function renderFooter() {
     `  <span data-footer-location>${esc(c.location || "")}</span>`,
     `</div>`,
     `<div class="container site-footer__credit f-label" style="margin-top: 1.5rem; text-align: center; font-size: 0.75rem; opacity: 0.85;">`,
-    `  <span>Website designed & built by <a href="https://www.mander.tech" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">MANDER</a> • Web Design & SEO in <a href="https://www.mander.tech/locations/metro-vancouver/vancouver" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">Vancouver</a> & <a href="https://www.mander.tech/locations/metro-vancouver/langley" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">Langley, BC</a></span>`,
+    `  <span>Website designed & built by <a href="https://www.mander.tech" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">MANDER</a> • Web Design & SEO in <a href="https://www.mander.tech/locations/india/mohali" target="_blank" rel="noopener" style="text-decoration: underline; color: inherit;">Mohali, Punjab</a></span>`,
     `</div>`,
   ].join("\n");
 }

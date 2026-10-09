@@ -24,42 +24,23 @@ const HHC_DATA = {
   site: {
     url: "https://herhomes.shop",
     lang: "en-CA",
-    locale: "en_CA",
+    locale: "en_IN",
 
-    title: "Interior Styling, Home Organising & Deep Cleaning in Vancouver | Her Homes Co.",
+    title: "Interior Styling, Home Organising & Deep Cleaning in Vancouver |Her Homes Co.",
     description:
-      "Interior design, home organising and deep cleaning across Vancouver, Downtown, Gastown, Kitsilano, and Metro Vancouver, BC. Design studio & showroom opening soon on E Hastings near Downtown. Built by MANDER.",
+      "Interior design, home organising and deep cleaning in Mohali, Punjab. Built by MANDER.",
 
     shareImage: {
       src: "assets/media/og-cover.jpg",
       width: 1200,
       height: 630,
-      alt: "A sunlit, softly styled home interior — Her Homes Co. Vancouver",
+      alt: "A sunlit, softly styled home interior —Her Homes Co. Mohali",
     },
 
-    address: {
-      streetAddress: "E Hastings St (near Downtown)",
-      addressLocality: "Vancouver",
-      addressRegion: "BC",
-      addressCountry: "CA",
-      note: "Design Studio & Showroom opening soon on E Hastings St near Downtown Vancouver",
-    },
+    address: { streetAddress: "", addressLocality: "Mohali", addressRegion: "Punjab", addressCountry: "IN", note: "Serving Mohali, Punjab" },
 
     areaServed: [
-      { name: "Vancouver",          region: "British Columbia", country: "CA" },
-      { name: "Downtown Vancouver", region: "British Columbia", country: "CA" },
-      { name: "Gastown",            region: "British Columbia", country: "CA" },
-      { name: "Mount Pleasant",     region: "British Columbia", country: "CA" },
-      { name: "Kitsilano",          region: "British Columbia", country: "CA" },
-      { name: "Yaletown",           region: "British Columbia", country: "CA" },
-      { name: "West End",           region: "British Columbia", country: "CA" },
-      { name: "Burnaby",            region: "British Columbia", country: "CA" },
-      { name: "Richmond",           region: "British Columbia", country: "CA" },
-      { name: "North Vancouver",    region: "British Columbia", country: "CA" },
-      { name: "West Vancouver",     region: "British Columbia", country: "CA" },
-      { name: "Langley",            region: "British Columbia", country: "CA" },
-      { name: "Surrey",             region: "British Columbia", country: "CA" },
-      { name: "Coquitlam",          region: "British Columbia", country: "CA" },
+      { name: "Mohali", region: "Punjab", country: "IN", alsoKnownAs: "SAS Nagar" },
     ],
 
     ga4MeasurementId: null,
@@ -77,17 +58,17 @@ const HHC_DATA = {
   contact: {
     whatsapp: {
       label: "WhatsApp",
-      number: "18577587182",
-      message: "Hi! I'd love to know more about Her Homes Co. in Vancouver.",
+      number: "919915217674",
+      message: "Hi! I'd love to know more about Her Homes Co. in Mohali.",
       href: null, // computed at render time from `number` + `message`
     },
     phone: {
       label: "Call",
-      display: "+1 (857) 758-7182",
-      href: "tel:+18577587182",
+      display: "+91 99152 17674",
+      href: "tel:+919915217674",
     },
     email: "hello@herhomes.shop",
-    location: "Studio opening soon on E Hastings St (near Downtown) · Serving Vancouver & Metro Vancouver, BC",
+    location: "Serving Mohali, Punjab",
   },
 
   /* ------------------------------------------------------------------
@@ -182,13 +163,13 @@ const HHC_DATA = {
    *
    * Every world needs a real image; a world with no photo renders an
    * empty frame, which is why "Modern" was temporarily removed earlier.
-   * Modern, Heritage Canadiana and Japandi now have photographs fetched by
+   * Modern, Indian Heritage and Japandi now have photographs fetched by
    * `npm run fetch:stock`.
    *
    * These are starting points shown to a visitor, not a menu they have to
    * order from — the copy says so, and the FAQ says so again. They are
    * also, bluntly, some of the best SEO surface on the page: "japandi",
-   * "Heritage Canadiana interiors" and "modern interior design" are all real
+   * "Indian Heritage interiors" and "modern interior design" are all real
    * searches with far less competition locally than "interior designer".
    *
    * THE Pacific Northwest WORLD USES A TEXTILE, NOT A ROOM — read this before
@@ -212,8 +193,8 @@ const HHC_DATA = {
     { id: "japanese",        name: "Japanese",        words: ["Serene", "Wooden", "Unhurried", "Tactile"] },
     { id: "modern",          name: "Modern",          words: ["Clean", "Architectural", "Balanced", "Crisp"] },
     { id: "minimalist",      name: "Minimalist",      words: ["Sparse", "Considered", "Calm", "Essential"] },
-    { id: "heritage-canadiana", name: "Heritage Canadiana", words: ["Ornate", "Handcrafted", "Jewelled", "Storied"] },
-    { id: "pacific-northwest",         name: "Pacific Northwest",         words: ["plaid", "cedar", "wool", "Generous"] },
+    { id: "indian-heritage", name: "Indian Heritage", words: ["Ornate", "Handcrafted", "Jewelled", "Storied"] },
+    { id: "punjabi", name: "Punjabi", words: ["Phulkari", "Brass", "Handloom", "Generous"] },
     { id: "bohemian",        name: "Bohemian",        words: ["Layered", "Warm", "Textural", "Collected"] },
     { id: "college-core",    name: "College Core",    words: ["Personal", "Playful", "Nostalgic", "Expressive"] },
   ],
@@ -278,7 +259,7 @@ const HHC_DATA = {
     // fabricated) — it carries that choice straight into the WhatsApp
     // message, so the size picker ends in an actual quote request rather
     // than a dead end. {size} is replaced with whichever size was clicked.
-    quoteMessageTemplate: "Hi! I'd love a personalised quote for my {size} home in Vancouver.",
+    quoteMessageTemplate: "Hi! I'd love a personalised quote for my {size} home in Mohali.",
     variables: {
       homeSize: ["Condo / 1-Bed", "2-Bed Apartment", "Townhouse", "Detached Home"],
       factors: [
@@ -348,12 +329,12 @@ const HHC_DATA = {
    * ------------------------------------------------------------------ */
   faq: [
     {
-      q: "What does Her Homes Co. actually do?",
+      q: "What doesHer Homes Co. actually do?",
       a: "Three things, and usually together: home styling (decor direction, colour, furniture placement and room styling), home organising (wardrobes, kitchens, drawers, shelves, pantries, fridges, desks, storage and utility spaces), and deep cleaning (a full-home reset including kitchen degreasing, bathroom detailing, and the insides of cabinets and appliances). You can book any one of them on its own, or all three together as a Combined Home Reset.",
     },
     {
       q: "Which areas do you serve?",
-      a: "Her Homes Co. serves Vancouver and the wider Metro Vancouver region — including Downtown Vancouver, Gastown, Mount Pleasant, Kitsilano, Yaletown, West End, Burnaby, Richmond, North Vancouver, West Vancouver, Surrey, and Langley. Our design studio & showroom is opening soon on E Hastings St near Downtown Vancouver. If you are anywhere in Metro Vancouver, message us on WhatsApp and ask; it is a quick answer.",
+      a: "Her Homes Co. serves Mohali (SAS Nagar). If you are in Mohali, message us on WhatsApp and ask; it is a quick answer.",
     },
     {
       q: "How much does it cost?",
@@ -381,11 +362,11 @@ const HHC_DATA = {
     },
     {
       q: "Do you work with traditional Canadian or diverse heritage interiors?",
-      a: "Very much so. The style worlds on this page — Scandinavian, Japanese, Modern, Minimalist, Heritage Canadiana, Bohemian and College Core — are starting points, not a menu you have to order from. A home in Vancouver, Kitsilano or Gastown does not have to look like a generic catalogue from somewhere else.",
+      a: "Very much so. The style worlds on this page — Scandinavian, Japanese, Modern, Minimalist, Indian Heritage, Bohemian and College Core — are starting points, not a menu you have to order from. A home in Mohali does not have to look like a generic catalogue from somewhere else.",
     },
     {
       q: "How do I book?",
-      a: "There is no form to fill in. Message on WhatsApp at +1 (857) 758-7182 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling works just as well.",
+      a: "There is no form to fill in. Message on WhatsApp at +91 99152 17674 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling works just as well.",
     },
   ],
   faqMeta: {
@@ -404,8 +385,8 @@ const HHC_DATA = {
     eyebrow: "The Founder",
     heading: "SOMEONE SHOULD ACTUALLY CARE HOW YOUR HOME TURNS OUT.",
     name: "Rupinder Kaur",
-    role: "Founder, Her Homes Co.",
-    bio: "Rupinder Kaur is entirely self-made. Her journey started in a small village and led, one step at a time, to building her own company — on the strength of a natural knack for organising and interior design, long before it was ever a business plan. That same instinct is still behind every home Her Homes Co. takes on today.",
+    role: "Founder,Her Homes Co.",
+    bio: "Rupinder Kaur is entirely self-made. Her journey started in a small village and led, one step at a time, to building her own company — on the strength of a natural knack for organising and interior design, long before it was ever a business plan. That same instinct is still behind every homeHer Homes Co. takes on today.",
     photoSlot: "founder-portrait",
   },
 
@@ -414,7 +395,7 @@ const HHC_DATA = {
    * ------------------------------------------------------------------ */
   finalCta: {
     lineA: ["LET'S MAKE", "YOUR HOME", "FEEL LIKE YOU."],
-    support: "No long forms — serving Vancouver and Metro Vancouver. Design studio & showroom opening soon on E Hastings near Downtown. Message her on WhatsApp and tell her a bit about your home; she'll take it from there.",
+    support: "No long forms — serving Mohali. Message her on WhatsApp and tell her a bit about your home; she'll take it from there.",
     whatsappButtonLabel: "Message her on WhatsApp",
   },
 
@@ -432,11 +413,11 @@ const HHC_DATA = {
    * ------------------------------------------------------------------ */
   mediaSlots: {
     "hero-film":            { type: "video", src: null, mobileSrc: null, desktopSrc: null, mobilePoster: null, desktopPoster: null, note: "Cinematic interior film — sunlight, hands, fabric, wood." },
-    "founder-portrait":     { type: "image", src: null, note: "Founder portrait — warm, personal, not corporate headshot.", alt: "Rupinder Kaur, founder of Her Homes Co., in a softly styled home interior." },
-    "process-visual":       { type: "image", src: null, note: "Pinned visual for the process section, can be one film loop.", alt: "A home mid-transformation during Her Homes Co.'s styling and organising process." },
-    "styling-detail":       { type: "image", src: null, note: "Home Styling supporting image.", alt: "Home styling by Her Homes Co. — decor, colour direction and furniture placement." },
-    "organising-detail":    { type: "image", src: null, note: "Home Organising supporting image (drawers/shelves/wardrobe).", alt: "Organised wardrobe and shelving by Her Homes Co." },
-    "deep-cleaning-detail": { type: "image", src: null, note: "Deep Cleaning supporting image.", alt: "A freshly deep-cleaned home interior by Her Homes Co." },
+    "founder-portrait":     { type: "image", src: null, note: "Founder portrait — warm, personal, not corporate headshot.", alt: "Rupinder Kaur, founder ofHer Homes Co., in a softly styled home interior." },
+    "process-visual":       { type: "image", src: null, note: "Pinned visual for the process section, can be one film loop.", alt: "A home mid-transformation duringHer Homes Co.'s styling and organising process." },
+    "styling-detail":       { type: "image", src: null, note: "Home Styling supporting image.", alt: "Home styling byHer Homes Co. — decor, colour direction and furniture placement." },
+    "organising-detail":    { type: "image", src: null, note: "Home Organising supporting image (drawers/shelves/wardrobe).", alt: "Organised wardrobe and shelving byHer Homes Co." },
+    "deep-cleaning-detail": { type: "image", src: null, note: "Deep Cleaning supporting image.", alt: "A freshly deep-cleaned home interior byHer Homes Co." },
   },
 };
 
@@ -455,9 +436,9 @@ const STYLE_IMAGE_DIMENSIONS = {
   "minimalist":      { width: 1333, height: 2000 },
   // Fetched by npm run fetch:stock, which crops them all to 1400x2000.
   "japanese":        { width: 1400, height: 2000 },
-  "pacific-northwest":         { width: 1400, height: 2000 },
+  "punjabi":         { width: 1400, height: 2000 },
   "modern":          { width: 1400, height: 2000 },
-  "heritage-canadiana": { width: 1400, height: 2000 },
+  "indian-heritage": { width: 1400, height: 2000 },
 };
 
 HHC_DATA.styleWorlds.forEach((w) => {
@@ -466,7 +447,7 @@ HHC_DATA.styleWorlds.forEach((w) => {
       type: "image",
       src: "assets/media/" + w.id + ".jpg",
       note: w.name + " style-world image.",
-      alt: w.name + "-style home interior styled by Her Homes Co. — " + w.words.join(", ").toLowerCase() + ".",
+      alt: w.name + "-style home interior styled byHer Homes Co. — " + w.words.join(", ").toLowerCase() + ".",
     },
     STYLE_IMAGE_DIMENSIONS[w.id] || {}
   );
@@ -484,7 +465,7 @@ HHC_DATA.styleWorlds.forEach((w) => {
 // this site is traceable.
 //
 // These are stock photographs of homes and cleaning in general — NOT photos
-// of Her Homes Co.'s own work, and nothing on the page says otherwise. Drop
+// ofHer Homes Co.'s own work, and nothing on the page says otherwise. Drop
 // a real photo of an actual job at the same path and it takes over with no
 // other change (`npm run build:images` will not overwrite it).
 HHC_DATA.serviceChooser.items.forEach((item) => {
