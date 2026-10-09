@@ -4,7 +4,7 @@
   "installCommand": "echo no-install-needed",
   "buildCommand": "node scripts/prerender.mjs --check",
   "outputDirectory": ".",
-  "trailingSlash": false,
+  "trailingSlash": false, "cleanUrls": true,
   "headers": [
     {
       "source": "/",
