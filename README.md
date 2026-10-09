@@ -199,7 +199,7 @@ fallback panel for it (see `buildServicePanels`) rather than leaving a hole.
 
 ## No booking form, by design
 
-There's no on-page booking form. For a direct, local (Lower Mainland / Vancouver)
+There's no on-page booking form. For a direct, local (Mohali / Tricity)
 business, a WhatsApp message someone actually replies to beats a form field
 someone has to fill in — so the final section's primary action is a large
 "Message her on WhatsApp" button (`finalCta.whatsappButtonLabel`; the link
@@ -224,7 +224,7 @@ placeholder because the real value wasn't provided:
 
 **Contact (`HHC_DATA.contact`)**
 - ~~WhatsApp number~~ / ~~Phone~~ — **done, both.** `contact.whatsapp.number`
-  and `contact.phone.href` are the real Canadian mobile number (same number,
+  and `contact.phone.href` are the real Indian mobile number (same number,
   used two ways — WhatsApp message and direct call). `contact.whatsapp.href`
   is built automatically (`https://wa.me/91XXXXXXXXXX?text=...`). Both are
   live: the final-CTA section, the mobile menu, and the floating quick-contact
@@ -292,8 +292,8 @@ headshot." on the live site. A slot with no real file is now simply absent.
 Two follow-on changes came out of that:
 
 - **"Modern" is back, and there are now seven style worlds:**
-  Scandinavian, Japandi, Modern, Minimalist, Heritage Canadiana, Bohemian and
-  College Core. Modern, Japandi and Heritage Canadiana use photography
+  Scandinavian, Japandi, Modern, Minimalist, Heritage Indiana, Bohemian and
+  College Core. Modern, Japandi and Heritage Indiana use photography
   fetched by `npm run fetch:stock`; the other four were supplied with the
   project. Adding another is one line in `styleWorlds` plus one image at
   `assets/media/<id>.jpg` — the slot, the WebP, the schema and the scroll
@@ -302,7 +302,7 @@ Two follow-on changes came out of that:
   **The Pacific Northwest world is illustrated by a textile, not a room — and that
   needs replacing.** Pexels has no genuine Pacific Northwest *interior* photography:
   searching returns portraits, cabins and village exteriors, and the one
-  promising "Canadian courtyard" result turned out to be a South Canadian
+  promising "Indian courtyard" result turned out to be a South Indian
   heritage-house museum with mannequins in it. Its image is therefore a
   close-up of dense floss-silk geometric embroidery in marigold, rust and
   indigo — visually very close to plaid, honest as a swatch, and its alt
@@ -419,7 +419,7 @@ crawler — or a screen-reader user — can see the full set.
 
 ### Local SEO — the service areas
 
-Ten towns, all confirmed serviceable: **Vancouver (Metro Vancouver), Burnaby,
+Ten towns, all confirmed serviceable: **Mohali (Tricity), Chandigarh, Panchkula, Zirakpur.
 Kurali, Richmond, Mullanpur (New Coquitlam), Landran, Banur, Langley,
 Coquitlam and Surrey.**
 
@@ -427,7 +427,7 @@ They live in one list — `site.areaServed` in `js/data.js` — and one edit
 flows into all four places that matter:
 
 - schema.org `City` entities on the business node, with `alternateName`
-  where a place has two names people search (Vancouver/Metro Vancouver,
+  where a place has two names people search (Mohali/Tricity,
   Mullanpur/New Coquitlam);
 - an **"Areas we serve" block in the footer as real readable text** — this
   is the part that actually wins a query like "home organiser in Burnaby".
@@ -442,7 +442,7 @@ Adding a town is one line plus `npm run build`.
 
 A five-node JSON-LD `@graph`: `HomeAndConstructionBusiness`, `Person`
 (the founder), `WebSite`, `WebPage`, and `FAQPage`. The business node
-carries `areaServed` as four proper schema.org `City` entities (Vancouver,
+carries `areaServed` as four proper schema.org `City` entities (Mohali,
 Coquitlam, Surrey, Richmond) rather than one free-text string, plus a
 `hasOfferCatalog` mirroring the real service menu, with a price only on
 the one add-on that actually has a confirmed one.
@@ -471,7 +471,7 @@ the business really works — see the comment above `faq` in `js/data.js`.
 Home Organising now says it will work to **Feng Shui** (or Feng Shui) if that
 matters in the home, there is a dedicated FAQ answering it, and both are in
 the schema's `knowsAbout`. This is one of the strongest local-SEO moves
-available here: "Feng Shui for home" is a very high-volume Canadian search and
+available here: "Feng Shui for home" is a very high-volume Indian search and
 almost no local cleaning or organising business has any content answering
 it.
 
@@ -526,7 +526,7 @@ are `null`, so nothing ever looks wired up while quietly tracking nothing.
    quote".
 5. **Social profiles** — an Instagram account would populate `sameAs`.
 6. **Separate pages.** One page can only rank for so much. The natural next
-   step is a page per service and per city (`/home-organising-Vancouver`),
+   step is a page per service and per city (`/home-organising-Mohali`),
    at which point `sitemap.xml` grows one `<url>` per page.
 
 ## Motion — one rhythm for the whole page
