@@ -338,7 +338,7 @@ const HHC_DATA = {
     },
     {
       q: "How much does it cost?",
-      a: "Every home is a different scope, so styling, organising, deep cleaning and the Combined Home Reset are each quoted individually rather than sold at a fixed rate. What shapes the number: how much organising is required, the number of areas or rooms, design complexity, the cleaning requirement, and any special requests. The one fixed price is the Shelf / Detailed Organisation add-on at $150 one-time. Send your home size on WhatsApp and a personalised quote comes back.",
+      a: "Every home is a different scope, so styling, organising, deep cleaning and the Combined Home Reset are each quoted individually rather than sold at a fixed rate. What shapes the number: how much organising is required, the number of areas or rooms, design complexity, the cleaning requirement, and any special requests. Send your home size on WhatsApp and a personalised quote comes back.",
     },
     {
       q: "Do I need to already know what style I want?",
