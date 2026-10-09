@@ -413,7 +413,7 @@ const HHC_DATA = {
    * ------------------------------------------------------------------ */
   mediaSlots: {
     "hero-film":            { type: "video", src: null, mobileSrc: null, desktopSrc: null, mobilePoster: null, desktopPoster: null, note: "Cinematic interior film — sunlight, hands, fabric, wood." },
-    "founder-portrait":     { type: "image", src: null, note: "Founder portrait — warm, personal, not corporate headshot.", alt: "Rupinder Kaur, founder ofHer Homes Co., in a softly styled home interior." },
+    "founder-portrait":     { type: "image", src: null, note: "Founder portrait — warm, personal, not corporate headshot.", alt: "Rupinder Kaur, founder of Her Homes Co., in a softly styled home interior." },
     "process-visual":       { type: "image", src: null, note: "Pinned visual for the process section, can be one film loop.", alt: "A home mid-transformation duringHer Homes Co.'s styling and organising process." },
     "styling-detail":       { type: "image", src: null, note: "Home Styling supporting image.", alt: "Home styling byHer Homes Co. — decor, colour direction and furniture placement." },
     "organising-detail":    { type: "image", src: null, note: "Home Organising supporting image (drawers/shelves/wardrobe).", alt: "Organised wardrobe and shelving byHer Homes Co." },
@@ -447,7 +447,7 @@ HHC_DATA.styleWorlds.forEach((w) => {
       type: "image",
       src: "assets/media/" + w.id + ".jpg",
       note: w.name + " style-world image.",
-      alt: w.name + "-style home interior styled byHer Homes Co. — " + w.words.join(", ").toLowerCase() + ".",
+      alt: w.name + "-style home interior styled by Her Homes Co. — " + w.words.join(", ").toLowerCase() + ".",
     },
     STYLE_IMAGE_DIMENSIONS[w.id] || {}
   );
