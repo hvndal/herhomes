@@ -388,7 +388,7 @@ html.lenis, html.lenis body { height: auto; }
   color: var(--color-on-surface-variant);
   opacity: 0;
 }
-.logo-intro__skip {
+.logo-intro__skip { display: none !important;
   position: absolute;
   right: var(--space-mobile);
   bottom: var(--space-mobile);
@@ -397,7 +397,7 @@ html.lenis, html.lenis body { height: auto; }
   transition: color var(--dur-fast) ease;
 }
 .logo-intro__skip:hover { color: var(--color-secondary); }
-@media (min-width: 768px) { .logo-intro__skip { right: var(--space-desktop); bottom: var(--space-desktop); } }
+@media (min-width: 768px) { .logo-intro__skip { display: none !important; right: var(--space-desktop); bottom: var(--space-desktop); } }
 
 .logo-intro.is-dismissed { pointer-events: none; }
 
@@ -444,7 +444,7 @@ html.lenis, html.lenis body { height: auto; }
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.65rem 1.1rem;
+  padding: 0.4rem 0.8rem; font-size: 0.8rem;
   border-radius: 999px;
   font-family: var(--font-body);
   font-weight: 600;
@@ -851,12 +851,12 @@ html.lenis, html.lenis body { height: auto; }
 
 .final-cta__whatsapp {
   display: inline-flex; align-items: center; gap: 0.85rem;
-  padding: 1.35rem 3rem;
+  padding: 0.8rem 1.5rem;
   background: var(--color-primary-container);
   color: var(--color-charcoal);
   border-radius: var(--radius-md);
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
   transition: background-color 0.3s ease, transform 0.3s var(--ease-premium);
 }
 .final-cta__whatsapp:hover { background: var(--color-inverse-primary); transform: translateY(-3px); }
@@ -1250,7 +1250,7 @@ html.lenis, html.lenis body { height: auto; }
 }
 
 /* "Skip intro" sits alone in a corner, so it can simply be bigger. */
-.logo-intro__skip {
+.logo-intro__skip { display: none !important;
   padding: 0.85rem 1rem;
   margin: -0.85rem -1rem; /* cancel the padding so it stays put visually */
 }
