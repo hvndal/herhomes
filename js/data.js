@@ -28,7 +28,7 @@ const HHC_DATA = {
 
     title: "Interior Styling, Home Organising & Deep Cleaning in Mohali | Her Homes Co.",
     description:
-      "Interior design, home organising and deep cleaning in Mohali, Punjab. Built by MANDER.",
+      "Her Homes Co. is Mohali's premier interior styling, home organising, and deep cleaning service. Founded by Rupinder Kaur, we build your home around the way you actually live. Message us on WhatsApp at +91-9915217674. Built by MANDER.",
 
     shareImage: {
       src: "assets/media/og-cover.jpg",
@@ -59,12 +59,12 @@ const HHC_DATA = {
     whatsapp: {
       label: "WhatsApp",
       number: "919915217674",
-      message: "Hi! I'd love to know more about Her Homes Co. in Mohali.",
+      message: "Hey, I need home designing or organising etc.",
       href: null, // computed at render time from `number` + `message`
     },
     phone: {
       label: "Call",
-      display: "+91 99152 17674",
+      display: "+91-9915217674",
       href: "tel:+919915217674",
     },
     email: "hello@herhomes.shop",
@@ -126,21 +126,21 @@ const HHC_DATA = {
         index: "01",
         name: "Deep Cleaning",
         blurb: "A full-home reset — kitchen degreasing, bathroom detailing, and the insides of cabinets and appliances.",
-        whatsappMessage: "Hi! I'd love a quote for deep cleaning my home.",
+        whatsappMessage: "Hey, I need some deep cleaning done.",
       },
       {
         id: "organising",
         index: "02",
         name: "Organising",
         blurb: "Wardrobes, kitchens, drawers, pantries and storage — organised to actually hold.",
-        whatsappMessage: "Hi! I'd love a quote for organising my home.",
+        whatsappMessage: "Hey, I need some home organising done.",
       },
       {
         id: "interior-design",
         index: "03",
         name: "Interior Design",
         blurb: "Decor direction, colour, furniture placement and full room styling around your aesthetic.",
-        whatsappMessage: "Hi! I'd love a quote for interior design and styling for my home.",
+        whatsappMessage: "Hey, I need home designing.",
       },
     ],
   },
@@ -259,7 +259,7 @@ const HHC_DATA = {
     // fabricated) — it carries that choice straight into the WhatsApp
     // message, so the size picker ends in an actual quote request rather
     // than a dead end. {size} is replaced with whichever size was clicked.
-    quoteMessageTemplate: "Hi! I'd love a personalised quote for my {size} home in Mohali.",
+    quoteMessageTemplate: "Hey, I need home designing or organising for my {size} home.",
     variables: {
       homeSize: ["Condo / 1-Bed", "2-Bed Apartment", "Townhouse", "Detached Home"],
       factors: [
@@ -301,7 +301,7 @@ const HHC_DATA = {
         id: "shelf-organising",
         name: "Shelf / Detailed Organisation Add-on",
         description: "Deeper organisation work for areas like shelving and the fridge, scoped to the agreed plan.",
-        price: 150,
+        price: 2500,
         priceUnit: "one-time",
         confirmed: true,
       },
@@ -329,8 +329,8 @@ const HHC_DATA = {
    * ------------------------------------------------------------------ */
   faq: [
     {
-      q: "What doesHer Homes Co. actually do?",
-      a: "Three things, and usually together: home styling (decor direction, colour, furniture placement and room styling), home organising (wardrobes, kitchens, drawers, shelves, pantries, fridges, desks, storage and utility spaces), and deep cleaning (a full-home reset including kitchen degreasing, bathroom detailing, and the insides of cabinets and appliances). You can book any one of them on its own, or all three together as a Combined Home Reset.",
+      q: "What is Her Homes Co. and what do you do?",
+      a: "Her Homes Co. is a premier home interior styling, organising, and deep cleaning service based in Mohali, Punjab. Founded by Rupinder Kaur, we specialize in transforming spaces around the way you actually live. We do three things, usually together: home styling (decor direction and furniture placement), home organising (wardrobes, kitchens, and storage), and deep cleaning (a full-home reset). You can book them individually or as a Combined Home Reset.",
     },
     {
       q: "Which areas do you serve?",
@@ -366,7 +366,7 @@ const HHC_DATA = {
     },
     {
       q: "How do I book?",
-      a: "There is no form to fill in. Message on WhatsApp at +91 99152 17674 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling works just as well.",
+      a: "There is no form to fill in. Message on WhatsApp at +91-9915217674 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling works just as well.",
     },
   ],
   faqMeta: {
