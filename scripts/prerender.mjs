@@ -229,6 +229,8 @@ function renderJsonLd() {
     logo: { "@type": "ImageObject", "@id": id("logo"), url: abs("assets/logo-full.png"), width: 454, height: 652, caption: D.brand.name },
     image: { "@id": id("logo") },
     telephone: D.contact.phone.display,
+    sameAs: ["https://share.google/6QXZ1NAflIyRcZrSn"],
+    hasMap: "https://share.google/6QXZ1NAflIyRcZrSn",
     address: {
       "@type": "PostalAddress",
       streetAddress: s.address.streetAddress,
@@ -745,6 +747,7 @@ function renderFooter() {
     `  <ul class="site-footer__links f-label" data-footer-links>`,
     `    <li><a href="${esc(c.whatsapp.href)}" target="_blank" rel="noopener">WhatsApp</a></li>`,
     `    <li><a href="${esc(c.phone.href)}">${esc(c.phone.display)}</a></li>`,
+    `    <li><a href="https://share.google/6QXZ1NAflIyRcZrSn" target="_blank" rel="noopener">Google Profile</a></li>`,
     `    <li><a href="#faq">FAQ</a></li>`,
     `    <li><a href="#book">Book</a></li>`,
     `  </ul>`,

@@ -23,10 +23,10 @@ const HHC_DATA = {
    * ------------------------------------------------------------------ */
   site: {
     url: "https://herhomes.shop",
-    lang: "en-CA",
+    lang: "en-IN",
     locale: "en_IN",
 
-    title: "Interior Styling, Home Organising & Deep Cleaning in Vancouver |Her Homes Co.",
+    title: "Interior Styling, Home Organising & Deep Cleaning in Mohali | Her Homes Co.",
     description:
       "Interior design, home organising and deep cleaning in Mohali, Punjab. Built by MANDER.",
 
