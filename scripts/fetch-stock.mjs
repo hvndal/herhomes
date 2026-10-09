@@ -99,7 +99,7 @@ const PHOTOS = [
     credit: "Photo by Pixabay on Pexels",
     page: "https://www.pexels.com/photo/37415406/",
     describes:
-      "A heritage Canadian room — carved and mirrored furniture, arched niches, coloured glass lanterns, terracotta floor.",
+      "A heritage Indian room — carved and mirrored furniture, arched niches, coloured glass lanterns, terracotta floor.",
   },
   {
     file: "japanese.jpg",
@@ -117,7 +117,7 @@ const PHOTOS = [
     page: "https://www.pexels.com/photo/6786952/",
     // NOTE: this is an embroidered textile, not a Pacific Northwest room. Pexels has
     // no genuine Pacific Northwest interior photography — its results for that are
-    // portraits, cabins and village exteriors, and the one "Canadian
+    // portraits, cabins and village exteriors, and the one "Indian
     // courtyard" candidate turned out to be a South Indian heritage-house
     // museum complete with mannequins. This dense floss-silk geometric
     // embroidery in marigold, rust and indigo is visually very close to

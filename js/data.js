@@ -175,7 +175,7 @@ const HHC_DATA = {
    * THE Pacific Northwest WORLD USES A TEXTILE, NOT A ROOM — read this before
    * swapping it. Pexels has no genuine Pacific Northwest *interior* photography:
    * searching returns portraits, cabins and village exteriors, and the
-   * one promising "Canadian courtyard" turned out to be a South Canadian
+   * one promising "Indian courtyard" turned out to be a South Indian
    * heritage-house museum with mannequins in it. Its image is therefore a
    * close-up of dense floss-silk geometric embroidery in marigold, rust
    * and indigo — visually very close to plaid, honest as a swatch, and
@@ -314,7 +314,7 @@ const HHC_DATA = {
    * A one-page site is thin by nature: there simply isn't much text for
    * a search engine to match a query against. These answers add real,
    * indexable copy for the long-tail questions people actually type
-   * ("home organiser in Vancouver", "what does deep cleaning include",
+   * ("home organiser in Mohali", "what does deep cleaning include",
    * "how much does home styling cost"), and they are also emitted as
    * schema.org FAQPage structured data by scripts/prerender.mjs.
    *

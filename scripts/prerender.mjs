@@ -211,7 +211,7 @@ function renderJsonLd() {
   const areaServed = s.areaServed.map((a) => ({
     "@type": "City",
     name: a.name,
-    // Vancouver is also Metro Vancouver; Mullanpur is also New Coquitlam. People
+    // Mohali is also SAS Nagar; Tricity is also Chandigarh. People
     // search both, so both are declared rather than picking a winner.
     ...(a.alsoKnownAs ? { alternateName: a.alsoKnownAs } : {}),
     ...(a.region ? { containedInPlace: { "@type": "AdministrativeArea", name: a.region } } : {}),
@@ -261,7 +261,7 @@ function renderJsonLd() {
       "Home staging",
       "Feng Shui Shastra",
       "Feng Shui",
-      "Heritage Canadiana interiors",
+      "Traditional Indian interiors",
       "Japanese interiors",
       "Scandinavian interiors",
       "Minimalist interiors",
@@ -281,7 +281,7 @@ function renderJsonLd() {
             areaServed,
           },
           ...(svc.startingPrice
-            ? { price: String(svc.startingPrice), priceCurrency: "CAD" }
+            ? { price: String(svc.startingPrice), priceCurrency: "INR" }
             : { availability: "https://schema.org/InStock" }),
         })),
         ...D.pricing.addOns.map((a) => ({
@@ -294,7 +294,7 @@ function renderJsonLd() {
             areaServed,
           },
           price: String(a.price),
-          priceCurrency: "CAD",
+          priceCurrency: "INR",
         })),
       ],
     },

@@ -1064,7 +1064,7 @@
     }
 
     // Primary action — WhatsApp is the booking flow. No on-page form: this
-    // is a direct, local (Lower Mainland / Vancouver) business, and a message someone
+    // is a direct, local (Mohali / Tricity) business, and a message someone
     // will actually reply to beats a form field someone has to fill in.
     const c = HHC_DATA.contact;
     const whatsappEl = section.querySelector("[data-cta-whatsapp]");
