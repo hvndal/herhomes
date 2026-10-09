@@ -18,4 +18,20 @@
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://herhomes.shop/deep-cleaning</loc>
+    <lastmod>2026-10-09</lastmod>
+  </url>
+  <url>
+    <loc>https://herhomes.shop/organising</loc>
+    <lastmod>2026-10-09</lastmod>
+  </url>
+  <url>
+    <loc>https://herhomes.shop/interior-design</loc>
+    <lastmod>2026-10-09</lastmod>
+  </url>
+  <url>
+    <loc>https://herhomes.shop/contact</loc>
+    <lastmod>2026-10-09</lastmod>
+  </url>
 </urlset>

@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "npm run build:images && npm run build:html",
-    "build:html": "node scripts/prerender.mjs",
+    "build:html": "node scripts/prerender.mjs && node scripts/generate-subpages.mjs",
     "build:images": "node scripts/optimize-images.mjs",
     "check": "node scripts/prerender.mjs --check",
     "start": "node scripts/serve.mjs",
