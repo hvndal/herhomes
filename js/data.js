@@ -26,7 +26,7 @@ const HHC_DATA = {
     lang: "en-IN",
     locale: "en_IN",
 
-    title: "Interior Styling, Home Organising & Deep Cleaning in Mohali | Her Homes Co.",
+    title: "Her Homes | Home Services in Mohali",
     description:
       "Her Homes Co. is Mohali's premier interior styling, home organising, and deep cleaning service. Founded by Rupinder Kaur, we build your home around the way you actually live. Message us on WhatsApp at +91-9915217674. Built by MANDER.",
 
