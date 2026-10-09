@@ -440,16 +440,20 @@ html.lenis, html.lenis body { height: auto; }
   opacity: 0.9;
 }
 
+body.page-home .quick-contact {
+  display: none !important;
+}
+
 .quick-contact__btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 0.8rem; font-size: 0.8rem;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
   border-radius: 999px;
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 0.9rem;
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-charcoal) 25%, transparent);
+  font-size: 0.8rem;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-charcoal) 20%, transparent);
   transition: transform 0.3s var(--ease-premium), box-shadow 0.3s ease, background-color 0.3s ease;
 }
 .quick-contact__btn svg { width: 1.15rem; height: 1.15rem; flex-shrink: 0; }
@@ -1399,7 +1403,7 @@ html.lenis, html.lenis body { height: auto; }
     flex-direction: row;
     align-items: stretch;
     gap: 0;
-    padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+    padding: 0.35rem 0.6rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
     background: color-mix(in srgb, var(--color-charcoal) 96%, transparent);
     backdrop-filter: blur(10px);
     border-top: 1px solid rgba(253,253,253,0.12);
@@ -1410,14 +1414,15 @@ html.lenis, html.lenis body { height: auto; }
   .quick-contact__btn {
     flex: 1;
     justify-content: center;
-    min-height: 48px;
-    border-radius: 10px;
-    font-size: 0.95rem;
+    min-height: 38px;
+    border-radius: 8px;
+    font-size: 0.82rem;
   }
   .quick-contact__btn + .quick-contact__btn { margin-left: 0.5rem; }
 
-  /* So the bar never hides the last line of the page. */
-  body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  /* Only add bottom padding when quick-contact is present */
+  body.has-quick-contact { padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px)); }
+  body.page-home { padding-bottom: 0 !important; }
 
   /* The bar is out of the content's way, so it no longer needs to hide
      itself over the sections that carry their own WhatsApp buttons —
