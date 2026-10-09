@@ -28,7 +28,7 @@ const HHC_DATA = {
 
     title: "Her Homes | Home Services in Mohali",
     description:
-      "Her Homes Co. is Mohali's premier interior styling, home organising, and deep cleaning service. Founded by Rupinder Kaur, we build your home around the way you actually live. Message us on WhatsApp at +91-9915217674. Built by MANDER.",
+      "Her Homes Co. provides premier deep cleaning services, home organizing, and home interior design in Mohali. Looking for an interior designer near me or professional organizer near me? Founded by Rupinder Kaur, we build your home around the way you actually live. Message us on WhatsApp at +91-9915217674.",
 
     shareImage: {
       src: "assets/media/og-cover.jpg",
@@ -139,7 +139,7 @@ const HHC_DATA = {
         id: "interior-design",
         index: "03",
         name: "Interior Design",
-        blurb: "Decor direction, colour, furniture placement and full room styling around your aesthetic.",
+        blurb: "Home interior design, decor direction, and room designer services. Your trusted interior decorator near me in Mohali.",
         whatsappMessage: "Hey, I need home designing.",
       },
     ],
@@ -274,7 +274,7 @@ const HHC_DATA = {
       {
         id: "styling",
         name: "Home Styling",
-        description: "Decor direction, furniture placement, and full room styling around your aesthetic.",
+        description: "Decor direction, furniture placement, and full home interior design. Hire a top interior designer in Mohali.",
         startingPrice: null, // PLACEHOLDER — confirm real starting price
       },
       {
@@ -330,11 +330,11 @@ const HHC_DATA = {
   faq: [
     {
       q: "What is Her Homes Co. and what do you do?",
-      a: "Her Homes Co. is a premier home interior styling, organising, and deep cleaning service based in Mohali, Punjab. Founded by Rupinder Kaur, we specialize in transforming spaces around the way you actually live. We do three things, usually together: home styling (decor direction and furniture placement), home organising (wardrobes, kitchens, and storage), and deep cleaning (a full-home reset). You can book them individually or as a Combined Home Reset.",
+      a: "Her Homes Co. is a premier home interior design, professional organizing, and deep cleaning service based in Mohali, Punjab. Founded by Rupinder Kaur, we specialize in transforming spaces around the way you actually live. We do three things, usually together: home interior design (acting as your room designer and interior decorator), home organizing (wardrobes, kitchens, and storage), and deep cleaning services. You can book them individually or as a Combined Home Reset.",
     },
     {
       q: "Which areas do you serve?",
-      a: "Her Homes Co. serves Mohali (SAS Nagar). If you are in Mohali, message us on WhatsApp and ask; it is a quick answer.",
+      a: "Her Homes Co. serves Mohali (SAS Nagar). If you are searching for 'interior designer near me / MOHALI' or 'deep cleaning services near me', message us on WhatsApp and ask; it is a quick answer.",
     },
     {
       q: "How much does it cost?",
@@ -361,7 +361,7 @@ const HHC_DATA = {
       a: "Yes. If Feng Shui or Feng Shui matters in your home, say so at the start and it shapes the plan — which direction storage faces, where things live in the kitchen and the wardrobe, what stays out of particular corners. To be straight about it: we work to the principles you tell us matter to you.",
     },
     {
-      q: "Do you work with traditional Canadian or diverse heritage interiors?",
+      q: "Do you work with traditional Indian or diverse heritage interiors?",
       a: "Very much so. The style worlds on this page — Scandinavian, Japanese, Modern, Minimalist, Indian Heritage, Bohemian and College Core — are starting points, not a menu you have to order from. A home in Mohali does not have to look like a generic catalogue from somewhere else.",
     },
     {
