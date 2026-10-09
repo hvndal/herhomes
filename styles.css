@@ -686,7 +686,7 @@ html.lenis, html.lenis body { height: auto; }
 .style-worlds__list button {
   white-space: nowrap;
   font-size: clamp(1.05rem, 1.6vw, 1.4rem);
-  color: rgba(253,253,253,0.38);
+  color: rgba(253,253,253,0.6);
   padding-block: 0.5rem;
   transition: color var(--dur-fast) ease, opacity var(--dur-fast) ease;
 }
@@ -700,7 +700,7 @@ html.lenis, html.lenis body { height: auto; }
 .what-we-do__sticky { grid-column: 1 / -1; margin-bottom: 3rem; }
 .what-we-do__sticky > p { color: var(--color-secondary); margin-bottom: 1rem; }
 .what-we-do__narrative { display: flex; flex-direction: column; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.04; }
-.what-we-do__narrative li { color: var(--color-outline-variant); transition: color 0.5s ease; }
+.what-we-do__narrative li { color: #94876e; transition: color 0.5s ease; }
 .what-we-do__narrative li.is-active { color: var(--color-secondary); }
 @media (min-width: 900px) {
   .what-we-do__sticky {

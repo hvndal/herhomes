@@ -507,7 +507,7 @@ function renderWhatWeDo() {
       [
         `      <div class="wwd-item">`,
         `        <div class="wwd-item__top">`,
-        `          <h4 class="f-display wwd-item__name">${esc(s.name)}</h4>`,
+        `          <h3 class="f-display wwd-item__name">${esc(s.name)}</h3>`,
         `          <span class="f-label wwd-item__index">${esc(s.index)}</span>`,
         `        </div>`,
         `        <p class="f-body wwd-item__summary">${esc(s.summary)}</p>`,
@@ -570,13 +570,13 @@ function renderProcess() {
 
 function renderPricing() {
   const p = D.pricing;
-  const inr = (n) => "$" + Number(n).toLocaleString("en-CA");
+  const cad = (n) => "$" + Number(n).toLocaleString("en-CA");
 
   const menu = p.services
     .map((s) =>
       [
         `      <div class="pr-row">`,
-        `        <h4 class="f-display pr-row__name">${esc(s.name)}</h4>`,
+        `        <h3 class="f-display pr-row__name">${esc(s.name)}</h3>`,
         `        <p class="f-body pr-row__desc">${esc(s.description)}</p>`,
         `        <span class="f-label pr-row__price${s.startingPrice ? "" : " is-quote"}">${
           s.startingPrice ? "From " + esc(cad(s.startingPrice)) : "Personalised quote"
