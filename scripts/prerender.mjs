@@ -100,10 +100,15 @@ const today = () => new Date().toISOString().slice(0, 10);
  * number somebody has to remember to bump.
  */
 function assetUrl(relPath) {
-  const abs = join(ROOT, relPath);
-  if (!existsSync(abs)) return relPath;
-  const hash = createHash("sha256").update(readFileSync(abs)).digest("hex").slice(0, 8);
-  return `${relPath}?v=${hash}`;
+  // Always emit a root-absolute path so the same markup works on
+  // /organising, /contact, etc. — relative "assets/..." from a subfolder
+  // resolves to /organising/assets/... and 404s.
+  const clean = String(relPath || "").replace(/^\//, "");
+  const fileAbs = join(ROOT, clean);
+  const rooted = "/" + clean;
+  if (!existsSync(fileAbs)) return rooted;
+  const hash = createHash("sha256").update(readFileSync(fileAbs)).digest("hex").slice(0, 8);
+  return `${rooted}?v=${hash}`;
 }
 
 function imgTag(slotKey, { eager = false, extraClass = "" } = {}) {
@@ -702,6 +707,65 @@ function renderFounder() {
   ].join("\n");
 }
 
+function renderQuoteForm() {
+  const q = D.quoteForm;
+  const sizes = (q.sizes || D.pricing.variables.homeSize || [])
+    .map((s) => `        <option value="${esc(s)}">${esc(s)}</option>`)
+    .join("\n");
+  const services = (q.services || [])
+    .map(
+      (s) =>
+        `        <label class="quote-form__chip">\n` +
+        `          <input type="checkbox" name="services" value="${esc(s.label)}" />\n` +
+        `          <span>${esc(s.label)}</span>\n` +
+        `        </label>`
+    )
+    .join("\n");
+
+  return [
+    `<form class="quote-form" id="quote-form" data-quote-form novalidate>`,
+    `  <p class="f-label quote-form__eyebrow">${esc(q.eyebrow)}</p>`,
+    `  <h3 class="f-display quote-form__heading">${esc(q.heading)}</h3>`,
+    `  <p class="f-body quote-form__support">${esc(q.support)}</p>`,
+    ``,
+    `  <fieldset class="quote-form__fieldset">`,
+    `    <legend class="f-label">${esc(q.servicesLabel)}</legend>`,
+    `    <div class="quote-form__chips" data-quote-services>`,
+    services,
+    `    </div>`,
+    `  </fieldset>`,
+    ``,
+    `  <label class="quote-form__field">`,
+    `    <span class="f-label">${esc(q.sizeLabel)}</span>`,
+    `    <select name="size" data-quote-size required>`,
+    `      <option value="" disabled selected>${esc(q.sizePlaceholder)}</option>`,
+    sizes,
+    `    </select>`,
+    `  </label>`,
+    ``,
+    `  <label class="quote-form__field">`,
+    `    <span class="f-label">${esc(q.nameLabel)}${q.nameOptional ? " <em>(optional)</em>" : ""}</span>`,
+    `    <input type="text" name="name" data-quote-name autocomplete="name" placeholder="${esc(q.namePlaceholder)}" maxlength="80" />`,
+    `  </label>`,
+    ``,
+    `  <label class="quote-form__field">`,
+    `    <span class="f-label">${esc(q.detailsLabel)}</span>`,
+    `    <textarea name="details" data-quote-details rows="4" maxlength="600" placeholder="${esc(q.detailsPlaceholder)}"${q.detailsRequired ? " required" : ""}></textarea>`,
+    `  </label>`,
+    ``,
+    `  <div class="quote-form__preview" aria-live="polite">`,
+    `    <p class="f-label quote-form__preview-label">${esc(q.previewLabel)}</p>`,
+    `    <blockquote class="quote-form__preview-body f-body" data-quote-preview>${esc(q.emptyPreview)}</blockquote>`,
+    `  </div>`,
+    ``,
+    `  <button type="submit" class="quote-form__submit" data-quote-submit>`,
+    `    <span>${esc(q.submitLabel)}</span>`,
+    `    <span class="quote-form__submit-arrow" aria-hidden="true">↗</span>`,
+    `  </button>`,
+    `</form>`,
+  ].join("\n");
+}
+
 function renderFinalCta() {
   const c = D.finalCta;
   const lines = c.lineA.map((t) => `    <span class="line"><i>${esc(t)}</i></span>`).join("\n");
@@ -712,8 +776,11 @@ function renderFinalCta() {
     `  </h2>`,
     `  <p class="f-body t-body-lg final-cta__support" data-cta-support>${esc(c.support)}</p>`,
     `</div>`,
+    `<div class="container final-cta__form-wrap">`,
+    renderQuoteForm(),
+    `</div>`,
     `<div class="container final-cta__actions">`,
-    `  <a class="final-cta__whatsapp" data-cta-whatsapp href="${esc(D.contact.whatsapp.href)}" target="_blank" rel="noopener">`,
+    `  <a class="final-cta__whatsapp final-cta__whatsapp--secondary" data-cta-whatsapp href="${esc(D.contact.whatsapp.href)}" target="_blank" rel="noopener">`,
     `    <span>${esc(c.whatsappButtonLabel)}</span>`,
     `    <span class="final-cta__whatsapp-arrow" aria-hidden="true">↗</span>`,
     `  </a>`,
@@ -741,18 +808,19 @@ function renderFooter() {
     `</div>`,
     `<div class="container site-footer__row">`,
     `  <div class="site-footer__mark">`,
-    `    <img src="assets/logo-mark.png" alt="" width="298" height="383" loading="lazy" decoding="async" draggable="false" />`,
+    `    <img src="/assets/logo-mark.png" alt="" width="298" height="383" loading="lazy" decoding="async" draggable="false" />`,
     `    <span class="f-display">${esc(D.brand.name)}</span>`,
     `  </div>`,
     `  <ul class="site-footer__links f-label" data-footer-links>`,
     `    <li><a href="${esc(c.whatsapp.href)}" target="_blank" rel="noopener">WhatsApp</a></li>`,
     `    <li><a href="${esc(c.phone.href)}">${esc(c.phone.display)}</a></li>`,
     `    <li><a href="https://share.google/6QXZ1NAflIyRcZrSn" target="_blank" rel="noopener">Google Profile</a></li>`,
-    `    <li><a href="/deep-cleaning">Deep Cleaning</a></li>
-    <li><a href="/organising">Organising</a></li>
-    <li><a href="/interior-design">Interior Design</a></li>
-    <li><a href="#faq">FAQ</a></li>`,
-    `    <li><a href="#book">Book</a></li>`,
+    `    <li><a href="/deep-cleaning">Deep Cleaning</a></li>`,
+    `    <li><a href="/organising">Organising</a></li>`,
+    `    <li><a href="/interior-design">Interior Design</a></li>`,
+    `    <li><a href="/contact">Contact</a></li>`,
+    `    <li><a href="#faq">FAQ</a></li>`,
+    `    <li><a href="#book">Get a quote</a></li>`,
     `  </ul>`,
     `</div>`,
     `<div class="container site-footer__bottom f-label">`,
@@ -811,19 +879,20 @@ function splice(html, name, body) {
  * sitemap.xml + robots.txt — same source of truth, so the domain can
  * never be right in one file and stale in another.
  * ------------------------------------------------------------------ */
+const SUBPAGES = ["deep-cleaning", "organising", "interior-design", "contact"];
+
 function renderSitemap() {
+  const extras = SUBPAGES.map(
+    (slug) => `  <url>
+    <loc>${abs("/" + slug)}</loc>
+    <lastmod>${today()}</lastmod>
+  </url>`
+  ).join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>
 <!--
   GENERATED FILE — do not edit by hand.
   Produced by scripts/prerender.mjs from js/data.js (site.url).
   Run \`npm run build\` after changing the domain.
-
-  Her Homes Co. is one page. Everything on it lives at this one URL as
-  same-page anchors (#styles, #pricing, #faq, #book), and an anchor is not
-  a separate crawlable document, so listing them here would be wrong. The
-  moment a genuinely separate page exists — /services/deep-cleaning, a
-  blog, a per-city landing page — add one <url> block per canonical page.
-  Never list a page that is noindex'd, redirected, or canonicalised away.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -832,6 +901,7 @@ function renderSitemap() {
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+${extras}
 </urlset>
 `;
 }

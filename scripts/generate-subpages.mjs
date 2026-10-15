@@ -1,6 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 
+/**
+ * Clone the prerendered homepage into SEO landing pages, with page-specific
+ * title/hero/meta. Also rewrites any leftover relative asset paths to
+ * root-absolute ones so images, logos and the favicon don't 404 under
+ * /organising/, /contact/, etc.
+ *
+ * Sitemap is owned by scripts/prerender.mjs — do not append here (that used
+ * to duplicate every URL on every build).
+ */
+
 const pages = [
   {
     slug: 'deep-cleaning',
@@ -25,15 +35,14 @@ const pages = [
   },
   {
     slug: 'contact',
-    title: 'Contact Her Homes | Mohali & Tricity',
-    heroH1: 'CONTACT<br />HER HOMES CO.',
-    heroSupport: 'Message us directly on WhatsApp with a bit about your home to get started.',
-    metaDesc: 'Contact Her Homes Co. in Mohali, Punjab for interior styling, home organising, and deep cleaning services. Call or WhatsApp us at +91-9915217674.'
+    title: 'Contact Her Homes | Get a Quote on WhatsApp',
+    heroH1: 'ASK HER<br />WHAT YOU NEED.',
+    heroSupport: 'Fill in the quote form — we write the WhatsApp message for you and open it so you can send it to Rupinder.',
+    metaDesc: 'Contact Her Homes Co. in Mohali for a personalised quote. Tell us what you want; we open WhatsApp with your message ready to send to +91-9915217674.'
   }
 ];
 
 const template = fs.readFileSync('index.html', 'utf8');
-let sitemapUrls = [];
 
 const quickContactHtml = `
 <div class="quick-contact" id="quick-contact">
@@ -49,39 +58,53 @@ const quickContactHtml = `
 </div>
 `;
 
+/** Fix relative asset refs that break under /slug/ paths. */
+function rootAbsoluteAssets(html) {
+  return html
+    .replace(/(href|src)=["'](?!\/|https?:|tel:|mailto:|#)(assets\/[^"']+)["']/g, '$1="/$2"')
+    .replace(/(srcset)=["'](?!\/|https?:)(assets\/[^"'\s]+)([^"']*)["']/g, '$1="/$2$3"')
+    .replace(/href=["']favicon\.ico["']/, 'href="/favicon.ico"');
+}
+
 for (const p of pages) {
   const dir = path.join(process.cwd(), p.slug);
   if (!fs.existsSync(dir)) fs.mkdirSync(dir);
-  
+
   let html = template;
-  
+
   html = html.replace(/<title>.*?<\/title>/, `<title>${p.title}</title>`);
   html = html.replace(/<meta property="og:title" content=".*?" \/>/, `<meta property="og:title" content="${p.title}" />`);
   html = html.replace(/<meta name="twitter:title" content=".*?" \/>/, `<meta name="twitter:title" content="${p.title}" />`);
-  
+
   html = html.replace(/<link rel="canonical" href="https:\/\/herhomes\.shop\/" \/>/, `<link rel="canonical" href="https://herhomes.shop/${p.slug}" />`);
   html = html.replace(/<meta property="og:url" content="https:\/\/herhomes\.shop\/" \/>/, `<meta property="og:url" content="https://herhomes.shop/${p.slug}" />`);
-  
+
   html = html.replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="${p.metaDesc}" />`);
   html = html.replace(/<meta property="og:description" content=".*?" \/>/, `<meta property="og:description" content="${p.metaDesc}" />`);
   html = html.replace(/<meta name="twitter:description" content=".*?" \/>/, `<meta name="twitter:description" content="${p.metaDesc}" />`);
-  
+
   html = html.replace(/(<h1[^>]*>[\s\S]*?<span class="sr-only">.*?<\/span>[\s\S]*?)A HOME,<br \/>BUT YOURS\./, `$1${p.heroH1}`);
   html = html.replace(/(<p class="hero__support f-body t-body-lg" data-hero-reveal>).*?(<\/p>)/, `$1${p.heroSupport}$2`);
-  
-  // Update body class and inject quick-contact for subpages
+
   html = html.replace('<body class="page-home">', '<body class="page-sub has-quick-contact">');
   html = html.replace('<main id="main">', quickContactHtml + '\n<main id="main">');
-  
+
+  // Contact page: skip straight to the quote form after a short hero.
+  if (p.slug === 'contact') {
+    html = html.replace(
+      /(<a class="nav-cta f-label" id="nav-cta-desktop" href=")#[^"]*(")/,
+      '$1#book$2'
+    );
+    html = html.replace(
+      /(<a class="mobile-nav__cta btn btn-primary" id="mobile-nav-cta" href=")#[^"]*(")/,
+      '$1#book$2'
+    );
+  }
+
+  html = rootAbsoluteAssets(html);
+
   fs.writeFileSync(path.join(dir, 'index.html'), html);
   console.log('Generated /' + p.slug);
-  
-  sitemapUrls.push(`  <url>\n    <loc>https://herhomes.shop/${p.slug}</loc>\n    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>\n  </url>`);
 }
 
-let sitemap = fs.readFileSync('sitemap.xml', 'utf8');
-if (true) {
-    sitemap = sitemap.replace('</urlset>', sitemapUrls.join('\n') + '\n</urlset>');
-    fs.writeFileSync('sitemap.xml', sitemap);
-    console.log('Updated sitemap.xml');
-}
+console.log('Subpages generated (sitemap owned by prerender.mjs)');

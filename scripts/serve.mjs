@@ -6,6 +6,11 @@
  * index.html over file:// mostly works but misquotes a few things (video
  * range requests, the manifest, relative fetches), so it is worth the
  * thirty lines to serve it properly over HTTP.
+ *
+ * Matches Vercel's `cleanUrls` + `trailingSlash: false`: `/organising` and
+ * `/organising/` both serve `organising/index.html`. Without that, the
+ * nav's `/contact` and footer service links 404 in local preview even
+ * though the folders exist — which looked like "loads of broken links".
  */
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
@@ -34,15 +39,42 @@ const TYPES = {
   ".woff2": "font/woff2",
 };
 
+async function resolveFile(rel) {
+  const candidates = [];
+  if (rel.endsWith("/")) {
+    candidates.push(rel + "index.html");
+  } else {
+    candidates.push(rel);
+    if (!extname(rel)) {
+      candidates.push(rel + "/index.html");
+      candidates.push(rel + ".html");
+    }
+  }
+
+  for (const candidate of candidates) {
+    const path = join(ROOT, normalize(candidate).replace(/^([/\\])+/, ""));
+    if (!path.startsWith(ROOT)) continue;
+    try {
+      const info = await stat(path);
+      if (info.isFile()) return path;
+      if (info.isDirectory()) {
+        const indexPath = join(path, "index.html");
+        await stat(indexPath);
+        return indexPath;
+      }
+    } catch {
+      /* try next */
+    }
+  }
+  return null;
+}
+
 createServer(async (req, res) => {
   try {
-    let rel = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
-    if (rel.endsWith("/")) rel += "index.html";
-    // normalize() collapses any ../ before it can escape the site root.
-    const path = join(ROOT, normalize(rel).replace(/^([/\\])+/, ""));
-    if (!path.startsWith(ROOT)) { res.writeHead(403).end("Forbidden"); return; }
+    const rel = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
+    const path = await resolveFile(rel === "/" ? "/index.html" : rel);
+    if (!path) throw new Error("not found");
 
-    await stat(path);
     const body = await readFile(path);
     res.writeHead(200, {
       "Content-Type": TYPES[extname(path).toLowerCase()] || "application/octet-stream",
