@@ -313,7 +313,8 @@
       a.addEventListener("click", () => trackEvent(event, { location: "mobile_nav" }));
     });
 
-    document.querySelector("[data-nav-burger]").addEventListener("click", toggleMobileNav);
+    const burger = navBurgerBtn();
+    if (burger) burger.addEventListener("click", toggleMobileNav);
 
     // Hide-on-scroll-down / show-on-scroll-up, active only once docked.
     let lastY = window.scrollY;
@@ -323,7 +324,7 @@
       start: "top top",
       end: "bottom bottom",
       onUpdate: (self) => {
-        if (!nav.classList.contains("is-active")) return;
+        if (!nav || !nav.classList.contains("is-active")) return;
         const y = self.scroll();
         if (y > lastY && y > window.innerHeight * 0.6) nav.classList.add("is-hidden");
         else nav.classList.remove("is-hidden");
@@ -332,9 +333,14 @@
     });
   }
 
+  function navBurgerBtn() {
+    return document.querySelector("[data-nav-burger]") || document.getElementById("nav-burger");
+  }
+
   function toggleMobileNav() {
     const panel = document.getElementById("mobile-nav");
-    const btn = document.querySelector("[data-nav-burger]");
+    const btn = navBurgerBtn();
+    if (!panel || !btn) return;
     const opening = !panel.classList.contains("is-open");
     btn.setAttribute("aria-expanded", String(opening));
     panel.setAttribute("aria-hidden", String(!opening));
@@ -354,8 +360,9 @@
   }
   function closeMobileNav() {
     const panel = document.getElementById("mobile-nav");
-    if (!panel.classList.contains("is-open")) return;
-    const btn = document.querySelector("[data-nav-burger]");
+    if (!panel || !panel.classList.contains("is-open")) return;
+    const btn = navBurgerBtn();
+    if (!btn) return;
     const spans = btn.querySelectorAll("span");
     panel.classList.remove("is-open");
     btn.setAttribute("aria-expanded", "false");
@@ -433,11 +440,16 @@
    * ------------------------------------------------------------------ */
   function initLogoIntro() {
     const intro = document.getElementById("logo-intro");
+    const nav = document.getElementById("site-nav");
+    // Service/contact pages skip the logo intro — show the nav and bail.
+    if (!intro) {
+      if (nav) nav.classList.add("is-active", "is-glass");
+      return;
+    }
     const markWrap = intro.querySelector(".logo-intro__mark-wrap");
     const words = intro.querySelectorAll(".logo-intro__wordmark .word");
     const tagline = intro.querySelector(".logo-intro__tagline");
     const skipBtn = intro.querySelector("[data-skip-intro]");
-    const nav = document.getElementById("site-nav");
     const navMarkImg = document.querySelector("[data-nav-mark] img");
     const navWordmark = document.querySelector("[data-nav-wordmark]");
     const heroCopyEls = document.querySelectorAll("[data-hero-reveal]");
@@ -859,7 +871,20 @@
    * than a fabricated number.
    * ------------------------------------------------------------------ */
   function formatINR(n) {
-    return `$${Number(n).toLocaleString("en-CA")}`;
+    const sym = (HHC_DATA.pricing && HHC_DATA.pricing.currencySymbol) || "₹";
+    return sym + Number(n).toLocaleString("en-IN");
+  }
+
+  function whatsAppHref(message) {
+    if (typeof HHC_DATA.whatsAppHref === "function") return HHC_DATA.whatsAppHref(message);
+    const num = HHC_DATA.contact.whatsapp.number;
+    const text = message == null ? HHC_DATA.contact.whatsapp.message : message;
+    return "https://api.whatsapp.com/send?phone=" + num + "&text=" + encodeURIComponent(text);
+  }
+
+  /** Same-tab navigation — window.open is blocked after form submit on many phones. */
+  function openWhatsApp(message) {
+    window.location.href = whatsAppHref(message);
   }
 
   function initPricing() {
@@ -913,15 +938,24 @@
     // tier pricing exists yet), but it does carry that choice straight into
     // the WhatsApp message, so "the calculator" ends in an actual, working
     // quote request rather than a dead end.
+    // Service landing pages reuse #pricing without the teller UI — skip it.
     const teller = section.querySelector("[data-pr-teller-cta]");
-    const waNumber = HHC_DATA.contact.whatsapp.number;
+    if (!teller) return;
+
     let selectedSize = null;
+    let tellerMessage = HHC_DATA.contact.whatsapp.message;
     function setTellerMessage(message, label) {
-      teller.href = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+      tellerMessage = message;
+      teller.href = whatsAppHref(message);
+      teller.removeAttribute("target");
       teller.textContent = label;
     }
     setTellerMessage(HHC_DATA.contact.whatsapp.message, "Get a personalised quote");
-    teller.addEventListener("click", () => trackEvent("quote_request_click", { location: "pricing", home_size: selectedSize || "unselected" }));
+    teller.addEventListener("click", (e) => {
+      e.preventDefault();
+      trackEvent("quote_request_click", { location: "pricing", home_size: selectedSize || "unselected" });
+      openWhatsApp(tellerMessage);
+    });
 
     const sizes = section.querySelector("[data-pr-sizes]");
     const sizeButtons = adopt(sizes, "button", () => {
@@ -941,28 +975,95 @@
         sizeButtons.forEach((b) => b.classList.remove("is-selected"));
         btn.classList.add("is-selected");
         selectedSize = size;
-        setTellerMessage(data.quoteMessageTemplate.replace("{size}", size), `Get a quote for your ${size}`);
+        const rate = data.sizeRates && data.sizeRates[size];
+        const priceBit = rate && rate.deepCleaning
+          ? ` (deep clean from ${formatINR(rate.deepCleaning)})`
+          : "";
+        setTellerMessage(
+          data.quoteMessageTemplate.replace("{size}", size),
+          `Get a quote for your ${size}${priceBit}`
+        );
         trackEvent("home_size_selected", { location: "pricing", home_size: size });
       });
     });
   }
 
   /* ------------------------------------------------------------------
-   * SERVICE CHOOSER — nothing to render or wire up for it to work: the
-   * panels are prerendered, each is a real <a href> into a pre-written
-   * WhatsApp message, and the expand-on-hover/focus behaviour is pure
-   * CSS. This only reports which service was picked, which is the most
-   * useful number on the page — it says what people actually come for.
+   * SERVICE CHOOSER — tapping a tile opens the quote form *inside* that
+   * panel (pre-checking that service). A second tap closes it.
    * ------------------------------------------------------------------ */
   function initServiceChooser() {
-    document.querySelectorAll("[data-svc-cta]").forEach((link) => {
-      link.addEventListener("click", () => {
-        trackEvent("whatsapp_click", {
-          location: "service_chooser",
-          service: link.getAttribute("data-svc-id") || "",
-        });
+    const source = document.querySelector("[data-svc-quote-source]");
+    const form = source ? source.querySelector("[data-quote-form]") : null;
+    const openLabel = (HHC_DATA.serviceChooser && HHC_DATA.serviceChooser.ctaOpenLabel) || "Close";
+    const closedLabel = (HHC_DATA.serviceChooser && HHC_DATA.serviceChooser.ctaLabel) || "Get a quote";
+
+    function closeAllPanels(except) {
+      document.querySelectorAll(".svc-panel.is-open").forEach((panel) => {
+        if (except && panel === except) return;
+        panel.classList.remove("is-open");
+        const btn = panel.querySelector("[data-svc-cta]");
+        const slot = panel.querySelector("[data-svc-quote]");
+        const label = panel.querySelector("[data-svc-cta-label]");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+        if (slot) {
+          slot.hidden = true;
+          if (form && slot.contains(form) && source) source.appendChild(form);
+        }
+        if (label) label.textContent = closedLabel;
+      });
+    }
+
+    function preselectService(formEl, serviceId) {
+      if (!formEl) return;
+      const item = (HHC_DATA.serviceChooser.items || []).find((i) => i.id === serviceId);
+      const want = item ? (item.quoteLabel || item.name) : "";
+      formEl.querySelectorAll('input[name="services"]').forEach((input) => {
+        input.checked = want && input.value === want;
+      });
+      formEl.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    document.querySelectorAll("[data-svc-cta]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const panel = btn.closest(".svc-panel");
+        const serviceId = btn.getAttribute("data-svc-id") || "";
+        if (!panel) return;
+
+        const opening = !panel.classList.contains("is-open");
+        closeAllPanels(opening ? panel : null);
+
+        if (!opening) {
+          trackEvent("service_quote_close", { location: "service_chooser", service: serviceId });
+          return;
+        }
+
+        panel.classList.add("is-open");
+        btn.setAttribute("aria-expanded", "true");
+        const label = panel.querySelector("[data-svc-cta-label]");
+        if (label) label.textContent = openLabel;
+
+        const slot = panel.querySelector("[data-svc-quote]");
+        if (slot && form) {
+          slot.hidden = false;
+          slot.appendChild(form);
+          preselectService(form, serviceId);
+          // Bring the in-tile form into view on phones.
+          requestAnimationFrame(() => {
+            slot.scrollIntoView({ behavior: HHC.reducedMotion ? "auto" : "smooth", block: "nearest" });
+          });
+        }
+
+        trackEvent("service_quote_open", { location: "service_chooser", service: serviceId });
       });
     });
+
+    // Service landing pages: ?service= or body[data-preselect-service]
+    const pre = document.body.getAttribute("data-preselect-service");
+    if (pre) {
+      const match = document.querySelector(`[data-svc-cta][data-svc-id="${pre}"]`);
+      if (match) match.click();
+    }
   }
 
   /* ------------------------------------------------------------------
@@ -1069,32 +1170,38 @@
     };
   }
 
-  function initQuoteForm() {
-    const form = document.querySelector("[data-quote-form]");
-    if (!form) return;
+  function wireQuoteForm(form) {
+    if (!form || form.dataset.quoteWired) return;
+    form.dataset.quoteWired = "true";
     const q = HHC_DATA.quoteForm;
     const preview = form.querySelector("[data-quote-preview]");
+    const submit = form.querySelector("[data-quote-submit]");
 
     function refreshPreview() {
-      if (!preview) return;
       const values = readQuoteForm(form);
       const hasAnything =
         values.name.trim() ||
         values.size ||
         values.details.trim() ||
         values.services.length;
-      preview.textContent = hasAnything
-        ? composeQuoteMessage(values)
-        : q.emptyPreview;
-      preview.classList.toggle("is-filled", !!hasAnything);
+      const message = hasAnything ? composeQuoteMessage(values) : q.emptyPreview;
+      if (preview) {
+        preview.textContent = message;
+        preview.classList.toggle("is-filled", !!hasAnything);
+      }
+      // Keep the WhatsApp <a> href live so the click is a real navigation
+      // (popup blockers cannot kill it the way window.open can).
+      if (submit && submit.tagName === "A") {
+        submit.href = whatsAppHref(hasAnything ? composeQuoteMessage(values) : HHC_DATA.contact.whatsapp.message);
+      }
     }
 
     form.addEventListener("input", refreshPreview);
     form.addEventListener("change", refreshPreview);
     refreshPreview();
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
+    function trySend(e) {
+      if (e) e.preventDefault();
       const values = readQuoteForm(form);
       const detailsEl = form.querySelector("[data-quote-details]");
       const sizeEl = form.querySelector("[data-quote-size]");
@@ -1118,18 +1225,26 @@
       form.classList.remove("is-invalid");
 
       const message = composeQuoteMessage(values);
-      const href =
-        "https://wa.me/" + HHC_DATA.contact.whatsapp.number +
-        "?text=" + encodeURIComponent(message);
+      const href = whatsAppHref(message);
+      if (submit && submit.tagName === "A") submit.href = href;
 
       trackEvent("quote_form_whatsapp", {
-        location: "quote_form",
+        location: form.id || "quote_form",
         services: values.services.join("|"),
         size: values.size,
       });
 
-      window.open(href, "_blank", "noopener");
-    });
+      // Same-tab navigation — target=_blank / window.open get blocked on
+      // many phones after a form interaction. location.assign always works.
+      window.location.assign(href);
+    }
+
+    form.addEventListener("submit", trySend);
+    if (submit) submit.addEventListener("click", trySend);
+  }
+
+  function initQuoteForm() {
+    document.querySelectorAll("[data-quote-form]").forEach(wireQuoteForm);
   }
 
   /* ------------------------------------------------------------------
@@ -1164,14 +1279,17 @@
       });
     }
 
-    initQuoteForm();
-
     // Fallback direct WhatsApp (no form) — still useful for people who
     // already know what they want to say.
     const c = HHC_DATA.contact;
     const whatsappEl = section.querySelector("[data-cta-whatsapp]");
     if (whatsappEl) {
-      whatsappEl.addEventListener("click", () => trackEvent("whatsapp_click", { location: "final_cta" }));
+      whatsappEl.removeAttribute("target");
+      whatsappEl.addEventListener("click", (e) => {
+        e.preventDefault();
+        trackEvent("whatsapp_click", { location: "final_cta" });
+        openWhatsApp(c.whatsapp.message);
+      });
     }
 
     // Secondary contact links — prerendered as real <a href>; this only
@@ -1221,7 +1339,17 @@
     const c = HHC_DATA.contact;
 
     const waEl = widget.querySelector("[data-quick-whatsapp]");
-    if (waEl) waEl.href = c.whatsapp.href;
+    if (waEl) {
+      waEl.href = c.whatsapp.href;
+      // Prefer same-tab open — target=_blank is flaky for WhatsApp deep
+      // links inside some in-app browsers and locked-down mobile WebViews.
+      waEl.removeAttribute("target");
+      waEl.addEventListener("click", (e) => {
+        e.preventDefault();
+        trackEvent("whatsapp_click", { location: "quick_contact" });
+        openWhatsApp(c.whatsapp.message);
+      });
+    }
     const callEl = widget.querySelector("[data-quick-call]");
     if (callEl) callEl.href = c.phone.href;
     const labelEl = widget.querySelector("[data-quick-contact-label]");
@@ -1274,6 +1402,7 @@
     initPricing();
     initFaq();
     initFounder();
+    initQuoteForm();
     initFinalCta();
     initQuickContact();
     hydrateMediaSlots(); // runs last: picks up every dynamically-built media-frame too

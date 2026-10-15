@@ -60,7 +60,9 @@ const HHC_DATA = {
       label: "WhatsApp",
       number: "919915217674",
       message: "Hey, I need home designing or organising etc.",
-      href: null, // computed at render time from `number` + `message`
+      // Prefer api.whatsapp.com — wa.me is flaky on some mobile browsers
+      // and in-app webviews. Computed below from number + message.
+      href: null,
     },
     phone: {
       label: "Call",
@@ -119,14 +121,17 @@ const HHC_DATA = {
   serviceChooser: {
     eyebrow: "Where would you like to start?",
     heading: "PICK A SERVICE.",
-    support: "Tap whichever one you need — it opens a WhatsApp message about that service, already written.",
-    ctaLabel: "Ask about this",
+    support: "Tap a service — the quote form opens inside that tile. Tell her what you want; we open WhatsApp with your message ready.",
+    ctaLabel: "Get a quote",
+    ctaOpenLabel: "Close",
     items: [
       {
         id: "deep-cleaning",
         index: "01",
         name: "Deep Cleaning",
         blurb: "A full-home reset — kitchen degreasing, bathroom detailing, and the insides of cabinets and appliances.",
+        pageHref: "/deep-cleaning",
+        quoteLabel: "Deep Cleaning",
         whatsappMessage: "Hey, I need some deep cleaning done.",
       },
       {
@@ -134,6 +139,8 @@ const HHC_DATA = {
         index: "02",
         name: "Organising",
         blurb: "Wardrobes, kitchens, drawers, pantries and storage — organised to actually hold.",
+        pageHref: "/organising",
+        quoteLabel: "Organising",
         whatsappMessage: "Hey, I need some home organising done.",
       },
       {
@@ -141,6 +148,8 @@ const HHC_DATA = {
         index: "03",
         name: "Interior Design",
         blurb: "Home interior design, decor direction, and room designer services. Your trusted interior decorator near me in Mohali.",
+        pageHref: "/interior-design",
+        quoteLabel: "Interior Design",
         whatsappMessage: "Hey, I need home designing.",
       },
     ],
@@ -246,23 +255,23 @@ const HHC_DATA = {
   ],
 
   /* ------------------------------------------------------------------
-   * PRICING — one editable structure. Any service whose startingPrice is
-   * `null` renders as a tasteful "personalised quote" treatment rather
-   * than a fabricated number. Only the shelf/organising add-on price is
-   * confirmed.
+   * PRICING — starting prices are ~20% above Urban Company (UrbanClap)
+   * Tricity deep-cleaning list rates (1BHK ₹4499 / 2BHK ₹5099 /
+   * 3BHK ₹5899 / 4+ ₹7899 as published for Chandigarh Tricity).
+   * Organising & styling are premium services (not UC commodities),
+   * priced as "from" figures in the same currency.
    * ------------------------------------------------------------------ */
   pricing: {
     eyebrow: "Investment",
     heading: "A PREMIUM SERVICE MENU, NOT A CALCULATOR.",
-    intro: "Every home is a different scope — size, number of areas, how much organising versus styling, how deep the clean needs to go. Here's what shapes the number.",
-    currency: "$",
-    // Picking a home size below doesn't compute a price (nothing here is
-    // fabricated) — it carries that choice straight into the WhatsApp
-    // message, so the size picker ends in an actual quote request rather
-    // than a dead end. {size} is replaced with whichever size was clicked.
+    intro: "Starting prices sit about 20% above Urban Company Tricity deep-cleaning rates — a premium service, quoted to your home. Size, rooms, and how much organising versus styling still shape the final number.",
+    currency: "INR",
+    currencySymbol: "₹",
+    benchmarkNote: "Deep-cleaning from-prices ≈ Urban Company Tricity + 20%.",
+    // Size picker feeds WhatsApp + shows the matching deep-clean from-price.
     quoteMessageTemplate: "Hey, I need home designing or organising for my {size} home.",
     variables: {
-      homeSize: ["Condo / 1-Bed", "2-Bed Apartment", "Townhouse", "Detached Home"],
+      homeSize: ["1 BHK", "2 BHK", "3 BHK", "4 BHK / Villa"],
       factors: [
         "Amount of organising required",
         "Number of areas / rooms",
@@ -271,30 +280,37 @@ const HHC_DATA = {
         "Special requests",
       ],
     },
+    // Urban Company Tricity deep clean × 1.2, rounded to nearest ₹100-ish.
+    sizeRates: {
+      "1 BHK": { deepCleaning: 5399 },
+      "2 BHK": { deepCleaning: 6099 },
+      "3 BHK": { deepCleaning: 7099 },
+      "4 BHK / Villa": { deepCleaning: 9499 },
+    },
     services: [
       {
-        id: "styling",
-        name: "Home Styling",
-        description: "Decor direction, furniture placement, and full home interior design. Hire a top interior designer in Mohali.",
-        startingPrice: null, // PLACEHOLDER — confirm real starting price
+        id: "deep-cleaning",
+        name: "Deep Cleaning",
+        description: "A full reset — the foundation the rest of the transformation is built on. From prices track Urban Company Tricity + ~20%.",
+        startingPrice: 5399,
       },
       {
         id: "organising",
         name: "Home Organising",
         description: "Wardrobes, kitchens, drawers, pantries, and storage — organised to actually hold.",
-        startingPrice: null, // PLACEHOLDER — confirm real starting price
+        startingPrice: 5999,
       },
       {
-        id: "deep-cleaning",
-        name: "Deep Cleaning",
-        description: "A full reset — the foundation the rest of the transformation is built on.",
-        startingPrice: null, // PLACEHOLDER — confirm real starting price
+        id: "styling",
+        name: "Home Styling / Interior Design",
+        description: "Decor direction, furniture placement, and full home interior design in Mohali.",
+        startingPrice: 14999,
       },
       {
         id: "combined-reset",
         name: "Combined Home Reset",
         description: "Clean, organise, and style in one continuous engagement.",
-        startingPrice: null, // PLACEHOLDER — confirm real starting price
+        startingPrice: 17999,
       },
     ],
     addOns: [
@@ -302,11 +318,74 @@ const HHC_DATA = {
         id: "shelf-organising",
         name: "Shelf / Detailed Organisation Add-on",
         description: "Deeper organisation work for areas like shelving and the fridge, scoped to the agreed plan.",
-        price: 2500,
+        price: 2999,
         priceUnit: "one-time",
         confirmed: true,
       },
     ],
+  },
+
+  /* ------------------------------------------------------------------
+   * SERVICE PAGES — dedicated /deep-cleaning, /organising, /interior-design
+   * ------------------------------------------------------------------ */
+  servicePages: {
+    "deep-cleaning": {
+      slug: "deep-cleaning",
+      title: "Deep Cleaning Services in Mohali | Her Homes",
+      metaDesc: "Premium deep cleaning in Mohali by Her Homes Co. Full-home reset from ₹5,399 — about 20% above Urban Company Tricity rates. Get a WhatsApp quote.",
+      heroH1: "DEEP CLEANING<br />IN MOHALI.",
+      heroSupport: "A full-home reset — kitchen, baths, cabinets, floors. Premium finish, quoted on WhatsApp.",
+      eyebrow: "Deep Cleaning",
+      heading: "A PROPER RESET, NOT A SURFACE WIPE.",
+      intro: "We deep-clean the rooms that actually need it — grease, hard-water marks, insides of cabinets — so organising and styling have somewhere clean to land.",
+      includes: [
+        "Kitchen degreasing (tiles, stove, cabinet interiors)",
+        "Bathroom detailing & hard-water stain care",
+        "Living areas, bedrooms, floors",
+        "Fans, switchboards, reachable fixtures",
+        "Balcony & hard-to-reach dusting where accessible",
+      ],
+      pricingBlurb: "From-prices follow Urban Company Tricity deep-cleaning rates + ~20%. Your final quote depends on furnished vs vacant and how thorough you want it.",
+      quoteService: "Deep Cleaning",
+    },
+    organising: {
+      slug: "organising",
+      title: "Home Organising Services in Mohali | Her Homes",
+      metaDesc: "Home organising in Mohali — wardrobes, kitchens, drawers and pantries. From ₹5,999. Ask for a WhatsApp quote from Her Homes Co.",
+      heroH1: "HOME ORGANISING<br />THAT HOLDS.",
+      heroSupport: "Wardrobes, kitchens, drawers, pantries — systems you can actually keep.",
+      eyebrow: "Organising",
+      heading: "FUNCTION FIRST, SO THE STYLING STAYS.",
+      intro: "We sort, edit and set up the spaces you live in every day — not a catalogue tidy that collapses in a week.",
+      includes: [
+        "Wardrobes & closets",
+        "Kitchen cabinets & pantry",
+        "Drawers, shelves, utility spaces",
+        "Fridge & detailed shelf work (add-on)",
+        "Feng Shui-aligned placement when you ask for it",
+      ],
+      pricingBlurb: "Projects usually start from a single zone (one wardrobe or kitchen). Larger homes are scoped after a quick WhatsApp chat.",
+      quoteService: "Organising",
+    },
+    "interior-design": {
+      slug: "interior-design",
+      title: "Interior Designers in Mohali | Her Homes",
+      metaDesc: "Interior design & home styling in Mohali by Her Homes Co. Decor direction and room styling from ₹14,999. WhatsApp for a quote.",
+      heroH1: "INTERIOR DESIGN<br />AROUND YOU.",
+      heroSupport: "Decor, colour, furniture placement — built around how you actually live.",
+      eyebrow: "Interior Design",
+      heading: "YOUR HOME, NOT A CATALOGUE COPY.",
+      intro: "We translate your taste and the things you already love into a room that feels finished — without forcing a template look.",
+      includes: [
+        "Decor & colour direction",
+        "Furniture placement & visual balance",
+        "Textures, objects, styling finishes",
+        "Theme development for one room or the whole home",
+        "Works with our organising and deep-cleaning when you want the full reset",
+      ],
+      pricingBlurb: "Styling engagements start from a focused room package. Full-home direction is quoted after we see the space and your references.",
+      quoteService: "Interior Design",
+    },
   },
 
   /* ------------------------------------------------------------------
@@ -339,7 +418,7 @@ const HHC_DATA = {
     },
     {
       q: "How much does it cost?",
-      a: "Every home is a different scope, so styling, organising, deep cleaning and the Combined Home Reset are each quoted individually rather than sold at a fixed rate. What shapes the number: how much organising is required, the number of areas or rooms, design complexity, the cleaning requirement, and any special requests. Send your home size on WhatsApp and a personalised quote comes back.",
+      a: "Deep cleaning starts from ₹5,399 (1 BHK) — about 20% above Urban Company Tricity list rates — with 2 BHK from ₹6,099, 3 BHK from ₹7,099 and larger homes from ₹9,499. Organising starts from ₹5,999, interior styling from ₹14,999, and a Combined Home Reset from ₹17,999. Your final quote still depends on rooms, furnished vs vacant, and how much organising versus styling you want — send your home size on WhatsApp and a personalised number comes back.",
     },
     {
       q: "Do I need to already know what style I want?",
@@ -508,6 +587,17 @@ HHC_DATA.styleWorlds.forEach((w) => {
 // ofHer Homes Co.'s own work, and nothing on the page says otherwise. Drop
 // a real photo of an actual job at the same path and it takes over with no
 // other change (`npm run build:images` will not overwrite it).
+/** Build a WhatsApp click-to-chat URL that works on mobile + desktop. */
+function hhcWhatsAppHref(message) {
+  const num = HHC_DATA.contact.whatsapp.number;
+  const text = message == null ? HHC_DATA.contact.whatsapp.message : message;
+  return (
+    "https://api.whatsapp.com/send?phone=" + num +
+    "&text=" + encodeURIComponent(text)
+  );
+}
+HHC_DATA.whatsAppHref = hhcWhatsAppHref;
+
 HHC_DATA.serviceChooser.items.forEach((item) => {
   HHC_DATA.mediaSlots["service-" + item.id] = {
     type: "image",
@@ -520,15 +610,11 @@ HHC_DATA.serviceChooser.items.forEach((item) => {
     // reader. Empty alt is the correct answer here, not a missing one.
     alt: "",
   };
-  item.whatsappHref =
-    "https://wa.me/" + HHC_DATA.contact.whatsapp.number +
-    "?text=" + encodeURIComponent(item.whatsappMessage);
+  item.whatsappHref = hhcWhatsAppHref(item.whatsappMessage);
 });
 
 // Compute the WhatsApp href from the digits-only number + a friendly opener.
-HHC_DATA.contact.whatsapp.href =
-  "https://wa.me/" + HHC_DATA.contact.whatsapp.number +
-  "?text=" + encodeURIComponent(HHC_DATA.contact.whatsapp.message);
+HHC_DATA.contact.whatsapp.href = hhcWhatsAppHref(HHC_DATA.contact.whatsapp.message);
 
 // Real hero media. Responsive: a portrait cut for phones, a wide cut for
 // desktop — main.js picks one at the same 768px breakpoint CSS uses.

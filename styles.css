@@ -166,10 +166,15 @@ html.lenis, html.lenis body { height: auto; }
   will-change: transform;
   transform: translateY(0);
   transition: transform var(--dur-fast) var(--ease-premium), background-color var(--dur-fast) ease;
-  opacity: 0; /* revealed by the logo-intro timeline, not on load */
+  opacity: 0; /* homepage: revealed by the logo-intro timeline, not on load */
   pointer-events: none;
 }
 .site-nav.is-active { pointer-events: auto; }
+/* Subpages have no logo intro — nav must be visible immediately. */
+body.page-sub .site-nav {
+  opacity: 1;
+  pointer-events: auto;
+}
 .site-nav.is-glass {
   background: color-mix(in srgb, var(--color-surface) 78%, transparent);
   backdrop-filter: blur(14px) saturate(1.1);
@@ -1053,11 +1058,91 @@ body.page-home .quick-contact {
   font-family: var(--font-display);
   font-size: 1.1rem;
   cursor: pointer;
+  text-decoration: none;
+  box-sizing: border-box;
   transition: background-color 0.25s ease, transform 0.25s var(--ease-premium);
 }
-.quote-form__submit:hover { background: var(--color-inverse-primary); transform: translateY(-2px); }
+.quote-form__submit:hover { background: var(--color-inverse-primary); transform: translateY(-2px); color: var(--color-charcoal); }
 .quote-form__submit-arrow { transition: transform 0.25s var(--ease-premium); }
 .quote-form__submit:hover .quote-form__submit-arrow { transform: translate(2px, -2px); }
+
+/* ---- Service / contact landing pages ---- */
+.svc-page__hero {
+  background: var(--color-charcoal);
+  color: var(--color-milky-white);
+  padding-top: calc(var(--space-section-v-gap) + 4rem);
+}
+.svc-page__h1 {
+  font-size: clamp(2.6rem, 9vw, 5rem);
+  line-height: 1.02;
+  color: var(--color-inverse-primary);
+  margin: 0.75rem 0 1rem;
+}
+.svc-page__support { max-width: 34rem; color: rgba(253,253,253,0.75); }
+.svc-page__from {
+  margin: 1.25rem 0 1.5rem;
+  color: var(--color-primary-container);
+}
+.svc-page__about { background: var(--color-surface); }
+.svc-page__grid {
+  display: grid;
+  gap: 2.5rem;
+}
+@media (min-width: 860px) {
+  .svc-page__grid { grid-template-columns: 1.1fr 0.9fr; gap: 3.5rem; align-items: start; }
+}
+.svc-page__includes {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.svc-page__includes li {
+  padding-left: 1.25rem;
+  position: relative;
+  color: var(--color-on-surface-variant);
+}
+.svc-page__includes li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--color-outline);
+}
+.svc-page__pricing { background: var(--color-surface-container-low); }
+.svc-page__rates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2rem 0 1.25rem;
+}
+@media (min-width: 768px) {
+  .svc-page__rates { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.svc-page__rate {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+}
+.svc-page__rate strong { font-size: clamp(1.4rem, 3vw, 1.85rem); color: var(--color-secondary); }
+.svc-page__from-lg {
+  margin: 1.5rem 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--color-secondary);
+}
+.svc-page__bench {
+  color: var(--color-on-surface-variant);
+  font-size: 0.95rem;
+  max-width: 40rem;
+}
+.page-service .final-cta__heading .line > i,
+.page-contact .final-cta__heading .line > i {
+  transform: none;
+}
 
 .quote-form.is-invalid .quote-form__chips {
   outline: 1px solid #e8a0a0;
@@ -1235,11 +1320,16 @@ body.page-home .quick-contact {
   min-height: 0;
 }
 
-.svc-panel { display: flex; min-height: 0; }
+.svc-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
+}
 
 .svc-panel__link {
   position: relative;
-  flex: 1;
+  flex: 1 1 auto;
   /* Mobile lays the copy out in normal flow, anchored to the bottom, so a
      band grows to fit its text. It used to be absolutely positioned here
      too, which left the longest blurb with 3px of clearance — one narrower
@@ -1249,11 +1339,52 @@ body.page-home .quick-contact {
   overflow: hidden;
   min-height: 30svh;
   isolation: isolate;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
 }
 .svc-panel__link:focus-visible {
   outline: 3px solid var(--color-inverse-primary);
   outline-offset: -3px;
 }
+
+/* In-tile quote form — shown when a service panel is open. */
+.svc-panel__quote {
+  flex: 0 0 auto;
+  padding: 1rem 1rem 1.25rem;
+  background: color-mix(in srgb, var(--color-charcoal) 92%, black);
+  border-top: 1px solid rgba(253,253,253,0.12);
+  max-height: min(70svh, 40rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.svc-panel__quote .quote-form {
+  margin: 0;
+  padding: 1.1rem 1rem;
+  background: color-mix(in srgb, var(--color-milky-white) 7%, transparent);
+}
+.svc-panel__quote .quote-form__heading { font-size: clamp(1.25rem, 4vw, 1.65rem); }
+.svc-panel__quote .quote-form__support { font-size: 0.9rem; }
+.svc-panel.is-open .svc-panel__link { min-height: 22svh; }
+.svc-panel.is-open .svc-panel__body { opacity: 1; transform: none; }
+.svc-panel.is-open .svc-panel__spine { opacity: 0; }
+
+.svc-panel__more {
+  display: none;
+  padding: 0.65rem 1rem 0.85rem;
+  color: var(--color-inverse-primary);
+  background: color-mix(in srgb, var(--color-charcoal) 92%, black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.svc-panel.is-open .svc-panel__more { display: block; }
 
 .svc-panel__media { position: absolute; inset: 0; z-index: 0; }
 .svc-panel__media picture { display: block; width: 100%; height: 100%; }
@@ -1302,8 +1433,12 @@ body.page-home .quick-contact {
 @media (min-width: 900px) {
   .svc__panels { flex-direction: row; gap: 3px; }
 
-  .svc-panel { flex: 1 1 0; transition: flex-grow var(--dur-med) var(--ease-premium); }
+  .svc-panel { flex: 1 1 0; transition: flex-grow var(--dur-med) var(--ease-premium); min-width: 0; }
   .svc-panel__link { min-height: 0; }
+  .svc-panel.is-open { flex-grow: 3.2; }
+  .svc-panel.is-open .svc-panel__quote {
+    max-height: min(62svh, 36rem);
+  }
 
   /* Idle: just the spine. Active: the full copy. */
   .svc-panel__spine {

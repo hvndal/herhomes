@@ -403,20 +403,25 @@ function renderServiceChooser() {
   const panels = c.items
     .map((item) => {
       const img = imgTag(`service-${item.id}`, { eager: true });
+      const page = item.pageHref || ("/" + item.id);
       return [
         `    <li class="svc-panel" data-svc="${esc(item.id)}">`,
-        `      <a class="svc-panel__link" href="${esc(item.whatsappHref)}" target="_blank" rel="noopener"`,
+        `      <button type="button" class="svc-panel__link"`,
         `         data-svc-cta data-svc-id="${esc(item.id)}"`,
-        `         aria-label="Ask about ${esc(item.name)} on WhatsApp">`,
+        `         aria-expanded="false"`,
+        `         aria-controls="svc-quote-${esc(item.id)}"`,
+        `         aria-label="Open quote form for ${esc(item.name)}">`,
         `        <span class="svc-panel__media">${img || ""}</span>`,
         `        <span class="svc-panel__spine f-display" aria-hidden="true">${esc(item.name)}</span>`,
         `        <span class="svc-panel__body">`,
         `          <span class="f-label svc-panel__index">${esc(item.index)}</span>`,
         `          <h3 class="f-display svc-panel__name">${esc(item.name)}</h3>`,
         `          <span class="f-body svc-panel__blurb">${esc(item.blurb)}</span>`,
-        `          <span class="f-label svc-panel__cta">${esc(c.ctaLabel)}<span aria-hidden="true"> &#8599;</span></span>`,
+        `          <span class="f-label svc-panel__cta" data-svc-cta-label>${esc(c.ctaLabel)}</span>`,
         `        </span>`,
-        `      </a>`,
+        `      </button>`,
+        `      <div class="svc-panel__quote" id="svc-quote-${esc(item.id)}" data-svc-quote hidden></div>`,
+        `      <a class="svc-panel__more f-label" href="${esc(page)}">Full ${esc(item.name)} page</a>`,
         `    </li>`,
       ].join("\n");
     })
@@ -431,6 +436,9 @@ function renderServiceChooser() {
     `<ul class="svc__panels">`,
     panels,
     `</ul>`,
+    `<div id="svc-quote-form-home" data-svc-quote-source hidden>`,
+    renderQuoteForm({ id: "quote-form-tile", compact: true }),
+    `</div>`,
   ].join("\n");
 }
 
@@ -577,7 +585,8 @@ function renderProcess() {
 
 function renderPricing() {
   const p = D.pricing;
-  const inr = (n) => "?" + Number(n).toLocaleString("en-IN");
+  const sym = p.currencySymbol || "₹";
+  const inr = (n) => sym + Number(n).toLocaleString("en-IN");
 
   const menu = p.services
     .map((s) =>
@@ -707,23 +716,28 @@ function renderFounder() {
   ].join("\n");
 }
 
-function renderQuoteForm() {
+function renderQuoteForm(opts = {}) {
   const q = D.quoteForm;
+  const formId = opts.id || "quote-form";
+  const preselect = opts.preselectService || "";
+  const compactClass = opts.compact ? " quote-form--compact" : "";
   const sizes = (q.sizes || D.pricing.variables.homeSize || [])
     .map((s) => `        <option value="${esc(s)}">${esc(s)}</option>`)
     .join("\n");
   const services = (q.services || [])
-    .map(
-      (s) =>
+    .map((s) => {
+      const checked = preselect && s.label === preselect ? " checked" : "";
+      return (
         `        <label class="quote-form__chip">\n` +
-        `          <input type="checkbox" name="services" value="${esc(s.label)}" />\n` +
+        `          <input type="checkbox" name="services" value="${esc(s.label)}"${checked} />\n` +
         `          <span>${esc(s.label)}</span>\n` +
         `        </label>`
-    )
+      );
+    })
     .join("\n");
 
   return [
-    `<form class="quote-form" id="quote-form" data-quote-form novalidate>`,
+    `<form class="quote-form${compactClass}" id="${esc(formId)}" data-quote-form novalidate>`,
     `  <p class="f-label quote-form__eyebrow">${esc(q.eyebrow)}</p>`,
     `  <h3 class="f-display quote-form__heading">${esc(q.heading)}</h3>`,
     `  <p class="f-body quote-form__support">${esc(q.support)}</p>`,
@@ -758,10 +772,10 @@ function renderQuoteForm() {
     `    <blockquote class="quote-form__preview-body f-body" data-quote-preview>${esc(q.emptyPreview)}</blockquote>`,
     `  </div>`,
     ``,
-    `  <button type="submit" class="quote-form__submit" data-quote-submit>`,
+    `  <a class="quote-form__submit" data-quote-submit href="${esc(D.contact.whatsapp.href)}" rel="noopener">`,
     `    <span>${esc(q.submitLabel)}</span>`,
     `    <span class="quote-form__submit-arrow" aria-hidden="true">↗</span>`,
-    `  </button>`,
+    `  </a>`,
     `</form>`,
   ].join("\n");
 }

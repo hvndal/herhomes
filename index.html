@@ -130,9 +130,9 @@
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Home Styling",
-              "description": "Decor direction, furniture placement, and full home interior design. Hire a top interior designer in Mohali.",
-              "serviceType": "Home Styling",
+              "name": "Deep Cleaning",
+              "description": "A full reset — the foundation the rest of the transformation is built on. From prices track Urban Company Tricity + ~20%.",
+              "serviceType": "Deep Cleaning",
               "provider": {
                 "@id": "https://herhomes.shop/#business"
               },
@@ -154,7 +154,8 @@
                 }
               ]
             },
-            "availability": "https://schema.org/InStock"
+            "price": "5399",
+            "priceCurrency": "INR"
           },
           {
             "@type": "Offer",
@@ -184,15 +185,16 @@
                 }
               ]
             },
-            "availability": "https://schema.org/InStock"
+            "price": "5999",
+            "priceCurrency": "INR"
           },
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Deep Cleaning",
-              "description": "A full reset — the foundation the rest of the transformation is built on.",
-              "serviceType": "Deep Cleaning",
+              "name": "Home Styling / Interior Design",
+              "description": "Decor direction, furniture placement, and full home interior design in Mohali.",
+              "serviceType": "Home Styling / Interior Design",
               "provider": {
                 "@id": "https://herhomes.shop/#business"
               },
@@ -214,7 +216,8 @@
                 }
               ]
             },
-            "availability": "https://schema.org/InStock"
+            "price": "14999",
+            "priceCurrency": "INR"
           },
           {
             "@type": "Offer",
@@ -244,7 +247,8 @@
                 }
               ]
             },
-            "availability": "https://schema.org/InStock"
+            "price": "17999",
+            "priceCurrency": "INR"
           },
           {
             "@type": "Offer",
@@ -273,7 +277,7 @@
                 }
               ]
             },
-            "price": "2500",
+            "price": "2999",
             "priceCurrency": "INR"
           }
         ]
@@ -281,7 +285,7 @@
       "potentialAction": {
         "@type": "CommunicateAction",
         "name": "Request a personalised quote on WhatsApp",
-        "target": "https://wa.me/919915217674?text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc."
+        "target": "https://api.whatsapp.com/send?phone=919915217674&text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc."
       }
     },
     {
@@ -353,7 +357,7 @@
           "name": "How much does it cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Every home is a different scope, so styling, organising, deep cleaning and the Combined Home Reset are each quoted individually rather than sold at a fixed rate. What shapes the number: how much organising is required, the number of areas or rooms, design complexity, the cleaning requirement, and any special requests. Send your home size on WhatsApp and a personalised quote comes back."
+            "text": "Deep cleaning starts from ₹5,399 (1 BHK) — about 20% above Urban Company Tricity list rates — with 2 BHK from ₹6,099, 3 BHK from ₹7,099 and larger homes from ₹9,499. Organising starts from ₹5,999, interior styling from ₹14,999, and a Combined Home Reset from ₹17,999. Your final quote still depends on rooms, furnished vs vacant, and how much organising versus styling you want — send your home size on WhatsApp and a personalised number comes back."
           }
         },
         {
@@ -504,7 +508,7 @@
   <a class="mobile-nav__cta btn btn-primary" id="mobile-nav-cta" href="#book">Book</a>
   <ul class="mobile-nav__contact f-label" id="mobile-nav-contact">
     <!--@gen:mobile-nav-contact-->
-    <li><a href="https://wa.me/919915217674?text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." target="_blank" rel="noopener">WhatsApp</a></li>
+    <li><a href="https://api.whatsapp.com/send?phone=919915217674&amp;text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." target="_blank" rel="noopener">WhatsApp</a></li>
     <li><a href="tel:+919915217674">Call</a></li>
     <!--/@gen:mobile-nav-contact-->
   </ul>
@@ -568,52 +572,124 @@
     <div class="container svc__intro">
       <p class="f-label svc__eyebrow">Where would you like to start?</p>
       <h2 id="svc-heading" class="f-display t-headline-lg svc__heading">PICK A SERVICE.</h2>
-      <p class="f-body svc__support">Tap whichever one you need — it opens a WhatsApp message about that service, already written.</p>
+      <p class="f-body svc__support">Tap a service — the quote form opens inside that tile. Tell her what you want; we open WhatsApp with your message ready.</p>
     </div>
     <ul class="svc__panels">
         <li class="svc-panel" data-svc="deep-cleaning">
-          <a class="svc-panel__link" href="https://wa.me/919915217674?text=Hey%2C%20I%20need%20some%20deep%20cleaning%20done." target="_blank" rel="noopener"
+          <button type="button" class="svc-panel__link"
              data-svc-cta data-svc-id="deep-cleaning"
-             aria-label="Ask about Deep Cleaning on WhatsApp">
+             aria-expanded="false"
+             aria-controls="svc-quote-deep-cleaning"
+             aria-label="Open quote form for Deep Cleaning">
             <span class="svc-panel__media"><picture><source type="image/webp" srcset="/assets/media/service-deep-cleaning.webp?v=b23a98ce" /><img src="/assets/media/service-deep-cleaning.jpg?v=bc29c7d4" alt="" width="900" height="1600" loading="eager" decoding="async" fetchpriority="high" /></picture></span>
             <span class="svc-panel__spine f-display" aria-hidden="true">Deep Cleaning</span>
             <span class="svc-panel__body">
               <span class="f-label svc-panel__index">01</span>
               <h3 class="f-display svc-panel__name">Deep Cleaning</h3>
               <span class="f-body svc-panel__blurb">A full-home reset — kitchen degreasing, bathroom detailing, and the insides of cabinets and appliances.</span>
-              <span class="f-label svc-panel__cta">Ask about this<span aria-hidden="true"> &#8599;</span></span>
+              <span class="f-label svc-panel__cta" data-svc-cta-label>Get a quote</span>
             </span>
-          </a>
+          </button>
+          <div class="svc-panel__quote" id="svc-quote-deep-cleaning" data-svc-quote hidden></div>
+          <a class="svc-panel__more f-label" href="/deep-cleaning">Full Deep Cleaning page</a>
         </li>
         <li class="svc-panel" data-svc="organising">
-          <a class="svc-panel__link" href="https://wa.me/919915217674?text=Hey%2C%20I%20need%20some%20home%20organising%20done." target="_blank" rel="noopener"
+          <button type="button" class="svc-panel__link"
              data-svc-cta data-svc-id="organising"
-             aria-label="Ask about Organising on WhatsApp">
+             aria-expanded="false"
+             aria-controls="svc-quote-organising"
+             aria-label="Open quote form for Organising">
             <span class="svc-panel__media"><picture><source type="image/webp" srcset="/assets/media/service-organising.webp?v=8c3b9bf2" /><img src="/assets/media/service-organising.jpg?v=36d786f3" alt="" width="900" height="1600" loading="eager" decoding="async" fetchpriority="high" /></picture></span>
             <span class="svc-panel__spine f-display" aria-hidden="true">Organising</span>
             <span class="svc-panel__body">
               <span class="f-label svc-panel__index">02</span>
               <h3 class="f-display svc-panel__name">Organising</h3>
               <span class="f-body svc-panel__blurb">Wardrobes, kitchens, drawers, pantries and storage — organised to actually hold.</span>
-              <span class="f-label svc-panel__cta">Ask about this<span aria-hidden="true"> &#8599;</span></span>
+              <span class="f-label svc-panel__cta" data-svc-cta-label>Get a quote</span>
             </span>
-          </a>
+          </button>
+          <div class="svc-panel__quote" id="svc-quote-organising" data-svc-quote hidden></div>
+          <a class="svc-panel__more f-label" href="/organising">Full Organising page</a>
         </li>
         <li class="svc-panel" data-svc="interior-design">
-          <a class="svc-panel__link" href="https://wa.me/919915217674?text=Hey%2C%20I%20need%20home%20designing." target="_blank" rel="noopener"
+          <button type="button" class="svc-panel__link"
              data-svc-cta data-svc-id="interior-design"
-             aria-label="Ask about Interior Design on WhatsApp">
+             aria-expanded="false"
+             aria-controls="svc-quote-interior-design"
+             aria-label="Open quote form for Interior Design">
             <span class="svc-panel__media"><picture><source type="image/webp" srcset="/assets/media/service-interior-design.webp?v=c0f5fd30" /><img src="/assets/media/service-interior-design.jpg?v=e94966f9" alt="" width="900" height="1600" loading="eager" decoding="async" fetchpriority="high" /></picture></span>
             <span class="svc-panel__spine f-display" aria-hidden="true">Interior Design</span>
             <span class="svc-panel__body">
               <span class="f-label svc-panel__index">03</span>
               <h3 class="f-display svc-panel__name">Interior Design</h3>
               <span class="f-body svc-panel__blurb">Home interior design, decor direction, and room designer services. Your trusted interior decorator near me in Mohali.</span>
-              <span class="f-label svc-panel__cta">Ask about this<span aria-hidden="true"> &#8599;</span></span>
+              <span class="f-label svc-panel__cta" data-svc-cta-label>Get a quote</span>
             </span>
-          </a>
+          </button>
+          <div class="svc-panel__quote" id="svc-quote-interior-design" data-svc-quote hidden></div>
+          <a class="svc-panel__more f-label" href="/interior-design">Full Interior Design page</a>
         </li>
     </ul>
+    <div id="svc-quote-form-home" data-svc-quote-source hidden>
+    <form class="quote-form quote-form--compact" id="quote-form-tile" data-quote-form novalidate>
+      <p class="f-label quote-form__eyebrow">Ask for a quote</p>
+      <h3 class="f-display quote-form__heading">What do you want help with?</h3>
+      <p class="f-body quote-form__support">Pick a few details. We'll write the message — including your words in quotes — then open WhatsApp so you can tap send.</p>
+
+      <fieldset class="quote-form__fieldset">
+        <legend class="f-label">Services</legend>
+        <div class="quote-form__chips" data-quote-services>
+            <label class="quote-form__chip">
+              <input type="checkbox" name="services" value="Deep Cleaning" />
+              <span>Deep Cleaning</span>
+            </label>
+            <label class="quote-form__chip">
+              <input type="checkbox" name="services" value="Organising" />
+              <span>Organising</span>
+            </label>
+            <label class="quote-form__chip">
+              <input type="checkbox" name="services" value="Interior Design" />
+              <span>Interior Design</span>
+            </label>
+            <label class="quote-form__chip">
+              <input type="checkbox" name="services" value="Combined Home Reset" />
+              <span>Combined Home Reset</span>
+            </label>
+        </div>
+      </fieldset>
+
+      <label class="quote-form__field">
+        <span class="f-label">Home size</span>
+        <select name="size" data-quote-size required>
+          <option value="" disabled selected>Select a size</option>
+            <option value="1 BHK">1 BHK</option>
+            <option value="2 BHK">2 BHK</option>
+            <option value="3 BHK">3 BHK</option>
+            <option value="4 BHK / Villa">4 BHK / Villa</option>
+        </select>
+      </label>
+
+      <label class="quote-form__field">
+        <span class="f-label">Your name <em>(optional)</em></span>
+        <input type="text" name="name" data-quote-name autocomplete="name" placeholder="e.g. Simran" maxlength="80" />
+      </label>
+
+      <label class="quote-form__field">
+        <span class="f-label">What do you want?</span>
+        <textarea name="details" data-quote-details rows="4" maxlength="600" placeholder="e.g. Kitchen and wardrobes organised, then a deep clean before we style the living room." required></textarea>
+      </label>
+
+      <div class="quote-form__preview" aria-live="polite">
+        <p class="f-label quote-form__preview-label">Message she'll receive</p>
+        <blockquote class="quote-form__preview-body f-body" data-quote-preview>Fill in the form and your message will appear here.</blockquote>
+      </div>
+
+      <a class="quote-form__submit" data-quote-submit href="https://api.whatsapp.com/send?phone=919915217674&amp;text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." rel="noopener">
+        <span>Send on WhatsApp</span>
+        <span class="quote-form__submit-arrow" aria-hidden="true">↗</span>
+      </a>
+    </form>
+    </div>
     <!--/@gen:service-chooser-->
   </section>
 
@@ -799,33 +875,33 @@
   <section class="section section-pad pricing" id="pricing">
     <!--@gen:pricing-->
     <div class="container">
-      <h2 class="sr-only">Pricing — Home Styling, Home Organising, Deep Cleaning, Combined Home Reset</h2>
+      <h2 class="sr-only">Pricing — Deep Cleaning, Home Organising, Home Styling / Interior Design, Combined Home Reset</h2>
       <div class="pricing__intro-block">
         <p class="f-label" data-pr-eyebrow>Investment</p>
         <h3 class="f-display t-headline-lg" data-pr-heading>A PREMIUM SERVICE MENU, NOT A CALCULATOR.</h3>
-        <p class="f-body t-body-lg pricing__intro" data-pr-intro>Every home is a different scope — size, number of areas, how much organising versus styling, how deep the clean needs to go. Here's what shapes the number.</p>
+        <p class="f-body t-body-lg pricing__intro" data-pr-intro>Starting prices sit about 20% above Urban Company Tricity deep-cleaning rates — a premium service, quoted to your home. Size, rooms, and how much organising versus styling still shape the final number.</p>
       </div>
 
       <div class="pricing__menu" data-pr-menu>
           <div class="pr-row">
-            <h3 class="f-display pr-row__name">Home Styling</h3>
-            <p class="f-body pr-row__desc">Decor direction, furniture placement, and full home interior design. Hire a top interior designer in Mohali.</p>
-            <span class="f-label pr-row__price is-quote">Personalised quote</span>
+            <h3 class="f-display pr-row__name">Deep Cleaning</h3>
+            <p class="f-body pr-row__desc">A full reset — the foundation the rest of the transformation is built on. From prices track Urban Company Tricity + ~20%.</p>
+            <span class="f-label pr-row__price">From ₹5,399</span>
           </div>
           <div class="pr-row">
             <h3 class="f-display pr-row__name">Home Organising</h3>
             <p class="f-body pr-row__desc">Wardrobes, kitchens, drawers, pantries, and storage — organised to actually hold.</p>
-            <span class="f-label pr-row__price is-quote">Personalised quote</span>
+            <span class="f-label pr-row__price">From ₹5,999</span>
           </div>
           <div class="pr-row">
-            <h3 class="f-display pr-row__name">Deep Cleaning</h3>
-            <p class="f-body pr-row__desc">A full reset — the foundation the rest of the transformation is built on.</p>
-            <span class="f-label pr-row__price is-quote">Personalised quote</span>
+            <h3 class="f-display pr-row__name">Home Styling / Interior Design</h3>
+            <p class="f-body pr-row__desc">Decor direction, furniture placement, and full home interior design in Mohali.</p>
+            <span class="f-label pr-row__price">From ₹14,999</span>
           </div>
           <div class="pr-row">
             <h3 class="f-display pr-row__name">Combined Home Reset</h3>
             <p class="f-body pr-row__desc">Clean, organise, and style in one continuous engagement.</p>
-            <span class="f-label pr-row__price is-quote">Personalised quote</span>
+            <span class="f-label pr-row__price">From ₹17,999</span>
           </div>
       </div>
       <div class="pricing__addons" data-pr-addons>
@@ -834,7 +910,7 @@
               <p class="f-label pr-addon__name">Shelf / Detailed Organisation Add-on</p>
               <p class="pr-addon__desc">Deeper organisation work for areas like shelving and the fridge, scoped to the agreed plan.</p>
             </div>
-            <span class="f-label pr-addon__price">?2,500 one-time</span>
+            <span class="f-label pr-addon__price">₹2,999 one-time</span>
           </div>
       </div>
 
@@ -852,12 +928,12 @@
         <div class="pricing__teller">
           <h4 class="f-label">Tell us about your home</h4>
           <div class="pricing__sizes" data-pr-sizes role="group" aria-label="Home size">
-              <button type="button">Condo / 1-Bed</button>
-              <button type="button">2-Bed Apartment</button>
-              <button type="button">Townhouse</button>
-              <button type="button">Detached Home</button>
+              <button type="button">1 BHK</button>
+              <button type="button">2 BHK</button>
+              <button type="button">3 BHK</button>
+              <button type="button">4 BHK / Villa</button>
           </div>
-          <a class="btn btn-outline pricing__teller-cta" href="https://wa.me/919915217674?text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." target="_blank" rel="noopener" data-pr-teller-cta>Get a personalised quote</a>
+          <a class="btn btn-outline pricing__teller-cta" href="https://api.whatsapp.com/send?phone=919915217674&amp;text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." target="_blank" rel="noopener" data-pr-teller-cta>Get a personalised quote</a>
         </div>
       </div>
     </div>
@@ -893,7 +969,7 @@
         </details>
         <details class="faq-item">
           <summary class="faq-item__q f-display">How much does it cost?</summary>
-          <div class="faq-item__a"><p class="f-body">Every home is a different scope, so styling, organising, deep cleaning and the Combined Home Reset are each quoted individually rather than sold at a fixed rate. What shapes the number: how much organising is required, the number of areas or rooms, design complexity, the cleaning requirement, and any special requests. Send your home size on WhatsApp and a personalised quote comes back.</p></div>
+          <div class="faq-item__a"><p class="f-body">Deep cleaning starts from ₹5,399 (1 BHK) — about 20% above Urban Company Tricity list rates — with 2 BHK from ₹6,099, 3 BHK from ₹7,099 and larger homes from ₹9,499. Organising starts from ₹5,999, interior styling from ₹14,999, and a Combined Home Reset from ₹17,999. Your final quote still depends on rooms, furnished vs vacant, and how much organising versus styling you want — send your home size on WhatsApp and a personalised number comes back.</p></div>
         </details>
         <details class="faq-item">
           <summary class="faq-item__q f-display">Do I need to already know what style I want?</summary>
@@ -998,10 +1074,10 @@
         <span class="f-label">Home size</span>
         <select name="size" data-quote-size required>
           <option value="" disabled selected>Select a size</option>
-            <option value="Condo / 1-Bed">Condo / 1-Bed</option>
-            <option value="2-Bed Apartment">2-Bed Apartment</option>
-            <option value="Townhouse">Townhouse</option>
-            <option value="Detached Home">Detached Home</option>
+            <option value="1 BHK">1 BHK</option>
+            <option value="2 BHK">2 BHK</option>
+            <option value="3 BHK">3 BHK</option>
+            <option value="4 BHK / Villa">4 BHK / Villa</option>
         </select>
       </label>
 
@@ -1020,14 +1096,14 @@
         <blockquote class="quote-form__preview-body f-body" data-quote-preview>Fill in the form and your message will appear here.</blockquote>
       </div>
 
-      <button type="submit" class="quote-form__submit" data-quote-submit>
+      <a class="quote-form__submit" data-quote-submit href="https://api.whatsapp.com/send?phone=919915217674&amp;text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." rel="noopener">
         <span>Send on WhatsApp</span>
         <span class="quote-form__submit-arrow" aria-hidden="true">↗</span>
-      </button>
+      </a>
     </form>
     </div>
     <div class="container final-cta__actions">
-      <a class="final-cta__whatsapp final-cta__whatsapp--secondary" data-cta-whatsapp href="https://wa.me/919915217674?text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." target="_blank" rel="noopener">
+      <a class="final-cta__whatsapp final-cta__whatsapp--secondary" data-cta-whatsapp href="https://api.whatsapp.com/send?phone=919915217674&amp;text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." target="_blank" rel="noopener">
         <span>Or just message her on WhatsApp</span>
         <span class="final-cta__whatsapp-arrow" aria-hidden="true">↗</span>
       </a>
@@ -1047,7 +1123,7 @@
   <div class="container site-footer__areas">
     <h2 class="f-label site-footer__areas-title">Areas we serve</h2>
     <p class="f-body site-footer__areas-list">Mohali (SAS Nagar)</p>
-    <p class="f-body site-footer__areas-note">Home styling, organising and deep cleaning across Mohali, Punjab. Not sure if you're in range? <a href="https://wa.me/919915217674?text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." target="_blank" rel="noopener">Ask on WhatsApp</a> — it's a quick answer.</p>
+    <p class="f-body site-footer__areas-note">Home styling, organising and deep cleaning across Mohali, Punjab. Not sure if you're in range? <a href="https://api.whatsapp.com/send?phone=919915217674&amp;text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." target="_blank" rel="noopener">Ask on WhatsApp</a> — it's a quick answer.</p>
   </div>
   <div class="container site-footer__row">
     <div class="site-footer__mark">
@@ -1055,7 +1131,7 @@
       <span class="f-display">Her Homes Co.</span>
     </div>
     <ul class="site-footer__links f-label" data-footer-links>
-      <li><a href="https://wa.me/919915217674?text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." target="_blank" rel="noopener">WhatsApp</a></li>
+      <li><a href="https://api.whatsapp.com/send?phone=919915217674&amp;text=Hey%2C%20I%20need%20home%20designing%20or%20organising%20etc." target="_blank" rel="noopener">WhatsApp</a></li>
       <li><a href="tel:+919915217674">+91-9915217674</a></li>
       <li><a href="https://share.google/6QXZ1NAflIyRcZrSn" target="_blank" rel="noopener">Google Profile</a></li>
       <li><a href="/deep-cleaning">Deep Cleaning</a></li>
