@@ -89,8 +89,77 @@ ${sizes}
 </form>`;
 }
 
-function shell({ title, metaDesc, canonical, bodyClass, mainHtml }) {
+function renderServiceJsonLd({ title, metaDesc, canonical, pageKey, startingPrice }) {
+  const p = pageKey ? D.servicePages[pageKey] : null;
+  const chooser = (D.serviceChooser.items || []).find((i) => i.id === pageKey || i.pageHref === "/" + pageKey);
+  const areaServed = (D.site.areaServed || []).map((a) => ({
+    "@type": "City",
+    name: a.name,
+    ...(a.alsoKnownAs ? { alternateName: a.alsoKnownAs } : {}),
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: a.name,
+      addressRegion: a.region,
+      addressCountry: a.country,
+    },
+  }));
+  const businessId = D.site.url + "/#business";
+  const offers = (p && p.subServices ? p.subServices : []).map((sub) => ({
+    "@type": "Offer",
+    name: sub.name,
+    description: sub.blurb,
+    price: String(sub.startingPrice),
+    priceCurrency: "INR",
+    url: canonical,
+  }));
+  if (startingPrice != null && !offers.length) {
+    offers.push({
+      "@type": "Offer",
+      price: String(startingPrice),
+      priceCurrency: "INR",
+      url: canonical,
+    });
+  }
+  const graph = [
+    {
+      "@type": "Service",
+      "@id": canonical + "#service",
+      name: (p && p.eyebrow) || title,
+      description: metaDesc,
+      serviceType: (chooser && chooser.serviceType) || (p && p.eyebrow) || title,
+      provider: { "@id": businessId },
+      areaServed,
+      url: canonical,
+      ...(offers.length ? { offers } : {}),
+      ...(p && p.includes ? { termsOfService: p.includes.join("; ") } : {}),
+    },
+    {
+      "@type": "WebPage",
+      "@id": canonical + "#webpage",
+      url: canonical,
+      name: title,
+      description: metaDesc,
+      isPartOf: { "@id": D.site.url + "/#website" },
+      about: { "@id": canonical + "#service" },
+      inLanguage: D.site.lang,
+      dateModified: new Date().toISOString().slice(0, 10),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: D.site.url + "/" },
+        { "@type": "ListItem", position: 2, name: (p && p.eyebrow) || title, item: canonical },
+      ],
+    },
+  ];
+  return `<script type="application/ld+json">\n${JSON.stringify({ "@context": "https://schema.org", "@graph": graph }, null, 2)}\n</script>`;
+}
+
+function shell({ title, metaDesc, canonical, bodyClass, mainHtml, pageKey, startingPrice }) {
   const wa = whatsAppHref();
+  const jsonLd = pageKey
+    ? renderServiceJsonLd({ title, metaDesc, canonical, pageKey, startingPrice })
+    : "";
   return `<!DOCTYPE html>
 <html lang="${esc(D.site.lang)}">
 <head>
@@ -98,6 +167,7 @@ function shell({ title, metaDesc, canonical, bodyClass, mainHtml }) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(metaDesc)}" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 <link rel="canonical" href="${esc(canonical)}" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="${esc(D.brand.name)}" />
@@ -114,6 +184,7 @@ function shell({ title, metaDesc, canonical, bodyClass, mainHtml }) {
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="stylesheet" href="/fonts.css" />
 <link rel="stylesheet" href="/styles.css" />
+${jsonLd}
 </head>
 <body class="${esc(bodyClass)}" data-page="sub">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -322,6 +393,8 @@ ${renderQuoteForm({ id: "quote-form-" + p.slug, preselectService: p.quoteService
     canonical: D.site.url + "/" + p.slug,
     bodyClass: "page-sub page-service has-quick-contact",
     mainHtml,
+    pageKey: key,
+    startingPrice: starting,
   });
 }
 

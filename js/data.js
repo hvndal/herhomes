@@ -121,7 +121,7 @@ const HHC_DATA = {
   serviceChooser: {
     eyebrow: "Where would you like to start?",
     heading: "PICK A SERVICE.",
-    support: "Tap a service — the quote form opens inside that tile. Tell her what you want; we open WhatsApp with your message ready.",
+    support: "Tap a tile for full detail, by-area options, and a WhatsApp quote form — all inside the panel.",
     ctaLabel: "Get a quote",
     ctaOpenLabel: "Close",
     items: [
@@ -133,6 +133,26 @@ const HHC_DATA = {
         pageHref: "/deep-cleaning",
         quoteLabel: "Deep Cleaning",
         whatsappMessage: "Hey, I need some deep cleaning done.",
+        // Crawlable in-tile copy for search + AI retrieval (always in HTML).
+        detail:
+          "Her Homes Co. provides professional deep cleaning services in Mohali (SAS Nagar), Punjab — full-home deep cleaning or book-by-room: bathroom deep cleaning, kitchen deep cleaning, balcony and window cleaning, and sofa / upholstery cleaning. Ideal after a move, before guests, or as the reset before home organising and interior styling.",
+        serviceType: "Deep cleaning service",
+        keywords: [
+          "deep cleaning services Mohali",
+          "bathroom deep cleaning",
+          "kitchen deep cleaning",
+          "sofa cleaning Mohali",
+          "home deep clean SAS Nagar",
+        ],
+        includes: [
+          "Full-home deep clean (1–4 BHK / villa)",
+          "Kitchen degreasing — tiles, stove, cabinet interiors",
+          "Bathroom detailing and hard-water stain care",
+          "Living areas, bedrooms, floors, fans and fixtures",
+          "Balcony, windows, and sofa / upholstery options",
+        ],
+        fromPrice: 5399,
+        subServicesKey: "deep-cleaning",
       },
       {
         id: "organising",
@@ -142,6 +162,25 @@ const HHC_DATA = {
         pageHref: "/organising",
         quoteLabel: "Organising",
         whatsappMessage: "Hey, I need some home organising done.",
+        detail:
+          "Professional home organising in Mohali for wardrobes, kitchens, pantries, drawers, shelves and utility spaces. Her Homes Co. builds systems you can keep — including Feng Shui-aligned placement when you ask — whether you need one closet or a whole-home reset before styling.",
+        serviceType: "Home organising service",
+        keywords: [
+          "home organiser Mohali",
+          "professional organizer near me",
+          "wardrobe organisation",
+          "kitchen pantry organising",
+          "Feng Shui home organising",
+        ],
+        includes: [
+          "Wardrobes and closets",
+          "Kitchen cabinets and pantry",
+          "Drawers, shelves, desks, utility spaces",
+          "Fridge and detailed shelf work (add-on)",
+          "Feng Shui-aligned placement on request",
+        ],
+        fromPrice: 5999,
+        subServicesKey: "organising",
       },
       {
         id: "interior-design",
@@ -151,6 +190,25 @@ const HHC_DATA = {
         pageHref: "/interior-design",
         quoteLabel: "Interior Design",
         whatsappMessage: "Hey, I need home designing.",
+        detail:
+          "Interior designers and home stylists in Mohali — decor direction, colour, furniture placement and room styling built around how you actually live. Her Homes Co. works as your interior decorator near me for one room or a full home, and pairs with organising and deep cleaning for a Combined Home Reset.",
+        serviceType: "Interior design service",
+        keywords: [
+          "interior designer Mohali",
+          "interior decorator near me",
+          "home styling Mohali",
+          "room designer SAS Nagar",
+          "home interior design Punjab",
+        ],
+        includes: [
+          "Decor and colour direction",
+          "Furniture placement and visual balance",
+          "Textures, objects, styling finishes",
+          "Single-room or full-home theme development",
+          "Optional pairing with organising and deep cleaning",
+        ],
+        fromPrice: 14999,
+        subServicesKey: "interior-design",
       },
     ],
   },
@@ -400,6 +458,29 @@ const HHC_DATA = {
       ],
       pricingBlurb: "Projects usually start from a single zone (one wardrobe or kitchen). Larger homes are scoped after a quick WhatsApp chat.",
       quoteService: "Organising",
+      subServices: [
+        {
+          id: "full-home-org",
+          name: "Full-home organising",
+          startingPrice: 5999,
+          blurb: "Wardrobes, kitchen, drawers and storage across the home.",
+          quoteLabel: "Organising",
+        },
+        {
+          id: "wardrobe",
+          name: "Wardrobe only",
+          startingPrice: 2499,
+          blurb: "One closet or wardrobe — sorted, edited and set up to hold.",
+          quoteLabel: "Wardrobe Organising",
+        },
+        {
+          id: "kitchen-org",
+          name: "Kitchen & pantry",
+          startingPrice: 3499,
+          blurb: "Cabinets, counters and pantry systems you can actually keep.",
+          quoteLabel: "Kitchen Organising",
+        },
+      ],
     },
     "interior-design": {
       slug: "interior-design",
@@ -419,6 +500,29 @@ const HHC_DATA = {
       ],
       pricingBlurb: "Styling engagements start from a focused room package. Full-home direction is quoted after we see the space and your references.",
       quoteService: "Interior Design",
+      subServices: [
+        {
+          id: "full-home-design",
+          name: "Full-home interior design",
+          startingPrice: 14999,
+          blurb: "Cohesive decor direction across the rooms you live in most.",
+          quoteLabel: "Interior Design",
+        },
+        {
+          id: "single-room",
+          name: "Single room styling",
+          startingPrice: 4999,
+          blurb: "One living room, bedroom or study — finished around your taste.",
+          quoteLabel: "Single Room Styling",
+        },
+        {
+          id: "decor-consult",
+          name: "Decor consultation",
+          startingPrice: 2999,
+          blurb: "Colour, layout and shopping direction — a focused styling session.",
+          quoteLabel: "Decor Consultation",
+        },
+      ],
     },
   },
 
@@ -537,7 +641,11 @@ const HHC_DATA = {
       { id: "balcony-clean", label: "Balcony Deep Clean" },
       { id: "sofa-clean", label: "Sofa Cleaning" },
       { id: "organising", label: "Organising" },
+      { id: "wardrobe-org", label: "Wardrobe Organising" },
+      { id: "kitchen-org", label: "Kitchen Organising" },
       { id: "interior-design", label: "Interior Design" },
+      { id: "single-room", label: "Single Room Styling" },
+      { id: "decor-consult", label: "Decor Consultation" },
       { id: "combined-reset", label: "Combined Home Reset" },
     ],
     sizeLabel: "Home size",
@@ -653,6 +761,10 @@ HHC_DATA.serviceChooser.items.forEach((item) => {
     alt: "",
   };
   item.whatsappHref = hhcWhatsAppHref(item.whatsappMessage);
+  // Attach book-by-area / scoped options from the matching service page
+  // so homepage tiles and landing pages stay in sync.
+  const page = item.subServicesKey && HHC_DATA.servicePages[item.subServicesKey];
+  if (page && page.subServices) item.subServices = page.subServices;
 });
 
 // Compute the WhatsApp href from the digits-only number + a friendly opener.

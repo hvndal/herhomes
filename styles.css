@@ -1404,6 +1404,85 @@ body.page-home .quick-contact {
   outline-offset: -3px;
 }
 
+/* In-tile SEO detail + book-by-area — always in HTML for crawlers/AI;
+   visually revealed when the tile is open. */
+.svc-panel__detail {
+  display: none;
+  flex: 0 0 auto;
+  padding: 1.1rem 1rem 1.25rem;
+  background: color-mix(in srgb, var(--color-charcoal) 94%, black);
+  border-top: 1px solid rgba(253,253,253,0.12);
+  color: rgba(253,253,253,0.88);
+  max-height: min(55svh, 28rem);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.svc-panel.is-open .svc-panel__detail { display: block; }
+.svc-panel__detail-body {
+  margin: 0 0 1rem;
+  line-height: 1.55;
+  color: rgba(253,253,253,0.82);
+}
+.svc-panel__detail-label {
+  margin: 1rem 0 0.45rem;
+  color: var(--color-inverse-primary);
+}
+.svc-panel__keywords,
+.svc-panel__includes,
+.svc-panel__subs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.svc-panel__keywords li,
+.svc-panel__includes li {
+  padding-left: 1rem;
+  position: relative;
+  font-size: 0.92rem;
+  color: rgba(253,253,253,0.72);
+}
+.svc-panel__keywords li::before,
+.svc-panel__includes li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: rgba(253,253,253,0.35);
+}
+.svc-panel__sub-link {
+  display: block;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid rgba(253,253,253,0.14);
+  border-radius: var(--radius-md);
+  color: var(--color-milky-white);
+  text-decoration: none;
+  transition: border-color var(--dur-fast) ease, background var(--dur-fast) ease;
+}
+.svc-panel__sub-link:hover,
+.svc-panel__sub-link:focus-visible {
+  border-color: var(--color-inverse-primary);
+  background: color-mix(in srgb, var(--color-milky-white) 6%, transparent);
+}
+.svc-panel__sub-link strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.05rem;
+  margin-bottom: 0.2rem;
+}
+.svc-panel__sub-blurb {
+  display: block;
+  font-size: 0.85rem;
+  color: rgba(253,253,253,0.65);
+  line-height: 1.4;
+}
+.svc-panel__detail-from {
+  margin-top: 1rem;
+  color: var(--color-primary-container);
+}
+
 /* In-tile quote form — shown when a service panel is open. */
 .svc-panel__quote {
   flex: 0 0 auto;
@@ -1421,7 +1500,7 @@ body.page-home .quick-contact {
 }
 .svc-panel__quote .quote-form__heading { font-size: clamp(1.25rem, 4vw, 1.65rem); }
 .svc-panel__quote .quote-form__support { font-size: 0.9rem; }
-.svc-panel.is-open .svc-panel__link { min-height: 22svh; }
+.svc-panel.is-open .svc-panel__link { min-height: 18svh; }
 .svc-panel.is-open .svc-panel__body { opacity: 1; transform: none; }
 .svc-panel.is-open .svc-panel__spine { opacity: 0; }
 

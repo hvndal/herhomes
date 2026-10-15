@@ -3,16 +3,8 @@
 # GENERATED FILE — do not edit by hand.
 # Produced by scripts/prerender.mjs from js/data.js (site.url).
 #
-# The whole site is one public page with nothing to hide from crawlers —
-# no admin area, no staging copy, no duplicate or parameterised URLs — so
-# this stays a short file on purpose.
-#
-# If a staging/preview copy ever exists at another URL, give THAT copy its
-# own robots.txt containing "User-agent: * / Disallow: /" (and ideally HTTP
-# basic auth on top) rather than adding disallow rules here. A real,
-# indexable robots.txt should never carry rules meant for another
-# environment — that is one of the most common ways a live site quietly
-# deindexes itself.
+# The whole site is public — no admin area, no staging copy — so this
+# stays a short file on purpose.
 User-agent: *
 Allow: /
 
@@ -21,5 +13,6 @@ Allow: /
 Allow: /assets/
 Allow: /js/
 Allow: /vendor/
+Allow: /llms.txt
 
 Sitemap: https://herhomes.shop/sitemap.xml

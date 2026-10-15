@@ -1246,21 +1246,42 @@
   function initQuoteForm() {
     document.querySelectorAll("[data-quote-form]").forEach(wireQuoteForm);
 
-    // Deep-cleaning (and other) "book by area" cards → pre-check that
-    // service chip in the nearest quote form, then scroll to #book.
+    // Book-by-area links → pre-check that service chip. Inside a homepage
+    // tile, keep the visitor in the open panel (form already lives there).
+    // On landing pages, scroll to #book as the href suggests.
     document.querySelectorAll("[data-quote-preselect]").forEach((el) => {
-      el.addEventListener("click", () => {
+      el.addEventListener("click", (e) => {
         const want = el.getAttribute("data-quote-preselect") || "";
         if (!want) return;
+        const panel = el.closest(".svc-panel");
+        const formInPanel = panel && panel.querySelector("[data-quote-form]");
         const form =
+          formInPanel ||
           document.querySelector("#book [data-quote-form]") ||
           document.querySelector("[data-quote-form]");
         if (!form) return;
+
+        if (panel) {
+          e.preventDefault();
+          // Ensure this tile is open so the form + detail stay visible.
+          const cta = panel.querySelector("[data-svc-cta]");
+          if (cta && !panel.classList.contains("is-open")) cta.click();
+        }
+
         form.querySelectorAll('input[name="services"]').forEach((input) => {
           input.checked = input.value === want;
         });
         form.dispatchEvent(new Event("input", { bubbles: true }));
-        trackEvent("quote_preselect", { location: "sub_service", service: want });
+        trackEvent("quote_preselect", { location: panel ? "tile_sub_service" : "sub_service", service: want });
+
+        if (panel) {
+          const slot = panel.querySelector("[data-svc-quote]");
+          if (slot) {
+            requestAnimationFrame(() => {
+              slot.scrollIntoView({ behavior: HHC.reducedMotion ? "auto" : "smooth", block: "nearest" });
+            });
+          }
+        }
       });
     });
   }

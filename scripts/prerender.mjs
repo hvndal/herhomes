@@ -279,16 +279,44 @@ function renderJsonLd() {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
+            "@id": id("service-" + svc.id),
             name: svc.name,
             description: svc.description,
             serviceType: svc.name,
             provider: { "@id": id("business") },
             areaServed,
+            url: abs(
+              svc.id === "styling" ? "/interior-design" :
+              svc.id === "combined-reset" ? "/contact" :
+              "/" + svc.id
+            ),
           },
           ...(svc.startingPrice
-            ? { price: String(svc.startingPrice), priceCurrency: "INR" }
+            ? { price: String(svc.startingPrice), priceCurrency: "INR", priceSpecification: { "@type": "UnitPriceSpecification", price: String(svc.startingPrice), priceCurrency: "INR", valueAddedTaxIncluded: true } }
             : { availability: "https://schema.org/InStock" }),
         })),
+        // Book-by-area / scoped options (bathroom only, wardrobe only, etc.)
+        ...Object.values(D.servicePages || {}).flatMap((page) =>
+          (page.subServices || []).map((sub) => ({
+            "@type": "Offer",
+            itemOffered: {
+              "@type": "Service",
+              "@id": id("service-" + page.slug + "-" + sub.id),
+              name: sub.name,
+              description: sub.blurb,
+              serviceType: sub.name,
+              provider: { "@id": id("business") },
+              areaServed,
+              url: abs("/" + page.slug),
+              isRelatedTo: { "@id": id("service-" + (
+                page.slug === "interior-design" ? "styling" :
+                page.slug === "organising" ? "organising" : "deep-cleaning"
+              )) },
+            },
+            price: String(sub.startingPrice),
+            priceCurrency: "INR",
+          }))
+        ),
         ...D.pricing.addOns.map((a) => ({
           "@type": "Offer",
           itemOffered: {
@@ -342,6 +370,11 @@ function renderJsonLd() {
     about: { "@id": id("business") },
     primaryImageOfPage: { "@type": "ImageObject", url: abs(s.shareImage.src), width: s.shareImage.width, height: s.shareImage.height },
     inLanguage: s.lang,
+    dateModified: new Date().toISOString().slice(0, 10),
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: [".svc__heading", ".svc-panel__name", ".svc-panel__detail-body", ".faq-item summary"],
+    },
   };
 
   const faq = {
@@ -355,7 +388,34 @@ function renderJsonLd() {
     })),
   };
 
-  return { "@context": "https://schema.org", "@graph": [business, founder, website, webpage, faq] };
+  // Explicit ItemList of the three pillar services — helps AI retrieve
+  // "what does Her Homes offer in Mohali" as a clear entity list.
+  const serviceList = {
+    "@type": "ItemList",
+    "@id": id("service-list"),
+    name: "Her Homes Co. core services in Mohali",
+    numberOfItems: D.serviceChooser.items.length,
+    itemListElement: D.serviceChooser.items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      url: abs(item.pageHref || ("/" + item.id)),
+      item: {
+        "@type": "Service",
+        name: item.name,
+        description: item.detail || item.blurb,
+        serviceType: item.serviceType || item.name,
+        provider: { "@id": id("business") },
+        areaServed,
+        url: abs(item.pageHref || ("/" + item.id)),
+        ...(item.fromPrice
+          ? { offers: { "@type": "Offer", price: String(item.fromPrice), priceCurrency: "INR" } }
+          : {}),
+      },
+    })),
+  };
+
+  return { "@context": "https://schema.org", "@graph": [business, founder, website, webpage, faq, serviceList] };
 }
 
 /* ================================================================== *
@@ -397,6 +457,11 @@ function maskedLines(lines) {
  * of links on this page would read "Ask about this" three times with no
  * way to tell them apart.
  */
+function formatINR(n) {
+  const sym = (D.pricing && D.pricing.currencySymbol) || "₹";
+  return sym + Number(n).toLocaleString("en-IN");
+}
+
 function renderServiceChooser() {
   const c = D.serviceChooser;
 
@@ -404,22 +469,85 @@ function renderServiceChooser() {
     .map((item) => {
       const img = imgTag(`service-${item.id}`, { eager: true });
       const page = item.pageHref || ("/" + item.id);
+      const keywords = (item.keywords || [])
+        .map((k) => `            <li>${esc(k)}</li>`)
+        .join("\n");
+      const includes = (item.includes || [])
+        .map((line) => `            <li>${esc(line)}</li>`)
+        .join("\n");
+      const subs = (item.subServices || [])
+        .map((sub) => {
+          const label = sub.quoteLabel || sub.name;
+          const price = sub.startingPrice != null ? ` · from ${formatINR(sub.startingPrice)}` : "";
+          return (
+            `            <li>\n` +
+            `              <a class="svc-panel__sub-link" href="#book" data-quote-preselect="${esc(label)}">` +
+            `<strong>${esc(sub.name)}</strong>${esc(price)}` +
+            `<span class="svc-panel__sub-blurb">${esc(sub.blurb || "")}</span>` +
+            `</a>\n` +
+            `            </li>`
+          );
+        })
+        .join("\n");
+
+      // Detail block is always in the HTML (crawlable for search + AI).
+      // CSS shows it when the tile is open; crawlers still read the source.
+      const detail = [
+        `      <div class="svc-panel__detail" id="svc-detail-${esc(item.id)}">`,
+        `        <p class="f-body svc-panel__detail-body">${esc(item.detail || item.blurb)}</p>`,
+        keywords
+          ? [
+              `        <p class="f-label svc-panel__detail-label">People also search</p>`,
+              `        <ul class="svc-panel__keywords f-body">`,
+              keywords,
+              `        </ul>`,
+            ].join("\n")
+          : "",
+        includes
+          ? [
+              `        <p class="f-label svc-panel__detail-label">What's included</p>`,
+              `        <ul class="svc-panel__includes f-body">`,
+              includes,
+              `        </ul>`,
+            ].join("\n")
+          : "",
+        subs
+          ? [
+              `        <p class="f-label svc-panel__detail-label">Book by area / scope</p>`,
+              `        <ul class="svc-panel__subs">`,
+              subs,
+              `        </ul>`,
+            ].join("\n")
+          : "",
+        item.fromPrice != null
+          ? `        <p class="f-label svc-panel__detail-from">From ${esc(formatINR(item.fromPrice))}</p>`
+          : "",
+        `      </div>`,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
       return [
-        `    <li class="svc-panel" data-svc="${esc(item.id)}">`,
+        `    <li class="svc-panel" data-svc="${esc(item.id)}" itemscope itemtype="https://schema.org/Service">`,
+        `      <meta itemprop="serviceType" content="${esc(item.serviceType || item.name)}" />`,
+        `      <meta itemprop="areaServed" content="Mohali, Punjab" />`,
+        `      <link itemprop="provider" href="${esc(D.site.url)}/#business" />`,
+        `      <link itemprop="url" href="${esc(D.site.url + page)}" />`,
         `      <button type="button" class="svc-panel__link"`,
         `         data-svc-cta data-svc-id="${esc(item.id)}"`,
         `         aria-expanded="false"`,
-        `         aria-controls="svc-quote-${esc(item.id)}"`,
-        `         aria-label="Open quote form for ${esc(item.name)}">`,
+        `         aria-controls="svc-detail-${esc(item.id)} svc-quote-${esc(item.id)}"`,
+        `         aria-label="Open details and quote form for ${esc(item.name)}">`,
         `        <span class="svc-panel__media">${img || ""}</span>`,
         `        <span class="svc-panel__spine f-display" aria-hidden="true">${esc(item.name)}</span>`,
         `        <span class="svc-panel__body">`,
         `          <span class="f-label svc-panel__index">${esc(item.index)}</span>`,
-        `          <h3 class="f-display svc-panel__name">${esc(item.name)}</h3>`,
-        `          <span class="f-body svc-panel__blurb">${esc(item.blurb)}</span>`,
+        `          <h3 class="f-display svc-panel__name" itemprop="name">${esc(item.name)}</h3>`,
+        `          <span class="f-body svc-panel__blurb" itemprop="description">${esc(item.blurb)}</span>`,
         `          <span class="f-label svc-panel__cta" data-svc-cta-label>${esc(c.ctaLabel)}</span>`,
         `        </span>`,
         `      </button>`,
+        detail,
         `      <div class="svc-panel__quote" id="svc-quote-${esc(item.id)}" data-svc-quote hidden></div>`,
         `      <a class="svc-panel__more f-label" href="${esc(page)}">Full ${esc(item.name)} page</a>`,
         `    </li>`,
@@ -926,16 +1054,8 @@ function renderRobots() {
 # GENERATED FILE — do not edit by hand.
 # Produced by scripts/prerender.mjs from js/data.js (site.url).
 #
-# The whole site is one public page with nothing to hide from crawlers —
-# no admin area, no staging copy, no duplicate or parameterised URLs — so
-# this stays a short file on purpose.
-#
-# If a staging/preview copy ever exists at another URL, give THAT copy its
-# own robots.txt containing "User-agent: * / Disallow: /" (and ideally HTTP
-# basic auth on top) rather than adding disallow rules here. A real,
-# indexable robots.txt should never carry rules meant for another
-# environment — that is one of the most common ways a live site quietly
-# deindexes itself.
+# The whole site is public — no admin area, no staging copy — so this
+# stays a short file on purpose.
 User-agent: *
 Allow: /
 
@@ -944,9 +1064,59 @@ Allow: /
 Allow: /assets/
 Allow: /js/
 Allow: /vendor/
+Allow: /llms.txt
 
 Sitemap: ${abs("sitemap.xml")}
 `;
+}
+
+/** Plain-text facts file for AI / LLM crawlers (llms.txt convention). */
+function renderLlmsTxt() {
+  const lines = [
+    `# ${D.brand.name}`,
+    `> ${D.site.description}`,
+    ``,
+    `Website: ${abs("/")}`,
+    `WhatsApp: ${D.contact.phone.display}`,
+    `Area served: Mohali (SAS Nagar), Punjab, India`,
+    `Founder: ${D.founder.name} — ${D.founder.role}`,
+    ``,
+    `## Core services`,
+  ];
+  D.serviceChooser.items.forEach((item) => {
+    lines.push(`### ${item.name}`);
+    lines.push(item.detail || item.blurb);
+    lines.push(`URL: ${abs(item.pageHref || ("/" + item.id))}`);
+    if (item.fromPrice != null) lines.push(`From price (INR): ${item.fromPrice}`);
+    if (item.keywords && item.keywords.length) {
+      lines.push(`Search phrases: ${item.keywords.join("; ")}`);
+    }
+    if (item.includes && item.includes.length) {
+      lines.push(`Includes:`);
+      item.includes.forEach((x) => lines.push(`- ${x}`));
+    }
+    if (item.subServices && item.subServices.length) {
+      lines.push(`Book by area / scope:`);
+      item.subServices.forEach((sub) => {
+        lines.push(`- ${sub.name} — from ₹${Number(sub.startingPrice).toLocaleString("en-IN")}: ${sub.blurb}`);
+      });
+    }
+    lines.push(``);
+  });
+  lines.push(`## FAQ`);
+  D.faq.forEach((f) => {
+    lines.push(`### ${f.q}`);
+    lines.push(f.a);
+    lines.push(``);
+  });
+  lines.push(`## Optional`);
+  lines.push(`- [Home](${abs("/")})`);
+  lines.push(`- [Deep cleaning](${abs("/deep-cleaning")})`);
+  lines.push(`- [Organising](${abs("/organising")})`);
+  lines.push(`- [Interior design](${abs("/interior-design")})`);
+  lines.push(`- [Contact / quote](${abs("/contact")})`);
+  lines.push(``);
+  return lines.join("\n");
 }
 
 /* ================================================================== *
@@ -970,11 +1140,13 @@ for (const [name, render] of Object.entries(BLOCKS)) {
 
 const sitemap = renderSitemap();
 const robots = renderRobots();
+const llms = renderLlmsTxt();
 
 const targets = [
   [indexPath, html, before],
   [join(ROOT, "sitemap.xml"), sitemap, existsSync(join(ROOT, "sitemap.xml")) ? readFileSync(join(ROOT, "sitemap.xml"), "utf8") : ""],
   [join(ROOT, "robots.txt"), robots, existsSync(join(ROOT, "robots.txt")) ? readFileSync(join(ROOT, "robots.txt"), "utf8") : ""],
+  [join(ROOT, "llms.txt"), llms, existsSync(join(ROOT, "llms.txt")) ? readFileSync(join(ROOT, "llms.txt"), "utf8") : ""],
 ];
 
 if (CHECK_ONLY) {
@@ -1014,4 +1186,4 @@ console.log("  index.html      " + (html.length / 1024).toFixed(1) + " KB");
 console.log("  indexable words " + words + "  (was ~40 before prerendering — everything else was JS-only)");
 console.log("  style worlds    " + D.styleWorlds.length);
 console.log("  FAQ entries     " + D.faq.length);
-console.log("  sitemap.xml + robots.txt rewritten");
+console.log("  sitemap.xml + robots.txt + llms.txt rewritten");
