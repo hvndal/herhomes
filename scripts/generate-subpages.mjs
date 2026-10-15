@@ -226,6 +226,38 @@ function renderServicePage(key) {
     .map((line) => `        <li>${esc(line)}</li>`)
     .join("\n");
 
+  const subServices = (p.subServices || [])
+    .map((sub) => {
+      const label = sub.quoteLabel || sub.name;
+      return [
+        `      <article class="svc-page__sub">`,
+        `        <h3 class="f-display svc-page__sub-name">${esc(sub.name)}</h3>`,
+        `        <p class="f-body svc-page__sub-blurb">${esc(sub.blurb || "")}</p>`,
+        `        <p class="f-label svc-page__sub-price">From ${esc(inr(sub.startingPrice))}</p>`,
+        `        <a class="btn btn-outline svc-page__sub-cta" href="#book" data-quote-preselect="${esc(label)}">Get a quote</a>`,
+        `      </article>`,
+      ].join("\n");
+    })
+    .join("\n");
+
+  const subSection = subServices
+    ? `
+  <section class="section section-pad svc-page__subs" id="by-area">
+    <div class="container">
+      <p class="f-label">Book by area</p>
+      <h2 class="f-display t-headline-lg">FULL HOME, OR JUST ONE SPACE.</h2>
+      <p class="f-body t-body-lg">Pick the rooms you need — bathroom, kitchen, balcony, sofa — or the whole house.</p>
+      <div class="svc-page__sub-grid">
+${subServices}
+      </div>
+    </div>
+  </section>`
+    : "";
+
+  const bench = D.pricing.benchmarkNote
+    ? `\n      <p class="f-body svc-page__bench">${esc(D.pricing.benchmarkNote)}</p>`
+    : "";
+
   const mainHtml = `
   <section class="section section-pad svc-page__hero">
     <div class="container">
@@ -234,6 +266,7 @@ function renderServicePage(key) {
       <p class="f-body t-body-lg svc-page__support">${esc(p.heroSupport)}</p>
       ${starting ? `<p class="f-label svc-page__from">From ${esc(inr(starting))}</p>` : ""}
       <a class="btn btn-primary" href="#book">Get a WhatsApp quote</a>
+      ${subServices ? `<a class="btn btn-outline svc-page__hero-secondary" href="#by-area">See by-area options</a>` : ""}
     </div>
   </section>
 
@@ -251,6 +284,7 @@ ${includes}
       </div>
     </div>
   </section>
+${subSection}
 
   <section class="section section-pad svc-page__pricing" id="pricing">
     <div class="container">
@@ -258,8 +292,7 @@ ${includes}
       <h2 class="f-display t-headline-lg">STARTING FROM.</h2>
       <p class="f-body t-body-lg">${esc(p.pricingBlurb)}</p>
       ${key === "deep-cleaning" && priceRows ? `<div class="svc-page__rates">${priceRows}</div>` : ""}
-      ${starting && key !== "deep-cleaning" ? `<p class="f-display svc-page__from-lg">From ${esc(inr(starting))}</p>` : ""}
-      <p class="f-body svc-page__bench">${esc(D.pricing.benchmarkNote || "")}</p>
+      ${starting && key !== "deep-cleaning" ? `<p class="f-display svc-page__from-lg">From ${esc(inr(starting))}</p>` : ""}${bench}
     </div>
   </section>
 

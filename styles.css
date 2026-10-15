@@ -1139,6 +1139,55 @@ body.page-home .quick-contact {
   font-size: 0.95rem;
   max-width: 40rem;
 }
+.svc-page__hero .btn + .btn { margin-left: 0.75rem; margin-top: 0.75rem; }
+.svc-page__hero-secondary {
+  border-color: rgba(253,253,253,0.35);
+  color: var(--color-milky-white);
+}
+.svc-page__hero-secondary:hover {
+  border-color: var(--color-inverse-primary);
+  color: var(--color-inverse-primary);
+  background: transparent;
+}
+.svc-page__subs { background: var(--color-surface-container-low); }
+.svc-page__sub-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+@media (min-width: 640px) {
+  .svc-page__sub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .svc-page__sub-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.svc-page__sub {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.35rem 1.25rem 1.4rem;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  min-height: 100%;
+}
+.svc-page__sub-name {
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  line-height: 1.1;
+  color: var(--color-secondary);
+  margin: 0;
+}
+.svc-page__sub-blurb {
+  color: var(--color-on-surface-variant);
+  flex: 1 1 auto;
+  margin: 0;
+}
+.svc-page__sub-price {
+  margin: 0.25rem 0 0.5rem;
+  color: var(--color-charcoal);
+}
+.svc-page__sub-cta { align-self: flex-start; }
 .page-service .final-cta__heading .line > i,
 .page-contact .final-cta__heading .line > i {
   transform: none;

@@ -1245,6 +1245,24 @@
 
   function initQuoteForm() {
     document.querySelectorAll("[data-quote-form]").forEach(wireQuoteForm);
+
+    // Deep-cleaning (and other) "book by area" cards → pre-check that
+    // service chip in the nearest quote form, then scroll to #book.
+    document.querySelectorAll("[data-quote-preselect]").forEach((el) => {
+      el.addEventListener("click", () => {
+        const want = el.getAttribute("data-quote-preselect") || "";
+        if (!want) return;
+        const form =
+          document.querySelector("#book [data-quote-form]") ||
+          document.querySelector("[data-quote-form]");
+        if (!form) return;
+        form.querySelectorAll('input[name="services"]').forEach((input) => {
+          input.checked = input.value === want;
+        });
+        form.dispatchEvent(new Event("input", { bubbles: true }));
+        trackEvent("quote_preselect", { location: "sub_service", service: want });
+      });
+    });
   }
 
   /* ------------------------------------------------------------------

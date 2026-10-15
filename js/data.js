@@ -255,19 +255,16 @@ const HHC_DATA = {
   ],
 
   /* ------------------------------------------------------------------
-   * PRICING — starting prices are ~20% above Urban Company (UrbanClap)
-   * Tricity deep-cleaning list rates (1BHK ₹4499 / 2BHK ₹5099 /
-   * 3BHK ₹5899 / 4+ ₹7899 as published for Chandigarh Tricity).
-   * Organising & styling are premium services (not UC commodities),
-   * priced as "from" figures in the same currency.
+   * PRICING — premium "from" prices for Mohali. Final quote always
+   * depends on rooms, furnished vs vacant, and how thorough the job is.
    * ------------------------------------------------------------------ */
   pricing: {
     eyebrow: "Investment",
     heading: "A PREMIUM SERVICE MENU, NOT A CALCULATOR.",
-    intro: "Starting prices sit about 20% above Urban Company Tricity deep-cleaning rates — a premium service, quoted to your home. Size, rooms, and how much organising versus styling still shape the final number.",
+    intro: "Starting prices for a premium finish — quoted to your home. Size, rooms, and how much organising versus styling still shape the final number.",
     currency: "INR",
     currencySymbol: "₹",
-    benchmarkNote: "Deep-cleaning from-prices ≈ Urban Company Tricity + 20%.",
+    benchmarkNote: "Final quotes depend on size, furnished vs vacant, and how thorough you want it.",
     // Size picker feeds WhatsApp + shows the matching deep-clean from-price.
     quoteMessageTemplate: "Hey, I need home designing or organising for my {size} home.",
     variables: {
@@ -280,7 +277,6 @@ const HHC_DATA = {
         "Special requests",
       ],
     },
-    // Urban Company Tricity deep clean × 1.2, rounded to nearest ₹100-ish.
     sizeRates: {
       "1 BHK": { deepCleaning: 5399 },
       "2 BHK": { deepCleaning: 6099 },
@@ -291,7 +287,7 @@ const HHC_DATA = {
       {
         id: "deep-cleaning",
         name: "Deep Cleaning",
-        description: "A full reset — the foundation the rest of the transformation is built on. From prices track Urban Company Tricity + ~20%.",
+        description: "A full reset — the foundation the rest of the transformation is built on. Book the whole home or just one area.",
         startingPrice: 5399,
       },
       {
@@ -332,12 +328,12 @@ const HHC_DATA = {
     "deep-cleaning": {
       slug: "deep-cleaning",
       title: "Deep Cleaning Services in Mohali | Her Homes",
-      metaDesc: "Premium deep cleaning in Mohali by Her Homes Co. Full-home reset from ₹5,399 — about 20% above Urban Company Tricity rates. Get a WhatsApp quote.",
+      metaDesc: "Premium deep cleaning in Mohali by Her Homes Co. Full-home from ₹5,399, or book bathroom, kitchen, balcony or sofa only. Get a WhatsApp quote.",
       heroH1: "DEEP CLEANING<br />IN MOHALI.",
-      heroSupport: "A full-home reset — kitchen, baths, cabinets, floors. Premium finish, quoted on WhatsApp.",
+      heroSupport: "Book the full home — or just one area. Kitchen, baths, balcony, sofa. Premium finish, quoted on WhatsApp.",
       eyebrow: "Deep Cleaning",
       heading: "A PROPER RESET, NOT A SURFACE WIPE.",
-      intro: "We deep-clean the rooms that actually need it — grease, hard-water marks, insides of cabinets — so organising and styling have somewhere clean to land.",
+      intro: "We deep-clean the rooms that actually need it — grease, hard-water marks, insides of cabinets — so organising and styling have somewhere clean to land. Need only one space? Book by area below.",
       includes: [
         "Kitchen degreasing (tiles, stove, cabinet interiors)",
         "Bathroom detailing & hard-water stain care",
@@ -345,8 +341,46 @@ const HHC_DATA = {
         "Fans, switchboards, reachable fixtures",
         "Balcony & hard-to-reach dusting where accessible",
       ],
-      pricingBlurb: "From-prices follow Urban Company Tricity deep-cleaning rates + ~20%. Your final quote depends on furnished vs vacant and how thorough you want it.",
+      pricingBlurb: "Full-home from-prices by size. Prefer a single room? See by-area options below — final quote depends on furnished vs vacant and how thorough you want it.",
       quoteService: "Deep Cleaning",
+      // Book-by-area options shown on /deep-cleaning (and as quote chips).
+      subServices: [
+        {
+          id: "full-home",
+          name: "Full-home deep clean",
+          startingPrice: 5399,
+          blurb: "Kitchen, baths, living areas, bedrooms — the complete reset.",
+          quoteLabel: "Deep Cleaning",
+        },
+        {
+          id: "bathroom",
+          name: "Bathroom only",
+          startingPrice: 699,
+          blurb: "Floor, WC, sink, fittings, walls & hard-water marks — per bathroom.",
+          quoteLabel: "Bathroom Deep Clean",
+        },
+        {
+          id: "kitchen",
+          name: "Kitchen only",
+          startingPrice: 1499,
+          blurb: "Grease, tiles, stove, cabinet exteriors and reachable surfaces.",
+          quoteLabel: "Kitchen Deep Clean",
+        },
+        {
+          id: "balcony",
+          name: "Balcony & windows",
+          startingPrice: 699,
+          blurb: "Floor, grill work and reachable window cleaning.",
+          quoteLabel: "Balcony Deep Clean",
+        },
+        {
+          id: "sofa",
+          name: "Sofa / upholstery",
+          startingPrice: 799,
+          blurb: "Fabric sofa shampoo or dry clean — per sofa, quoted on WhatsApp.",
+          quoteLabel: "Sofa Cleaning",
+        },
+      ],
     },
     organising: {
       slug: "organising",
@@ -418,7 +452,11 @@ const HHC_DATA = {
     },
     {
       q: "How much does it cost?",
-      a: "Deep cleaning starts from ₹5,399 (1 BHK) — about 20% above Urban Company Tricity list rates — with 2 BHK from ₹6,099, 3 BHK from ₹7,099 and larger homes from ₹9,499. Organising starts from ₹5,999, interior styling from ₹14,999, and a Combined Home Reset from ₹17,999. Your final quote still depends on rooms, furnished vs vacant, and how much organising versus styling you want — send your home size on WhatsApp and a personalised number comes back.",
+      a: "Full-home deep cleaning starts from ₹5,399 (1 BHK), with 2 BHK from ₹6,099, 3 BHK from ₹7,099 and larger homes from ₹9,499. You can also book by area — bathroom from ₹699, kitchen from ₹1,499, balcony from ₹699, sofa from ₹799. Organising starts from ₹5,999, interior styling from ₹14,999, and a Combined Home Reset from ₹17,999. Your final quote still depends on rooms, furnished vs vacant, and how thorough you want it — send details on WhatsApp and a personalised number comes back.",
+    },
+    {
+      q: "Can I book deep cleaning for just one bathroom or the kitchen?",
+      a: "Yes. Besides a full-home deep clean, you can book bathroom only, kitchen only, balcony & windows, or sofa / upholstery. Tell us which areas on WhatsApp and we quote that scope.",
     },
     {
       q: "Do I need to already know what style I want?",
@@ -494,6 +532,10 @@ const HHC_DATA = {
     servicesLabel: "Services",
     services: [
       { id: "deep-cleaning", label: "Deep Cleaning" },
+      { id: "bathroom-clean", label: "Bathroom Deep Clean" },
+      { id: "kitchen-clean", label: "Kitchen Deep Clean" },
+      { id: "balcony-clean", label: "Balcony Deep Clean" },
+      { id: "sofa-clean", label: "Sofa Cleaning" },
       { id: "organising", label: "Organising" },
       { id: "interior-design", label: "Interior Design" },
       { id: "combined-reset", label: "Combined Home Reset" },
@@ -501,7 +543,7 @@ const HHC_DATA = {
     sizeLabel: "Home size",
     sizePlaceholder: "Select a size",
     detailsLabel: "What do you want?",
-    detailsPlaceholder: "e.g. Kitchen and wardrobes organised, then a deep clean before we style the living room.",
+    detailsPlaceholder: "e.g. Two bathrooms only, or full-home deep clean plus wardrobe organising.",
     detailsRequired: true,
     previewLabel: "Message she'll receive",
     submitLabel: "Send on WhatsApp",
