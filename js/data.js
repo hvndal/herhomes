@@ -607,7 +607,7 @@ const HHC_DATA = {
     eyebrow: "The Founder",
     heading: "SOMEONE SHOULD ACTUALLY CARE HOW YOUR HOME TURNS OUT.",
     name: "Rupinder Kaur",
-    role: "Founder,Her Homes Co.",
+    role: "Founder, Her Homes Co.",
     bio: "Rupinder Kaur is entirely self-made. Her journey started in a small village and led, one step at a time, to building her own company — on the strength of a natural knack for organising and interior design, long before it was ever a business plan. That same instinct is still behind every homeHer Homes Co. takes on today.",
     photoSlot: "founder-portrait",
   },
