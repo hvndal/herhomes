@@ -517,24 +517,24 @@ body.page-home .quick-contact {
      placeholder gradient. Desktop cut by default, swapped below 768px
      for the portrait cut — same breakpoint main.js uses to pick
      mobileSrc vs desktopSrc. */
-  background-image: url("assets/media/hero-poster-desktop.jpg");
+  background-image: url("/assets/media/hero-poster-desktop.jpg");
   /* WebP where the browser supports it (about a third smaller on the one
      image that decides this page's Largest Contentful Paint). The plain
      url() above stays as the fallback: a browser that doesn't understand
      image-set() simply never applies this second declaration. */
   background-image: image-set(
-    url("assets/media/hero-poster-desktop.webp") type("image/webp"),
-    url("assets/media/hero-poster-desktop.jpg") type("image/jpeg")
+    url("/assets/media/hero-poster-desktop.webp") type("image/webp"),
+    url("/assets/media/hero-poster-desktop.jpg") type("image/jpeg")
   );
   background-size: cover;
   background-position: center;
 }
 @media (max-width: 767px) {
   .hero__frame {
-    background-image: url("assets/media/hero-poster-mobile.jpg");
+    background-image: url("/assets/media/hero-poster-mobile.jpg");
     background-image: image-set(
-      url("assets/media/hero-poster-mobile.webp") type("image/webp"),
-      url("assets/media/hero-poster-mobile.jpg") type("image/jpeg")
+      url("/assets/media/hero-poster-mobile.webp") type("image/webp"),
+      url("/assets/media/hero-poster-mobile.jpg") type("image/jpeg")
     );
   }
 }
@@ -837,13 +837,14 @@ body.page-home .quick-contact {
 .founder__role { color: var(--color-outline); margin-top: 0.35rem; }
 
 /* ==========================================================================
-   FINAL CTA / BOOKING — closing frame. No form: a direct, local business,
-   so the primary action is a real WhatsApp message, not a field to fill in.
+   FINAL CTA / BOOKING — closing frame. Primary path is the quote form,
+   which composes a WhatsApp message (quoting what they asked for) and
+   opens wa.me. A plain WhatsApp link stays as a secondary fallback.
    ========================================================================== */
 .final-cta { background: var(--color-charcoal); color: var(--color-milky-white); }
-.final-cta__top { text-align: center; margin-bottom: var(--space-section-gap); }
+.final-cta__top { text-align: center; margin-bottom: var(--space-stack-md); }
 .final-cta__heading {
-  font-size: clamp(2.6rem, 8vw, 5.5rem);
+  font-size: clamp(2.4rem, 8vw, 5.5rem);
   line-height: 1.02;
   color: var(--color-inverse-primary);
 }
@@ -851,7 +852,12 @@ body.page-home .quick-contact {
 .final-cta__heading .line > i { display: block; font-style: normal; transform: translateY(110%); will-change: transform; }
 .final-cta__support { margin-top: 1.5rem; color: rgba(253,253,253,0.75); max-width: 34rem; margin-inline: auto; }
 
-.final-cta__actions { display: flex; flex-direction: column; align-items: center; gap: 2.75rem; text-align: center; }
+.final-cta__form-wrap {
+  max-width: 36rem;
+  margin: 0 auto var(--space-section-gap);
+}
+
+.final-cta__actions { display: flex; flex-direction: column; align-items: center; gap: 1.75rem; text-align: center; }
 
 .final-cta__whatsapp {
   display: inline-flex; align-items: center; gap: 0.85rem;
@@ -863,7 +869,20 @@ body.page-home .quick-contact {
   font-size: clamp(1rem, 1.5vw, 1.15rem);
   transition: background-color 0.3s ease, transform 0.3s var(--ease-premium);
 }
+.final-cta__whatsapp--secondary {
+  background: transparent;
+  color: rgba(253,253,253,0.85);
+  border: 1px solid rgba(253,253,253,0.28);
+  font-size: 0.95rem;
+  padding: 0.65rem 1.15rem;
+}
 .final-cta__whatsapp:hover { background: var(--color-inverse-primary); transform: translateY(-3px); }
+.final-cta__whatsapp--secondary:hover {
+  background: rgba(253,253,253,0.08);
+  color: var(--color-inverse-primary);
+  border-color: var(--color-inverse-primary);
+  transform: none;
+}
 .final-cta__whatsapp-arrow { transition: transform 0.3s var(--ease-premium); }
 .final-cta__whatsapp:hover .final-cta__whatsapp-arrow { transform: translate(2px, -2px); }
 
@@ -874,6 +893,181 @@ body.page-home .quick-contact {
   transition: color 0.3s ease, border-color 0.3s ease;
 }
 .final-cta__secondary a:hover { color: var(--color-inverse-primary); border-color: var(--color-inverse-primary); }
+
+/* ---- Quote form (WhatsApp composer) ---- */
+.quote-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem 1.25rem;
+  background: color-mix(in srgb, var(--color-milky-white) 6%, transparent);
+  border: 1px solid rgba(253,253,253,0.14);
+  border-radius: var(--radius-md);
+  text-align: left;
+}
+@media (min-width: 768px) {
+  .quote-form { padding: 2rem 2.25rem; gap: 1.4rem; }
+}
+.quote-form__eyebrow { color: var(--color-inverse-primary); margin: 0; }
+.quote-form__heading {
+  margin: 0;
+  font-size: clamp(1.55rem, 4.5vw, 2.1rem);
+  line-height: 1.1;
+  color: var(--color-milky-white);
+}
+.quote-form__support {
+  margin: 0;
+  color: rgba(253,253,253,0.7);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+.quote-form__fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.quote-form__fieldset legend {
+  color: rgba(253,253,253,0.7);
+  margin-bottom: 0.75rem;
+  padding: 0;
+}
+.quote-form__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+.quote-form__chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(253,253,253,0.28);
+  border-radius: var(--radius-md);
+  color: rgba(253,253,253,0.88);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.quote-form__chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.quote-form__chip:has(input:checked),
+.quote-form__chip:has(input:focus-visible) {
+  background: var(--color-primary-container);
+  border-color: var(--color-primary-container);
+  color: var(--color-charcoal);
+}
+.quote-form__chip:hover { border-color: var(--color-inverse-primary); }
+
+.quote-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.quote-form__field > span {
+  color: rgba(253,253,253,0.7);
+}
+.quote-form__field > span em {
+  font-style: normal;
+  opacity: 0.65;
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--font-body);
+  font-size: 0.85em;
+}
+.quote-form__field input,
+.quote-form__field select,
+.quote-form__field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(253,253,253,0.22);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-charcoal) 70%, black);
+  color: var(--color-milky-white);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.4;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.quote-form__field textarea {
+  min-height: 7.5rem;
+  resize: vertical;
+}
+.quote-form__field select {
+  background-image: linear-gradient(45deg, transparent 50%, rgba(253,253,253,0.7) 50%),
+    linear-gradient(135deg, rgba(253,253,253,0.7) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 3px), calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2.4rem;
+}
+.quote-form__field input::placeholder,
+.quote-form__field textarea::placeholder {
+  color: rgba(253,253,253,0.4);
+}
+.quote-form__field input:focus-visible,
+.quote-form__field select:focus-visible,
+.quote-form__field textarea:focus-visible {
+  outline: 2px solid var(--color-inverse-primary);
+  outline-offset: 2px;
+}
+
+.quote-form__preview {
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-charcoal) 55%, black);
+  border: 1px dashed rgba(253,253,253,0.2);
+}
+.quote-form__preview-label {
+  color: var(--color-inverse-primary);
+  margin: 0 0 0.6rem;
+}
+.quote-form__preview-body {
+  margin: 0;
+  white-space: pre-wrap;
+  color: rgba(253,253,253,0.55);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.quote-form__preview-body.is-filled { color: rgba(253,253,253,0.92); }
+
+.quote-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.9rem 1.4rem;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-container);
+  color: var(--color-charcoal);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.25s var(--ease-premium);
+}
+.quote-form__submit:hover { background: var(--color-inverse-primary); transform: translateY(-2px); }
+.quote-form__submit-arrow { transition: transform 0.25s var(--ease-premium); }
+.quote-form__submit:hover .quote-form__submit-arrow { transform: translate(2px, -2px); }
+
+.quote-form.is-invalid .quote-form__chips {
+  outline: 1px solid #e8a0a0;
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+.quote-form.is-invalid .quote-form__field select:invalid,
+.quote-form.is-invalid .quote-form__field textarea:invalid {
+  border-color: #e8a0a0;
+}
 
 /* ==========================================================================
    FOOTER
@@ -1214,6 +1408,11 @@ body.page-home .quick-contact {
     opacity 0.7s var(--ease-premium),
     transform 0.7s var(--ease-premium);
 }
+.is-phone .reveal.is-revealed {
+  transition:
+    opacity 0.45s var(--ease-premium),
+    transform 0.45s var(--ease-premium);
+}
 /* Belt and braces: even if JS has already added `.reveal`, someone who has
    asked for reduced motion must never be left looking at a blank section. */
 @media (prefers-reduced-motion: reduce) {
@@ -1369,7 +1568,16 @@ body.page-home .quick-contact {
 /* ---- Hero: a shorter runway. The intro-to-nav handoff and the frame
         expansion still need scroll to drive them, but 2.2 screens of it
         before the first real content is too much on a phone. ---- */
-.is-phone .hero { height: 150vh; }
+/* Shorter hero runway on phones — the expand scrub still works, but
+   visitors reach the service chooser without a long empty thumb-scroll. */
+.is-phone .hero { height: 115vh; }
+
+/* Booking heading must never sit invisible on phones (ScrollTrigger
+   scrub + native scroll used to leave the masked lines at y:110%). */
+.is-phone .final-cta__heading .line > i { transform: none; }
+
+/* Gentler reveal travel on phones — matches MOTION.revealY in main.js. */
+.is-phone .reveal { transform: translateY(12px); }
 
 /* The tap hint only means anything on the phone layout, where the style
    worlds are switched by tapping rather than by scrolling. */

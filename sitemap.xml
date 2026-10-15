@@ -3,35 +3,28 @@
   GENERATED FILE — do not edit by hand.
   Produced by scripts/prerender.mjs from js/data.js (site.url).
   Run `npm run build` after changing the domain.
-
-  Her Homes Co. is one page. Everything on it lives at this one URL as
-  same-page anchors (#styles, #pricing, #faq, #book), and an anchor is not
-  a separate crawlable document, so listing them here would be wrong. The
-  moment a genuinely separate page exists — /services/deep-cleaning, a
-  blog, a per-city landing page — add one <url> block per canonical page.
-  Never list a page that is noindex'd, redirected, or canonicalised away.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://herhomes.shop/</loc>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://herhomes.shop/deep-cleaning</loc>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-10-15</lastmod>
   </url>
   <url>
     <loc>https://herhomes.shop/organising</loc>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-10-15</lastmod>
   </url>
   <url>
     <loc>https://herhomes.shop/interior-design</loc>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-10-15</lastmod>
   </url>
   <url>
     <loc>https://herhomes.shop/contact</loc>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-10-15</lastmod>
   </url>
 </urlset>

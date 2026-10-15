@@ -81,11 +81,13 @@
     // Only the logo->nav handoff, which should feel decisive.
     scrubTight: 0.3,
     // Everything else that is scroll-scrubbed.
-    scrub: 0.6,
+    scrub: HHC.isPhone ? 0.35 : 0.6,
     // Shared entrance for non-scrubbed sections.
-    revealY: 24,
-    revealDur: 0.7,
-    revealStagger: 0.08,
+    // Phones: shorter travel, quicker settle — big upward slides felt
+    // disconnected from the content they were revealing.
+    revealY: HHC.isPhone ? 12 : 24,
+    revealDur: HHC.isPhone ? 0.45 : 0.7,
+    revealStagger: HHC.isPhone ? 0.04 : 0.08,
     revealEase: "power3.out",
     // Scroll runway, in vh, per "beat" — one style world, one process
     // step. Mobile-first: the long runway that reads as luxurious on a
@@ -1035,6 +1037,102 @@
   }
 
   /* ------------------------------------------------------------------
+   * QUOTE FORM — builds a WhatsApp message that quotes what they asked
+   * for, then opens wa.me. Nothing is submitted to a server.
+   * ------------------------------------------------------------------ */
+  function composeQuoteMessage(values) {
+    const q = HHC_DATA.quoteForm;
+    const name = (values.name || "").trim() || "—";
+    const services = (values.services && values.services.length)
+      ? values.services.join(", ")
+      : "—";
+    const size = (values.size || "").trim() || "—";
+    const details = (values.details || "").trim().replace(/\r\n/g, "\n");
+    return q.messageTemplate
+      .replace("{name}", name)
+      .replace("{services}", services)
+      .replace("{size}", size)
+      .replace("{details}", details || "—");
+  }
+
+  function readQuoteForm(form) {
+    const services = Array.from(form.querySelectorAll('input[name="services"]:checked'))
+      .map((el) => el.value);
+    const nameEl = form.querySelector("[data-quote-name]");
+    const sizeEl = form.querySelector("[data-quote-size]");
+    const detailsEl = form.querySelector("[data-quote-details]");
+    return {
+      name: nameEl ? nameEl.value : "",
+      size: sizeEl ? sizeEl.value : "",
+      details: detailsEl ? detailsEl.value : "",
+      services,
+    };
+  }
+
+  function initQuoteForm() {
+    const form = document.querySelector("[data-quote-form]");
+    if (!form) return;
+    const q = HHC_DATA.quoteForm;
+    const preview = form.querySelector("[data-quote-preview]");
+
+    function refreshPreview() {
+      if (!preview) return;
+      const values = readQuoteForm(form);
+      const hasAnything =
+        values.name.trim() ||
+        values.size ||
+        values.details.trim() ||
+        values.services.length;
+      preview.textContent = hasAnything
+        ? composeQuoteMessage(values)
+        : q.emptyPreview;
+      preview.classList.toggle("is-filled", !!hasAnything);
+    }
+
+    form.addEventListener("input", refreshPreview);
+    form.addEventListener("change", refreshPreview);
+    refreshPreview();
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const values = readQuoteForm(form);
+      const detailsEl = form.querySelector("[data-quote-details]");
+      const sizeEl = form.querySelector("[data-quote-size]");
+
+      if (!values.services.length) {
+        const firstChip = form.querySelector('input[name="services"]');
+        if (firstChip) firstChip.focus();
+        form.classList.add("is-invalid");
+        return;
+      }
+      if (!values.size) {
+        if (sizeEl) sizeEl.focus();
+        form.classList.add("is-invalid");
+        return;
+      }
+      if (!values.details.trim()) {
+        if (detailsEl) detailsEl.focus();
+        form.classList.add("is-invalid");
+        return;
+      }
+      form.classList.remove("is-invalid");
+
+      const message = composeQuoteMessage(values);
+      const href =
+        "https://wa.me/" + HHC_DATA.contact.whatsapp.number +
+        "?text=" + encodeURIComponent(message);
+
+      trackEvent("quote_form_whatsapp", {
+        location: "quote_form",
+        services: values.services.join("|"),
+        size: values.size,
+      });
+
+      window.open(href, "_blank", "noopener");
+    });
+  }
+
+  /* ------------------------------------------------------------------
    * FINAL CTA + BOOKING FORM + FOOTER
    * ------------------------------------------------------------------ */
   function initFinalCta() {
@@ -1054,7 +1152,10 @@
         headingEl.appendChild(line);
       });
     });
-    if (HHC.reducedMotion) {
+    // Phone + reduced motion: show the heading immediately. The masked
+    // slide-up was easy to miss (or leave stranded) when ScrollTrigger
+    // and native scroll disagreed on a phone.
+    if (HHC.reducedMotion || HHC.isPhone) {
       gsap.set(chars, { y: 0 });
     } else {
       ScrollTrigger.create({
@@ -1063,9 +1164,10 @@
       });
     }
 
-    // Primary action — WhatsApp is the booking flow. No on-page form: this
-    // is a direct, local (Mohali / Tricity) business, and a message someone
-    // will actually reply to beats a form field someone has to fill in.
+    initQuoteForm();
+
+    // Fallback direct WhatsApp (no form) — still useful for people who
+    // already know what they want to say.
     const c = HHC_DATA.contact;
     const whatsappEl = section.querySelector("[data-cta-whatsapp]");
     if (whatsappEl) {

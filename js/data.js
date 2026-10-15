@@ -91,8 +91,9 @@ const HHC_DATA = {
     { label: "Pricing",    href: "#pricing" },
     { label: "FAQ",        href: "#faq" },
     { label: "Founder",    href: "#founder" },
+    { label: "Contact",    href: "/contact" },
   ],
-  navCta: { label: "Book", href: "#book" },
+  navCta: { label: "Get a quote", href: "#book" },
 
   /* ------------------------------------------------------------------
    * SERVICE CHOOSER — the full-height three-panel picker that sits
@@ -366,7 +367,7 @@ const HHC_DATA = {
     },
     {
       q: "How do I book?",
-      a: "There is no form to fill in. Message on WhatsApp at +91-9915217674 with a bit about your home — its size, which areas you want covered, and roughly what you are after — and you get a reply directly. Calling works just as well.",
+      a: "Use the quote form on this site — pick the services you want, your home size, and a few words about what you need. It writes a WhatsApp message for you and opens it to +91-9915217674 so you can send it to Rupinder. Calling works just as well.",
     },
   ],
   faqMeta: {
@@ -395,8 +396,45 @@ const HHC_DATA = {
    * ------------------------------------------------------------------ */
   finalCta: {
     lineA: ["LET'S MAKE", "YOUR HOME", "FEEL LIKE YOU."],
-    support: "No long forms — serving Mohali. Message her on WhatsApp and tell her a bit about your home; she'll take it from there.",
-    whatsappButtonLabel: "Message her on WhatsApp",
+    support: "Tell her what you want below — we write the WhatsApp message for you, quote your words, and open it so you can send it straight to her.",
+    whatsappButtonLabel: "Or just message her on WhatsApp",
+  },
+
+  /* ------------------------------------------------------------------
+   * QUOTE FORM — asks what they want, builds a WhatsApp message that
+   * quotes their words, and opens wa.me to mom's number. Nothing is
+   * posted to a server; the browser only opens WhatsApp.
+   * ------------------------------------------------------------------ */
+  quoteForm: {
+    eyebrow: "Ask for a quote",
+    heading: "What do you want help with?",
+    support: "Pick a few details. We'll write the message — including your words in quotes — then open WhatsApp so you can tap send.",
+    nameLabel: "Your name",
+    namePlaceholder: "e.g. Simran",
+    nameOptional: true,
+    servicesLabel: "Services",
+    services: [
+      { id: "deep-cleaning", label: "Deep Cleaning" },
+      { id: "organising", label: "Organising" },
+      { id: "interior-design", label: "Interior Design" },
+      { id: "combined-reset", label: "Combined Home Reset" },
+    ],
+    sizeLabel: "Home size",
+    sizePlaceholder: "Select a size",
+    detailsLabel: "What do you want?",
+    detailsPlaceholder: "e.g. Kitchen and wardrobes organised, then a deep clean before we style the living room.",
+    detailsRequired: true,
+    previewLabel: "Message she'll receive",
+    submitLabel: "Send on WhatsApp",
+    emptyPreview: "Fill in the form and your message will appear here.",
+    // {name}, {services}, {size}, {details} — details is wrapped in quotes
+    // in the composed message so her WhatsApp shows what they asked for.
+    messageTemplate:
+      "Hey Rupinder — I'd like a quote from Her Homes Co.\n\n" +
+      "Name: {name}\n" +
+      "Services: {services}\n" +
+      "Home size: {size}\n\n" +
+      "What I want:\n\"{details}\"",
   },
 
   /* ------------------------------------------------------------------
@@ -445,7 +483,9 @@ HHC_DATA.styleWorlds.forEach((w) => {
   HHC_DATA.mediaSlots["style-" + w.id] = Object.assign(
     {
       type: "image",
-      src: "assets/media/" + w.id + ".jpg",
+      // Root-absolute so /organising, /contact, etc. don't resolve
+      // assets relative to the subfolder (which 404s).
+      src: "/assets/media/" + w.id + ".jpg",
       note: w.name + " style-world image.",
       alt: w.name + "-style home interior styled by Her Homes Co. — " + w.words.join(", ").toLowerCase() + ".",
     },
@@ -471,7 +511,7 @@ HHC_DATA.styleWorlds.forEach((w) => {
 HHC_DATA.serviceChooser.items.forEach((item) => {
   HHC_DATA.mediaSlots["service-" + item.id] = {
     type: "image",
-    src: "assets/media/service-" + item.id + ".jpg",
+    src: "/assets/media/service-" + item.id + ".jpg",
     width: 900,
     height: 1600,
     note: item.name + " chooser panel artwork.",
@@ -492,8 +532,8 @@ HHC_DATA.contact.whatsapp.href =
 
 // Real hero media. Responsive: a portrait cut for phones, a wide cut for
 // desktop — main.js picks one at the same 768px breakpoint CSS uses.
-HHC_DATA.mediaSlots["hero-film"].mobileSrc = "assets/media/hero-mobile.mp4";
-HHC_DATA.mediaSlots["hero-film"].desktopSrc = "assets/media/hero-pc.mp4";
+HHC_DATA.mediaSlots["hero-film"].mobileSrc = "/assets/media/hero-mobile.mp4";
+HHC_DATA.mediaSlots["hero-film"].desktopSrc = "/assets/media/hero-pc.mp4";
 // Poster frames (real stills pulled from the two clips above) — shown the
 // instant the page paints, before the video itself has loaded, so the hero
 // is never a blank frame. Also set directly in CSS (see styles.css:
@@ -505,8 +545,11 @@ HHC_DATA.mediaSlots["hero-film"].desktopSrc = "assets/media/hero-pc.mp4";
 // here means the second one is a cache hit. A browser too old for WebP
 // fails this poster and simply keeps showing the CSS background, which
 // falls back to the .jpg for exactly those browsers.
-HHC_DATA.mediaSlots["hero-film"].mobilePoster = "assets/media/hero-poster-mobile.webp";
-HHC_DATA.mediaSlots["hero-film"].desktopPoster = "assets/media/hero-poster-desktop.webp";
+HHC_DATA.mediaSlots["hero-film"].mobilePoster = "/assets/media/hero-poster-mobile.webp";
+HHC_DATA.mediaSlots["hero-film"].desktopPoster = "/assets/media/hero-poster-desktop.webp";
+
+// Home sizes for the quote form — same list as the pricing teller.
+HHC_DATA.quoteForm.sizes = HHC_DATA.pricing.variables.homeSize.slice();
 
 // Node (scripts/prerender.mjs) reads this file by requiring it; the
 // browser just gets the global. The guard below makes both work.
