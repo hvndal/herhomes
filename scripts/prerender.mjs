@@ -137,6 +137,26 @@ function imgTag(slotKey, { eager = false, extraClass = "" } = {}) {
   return img;
 }
 
+/** Same <picture> treatment for a photo that is not a mediaSlot. */
+function photoTag(item, { eager = false } = {}) {
+  const attrs = [
+    `src="${esc(assetUrl(item.src))}"`,
+    `alt="${esc(item.alt || "")}"`,
+    item.width ? `width="${item.width}"` : null,
+    item.height ? `height="${item.height}"` : null,
+    `loading="${eager ? "eager" : "lazy"}"`,
+    `decoding="async"`,
+    eager ? `fetchpriority="high"` : null,
+    item.objectPosition ? `style="object-position: ${esc(item.objectPosition)}"` : null,
+  ].filter(Boolean);
+  const img = `<img ${attrs.join(" ")} />`;
+  const webpRel = String(item.src || "").replace(/\.(jpe?g|png)$/i, ".webp");
+  if (webpRel !== item.src && existsSync(join(ROOT, webpRel.replace(/^\//, "")))) {
+    return `<picture><source type="image/webp" srcset="${esc(assetUrl(webpRel))}" />${img}</picture>`;
+  }
+  return img;
+}
+
 /* ================================================================== *
  * HEAD — title, description, canonical, social cards, JSON-LD.
  * ================================================================== */
@@ -811,6 +831,55 @@ function renderFaq() {
   ].join("\n");
 }
 
+function renderOurWork() {
+  const w = D.ourWork;
+  if (!w || !w.items || !w.items.length) return "";
+  const filters = (w.groups || []).map((g, i) =>
+    `<button type="button" class="our-work__filter${i === 0 ? " is-active" : ""}" data-work-filter="${esc(g.id)}" aria-pressed="${i === 0 ? "true" : "false"}">${esc(g.label)}</button>`
+  ).join("\n");
+  const cards = w.items.map((item, i) => {
+    const layout = item.layout || "portrait";
+    return [
+      `<figure class="work-card work-card--${esc(layout)}" data-work-card data-work-group="${esc(item.group)}">`,
+      `  <button type="button" class="work-card__open" data-work-open aria-label="Open photo: ${esc(item.title)}">`,
+      `    <span class="work-card__frame">${photoTag(item, { eager: i === 0 })}</span>`,
+      `  </button>`,
+      `  <figcaption class="work-card__caption">`,
+      `    <span class="f-label">${esc(item.kicker)}</span>`,
+      `    <p class="f-body" data-work-caption><strong>${esc(item.title)}.</strong> ${esc(item.caption)}</p>`,
+      `  </figcaption>`,
+      `</figure>`,
+    ].join("\n");
+  }).join("\n");
+  const list = w.items.map((item) => `<li><strong>${esc(item.title)}</strong> — ${esc(item.caption)}</li>`).join("\n");
+  return [
+    `<div class="container">`,
+    `  <div class="our-work__intro">`,
+    `    <p class="f-label">${esc(w.eyebrow)}</p>`,
+    `    <h2 class="f-display t-headline-lg" id="work-heading">${esc(w.heading)}</h2>`,
+    `    <p class="f-body t-body-lg our-work__support">${esc(w.support)}</p>`,
+    `  </div>`,
+    `  <div class="our-work__filters f-label" role="group" aria-label="Filter previous work">`,
+    filters,
+    `  </div>`,
+    `  <div class="our-work__grid">`,
+    cards,
+    `  </div>`,
+    `  <p class="f-label our-work__hint">${esc(w.hint || "")}</p>`,
+    `  <ul class="sr-only">`,
+    list,
+    `  </ul>`,
+    `</div>`,
+    `<dialog class="work-lightbox" data-work-lightbox aria-label="Previous work photo">`,
+    `  <button type="button" class="work-lightbox__close f-label" data-work-close>Close</button>`,
+    `  <figure>`,
+    `    <img alt="" />`,
+    `    <figcaption class="f-body" data-work-lightbox-caption></figcaption>`,
+    `  </figure>`,
+    `</dialog>`,
+  ].join("\n");
+}
+
 function renderFounder() {
   const f = D.founder;
   const portrait = imgTag(f.photoSlot);
@@ -960,6 +1029,7 @@ function renderFooter() {
     `    <li><a href="/deep-cleaning">Deep Cleaning</a></li>`,
     `    <li><a href="/organising">Organising</a></li>`,
     `    <li><a href="/interior-design">Interior Design</a></li>`,
+    `    <li><a href="/#work">Our Work</a></li>`,
     `    <li><a href="/contact">Contact</a></li>`,
     `    <li><a href="#faq">FAQ</a></li>`,
     `    <li><a href="#book">Get a quote</a></li>`,
@@ -988,6 +1058,7 @@ const BLOCKS = {
   philosophy: renderPhilosophy,
   "style-worlds": renderStyleWorlds,
   "what-we-do": renderWhatWeDo,
+  "our-work": renderOurWork,
   process: renderProcess,
   pricing: renderPricing,
   faq: renderFaq,

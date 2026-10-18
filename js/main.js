@@ -220,9 +220,19 @@
   }
 
   function scrollTo(target, opts) {
-    if (HHC.lenis) { HHC.lenis.scrollTo(target, Object.assign({ offset: 0, duration: 1.4 }, opts)); return; }
-    if (typeof target === "number") window.scrollTo({ top: target, behavior: "smooth" });
-    else document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
+    const offset = opts && opts.offset ? opts.offset : 0;
+    if (HHC.lenis) {
+      HHC.lenis.scrollTo(target, Object.assign({ offset: 0, duration: 1.4 }, opts));
+      return;
+    }
+    if (typeof target === "number") {
+      window.scrollTo({ top: target, behavior: "smooth" });
+      return;
+    }
+    const el = typeof target === "string" ? document.querySelector(target) : target;
+    if (!el || typeof el.getBoundingClientRect !== "function") return;
+    const top = el.getBoundingClientRect().top + window.scrollY + offset;
+    window.scrollTo({ top, behavior: "smooth" });
   }
 
   /* ------------------------------------------------------------------
@@ -1096,6 +1106,8 @@
     reveal("#pricing .pr-addon");
     reveal("#pricing .pricing__lower > *", { stagger: 0.1 });
     reveal("#faq .faq-item", { stagger: 0.06 });
+    reveal("#work .our-work__intro");
+    reveal("#work .work-card", { stagger: 0.05 });
     reveal(".site-footer__areas", { y: 16 });
   }
 
@@ -1118,8 +1130,58 @@
   }
 
   /* ------------------------------------------------------------------
-   * FOUNDER
+   * OUR WORK — filters and a lightbox. The photos and captions are
+   * already in the HTML; this only shows and hides groups, and opens
+   * the uncropped frame. With no JavaScript every photo stays visible.
    * ------------------------------------------------------------------ */
+  function initOurWork() {
+    const section = document.getElementById("work");
+    if (!section) return;
+
+    const cards = Array.from(section.querySelectorAll("[data-work-card]"));
+    section.querySelectorAll("[data-work-filter]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const group = btn.getAttribute("data-work-filter");
+        section.querySelectorAll("[data-work-filter]").forEach((other) => {
+          const on = other === btn;
+          other.classList.toggle("is-active", on);
+          other.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        cards.forEach((card) => {
+          const show = group === "all" || card.getAttribute("data-work-group") === group;
+          card.hidden = !show;
+        });
+      });
+    });
+
+    const dialog = section.querySelector("[data-work-lightbox]");
+    if (!dialog || typeof dialog.showModal !== "function") return;
+    const img = dialog.querySelector("img");
+    const caption = dialog.querySelector("[data-work-lightbox-caption]");
+    const closeBtn = dialog.querySelector("[data-work-close]");
+
+    section.querySelectorAll("[data-work-open]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const card = btn.closest("[data-work-card]");
+        const source = card ? card.querySelector("img") : null;
+        const text = card ? card.querySelector("[data-work-caption]") : null;
+        if (!source) return;
+        img.src = source.currentSrc || source.src;
+        img.alt = source.alt || "";
+        if (caption) caption.textContent = text ? text.textContent.trim() : "";
+        dialog.showModal();
+      });
+    });
+
+    if (closeBtn) closeBtn.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("close", () => {
+      img.removeAttribute("src");
+    });
+  }
+
   function initFounder() {
     const section = document.getElementById("founder");
     if (!section) return;
@@ -1435,6 +1497,7 @@
     initPhilosophy();
     initStyleWorlds();
     initWhatWeDo();
+    initOurWork();
     initProcess();
     initServiceChooser();
     initReveals();
