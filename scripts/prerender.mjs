@@ -1029,6 +1029,8 @@ function renderFooter() {
     `    <li><a href="/deep-cleaning">Deep Cleaning</a></li>`,
     `    <li><a href="/organising">Organising</a></li>`,
     `    <li><a href="/interior-design">Interior Design</a></li>`,
+    `    <li><a href="/chandigarh">Chandigarh</a></li>`,
+    `    <li><a href="/panchkula">Panchkula</a></li>`,
     `    <li><a href="/#work">Our Work</a></li>`,
     `    <li><a href="/contact">Contact</a></li>`,
     `    <li><a href="#faq">FAQ</a></li>`,
@@ -1092,7 +1094,7 @@ function splice(html, name, body) {
  * sitemap.xml + robots.txt — same source of truth, so the domain can
  * never be right in one file and stale in another.
  * ------------------------------------------------------------------ */
-const SUBPAGES = ["deep-cleaning", "organising", "interior-design", "contact"];
+const SUBPAGES = ["deep-cleaning", "organising", "interior-design", "chandigarh", "panchkula", "contact"];
 
 function renderSitemap() {
   const extras = SUBPAGES.map(
@@ -1185,6 +1187,8 @@ function renderLlmsTxt() {
   lines.push(`- [Deep cleaning](${abs("/deep-cleaning")})`);
   lines.push(`- [Organising](${abs("/organising")})`);
   lines.push(`- [Interior design](${abs("/interior-design")})`);
+  lines.push(`- [Chandigarh services](${abs("/chandigarh")})`);
+  lines.push(`- [Panchkula services](${abs("/panchkula")})`);
   lines.push(`- [Contact / quote](${abs("/contact")})`);
   lines.push(``);
   return lines.join("\n");

@@ -242,7 +242,7 @@ ${mainHtml}
 <footer class="site-footer">
   <div class="container site-footer__areas">
     <h2 class="f-label site-footer__areas-title">Areas we serve</h2>
-    <p class="f-body site-footer__areas-list">Mohali (SAS Nagar)</p>
+    <p class="f-body site-footer__areas-list">${D.site.areaServed.map((a) => (a.alsoKnownAs ? `${esc(a.name)} (${esc(a.alsoKnownAs)})` : esc(a.name))).join(", ")}</p>
     <p class="f-body site-footer__areas-note">Not sure if you're in range? <a href="${esc(wa)}" target="_blank" rel="noopener">Ask on WhatsApp</a>.</p>
   </div>
   <div class="container site-footer__row">
@@ -257,6 +257,8 @@ ${mainHtml}
       <li><a href="/deep-cleaning">Deep Cleaning</a></li>
       <li><a href="/organising">Organising</a></li>
       <li><a href="/interior-design">Interior Design</a></li>
+      <li><a href="/chandigarh">Chandigarh</a></li>
+      <li><a href="/panchkula">Panchkula</a></li>
       <li><a href="/contact">Contact</a></li>
     </ul>
   </div>
@@ -427,17 +429,139 @@ ${renderQuoteForm({ id: "quote-form-contact" })}
 
   return shell({
     title: "Contact Her Homes | Get a Quote on WhatsApp",
-    metaDesc: "Contact Her Homes Co. in Mohali. Tell us what you want; we open WhatsApp with your quote message ready for +91-9915217674.",
+    metaDesc: "Contact Her Homes Co. in Mohali, Chandigarh & Panchkula (Tricity). Tell us what you want; we open WhatsApp with your quote ready for +91-9915217674.",
     canonical: D.site.url + "/contact",
     bodyClass: "page-sub page-contact has-quick-contact",
     mainHtml,
   });
 }
 
+const CITY_PAGES = {
+  chandigarh: {
+    slug: "chandigarh",
+    city: "Chandigarh",
+    title: "Interior Design, Organising & Deep Cleaning in Chandigarh | Her Homes",
+    metaDesc: "Deep cleaning (from ₹5,399), home organising (from ₹5,999) & interior styling (from ₹4,999) in Chandigarh by Her Homes Co. WhatsApp +91-9915217674.",
+    heroH1: "HOME SERVICES<br />IN CHANDIGARH.",
+    heroSupport: "Deep cleaning, home organising, move-in setup, and interior styling across Chandigarh sectors and surrounding Tricity.",
+    heading: "CLEAN, ORGANISE & STYLE IN CHANDIGARH.",
+    intro: "Whether you are moving into a new home in Chandigarh, resetting a kitchen or wardrobe, or styling a living room from scratch, Her Homes Co. quotes cleanly on WhatsApp and builds around how you actually live.",
+  },
+  panchkula: {
+    slug: "panchkula",
+    city: "Panchkula",
+    title: "Interior Design, Organising & Deep Cleaning in Panchkula | Her Homes",
+    metaDesc: "Deep cleaning (from ₹5,399), home organising (from ₹5,999) & interior styling (from ₹4,999) in Panchkula by Her Homes Co. WhatsApp +91-9915217674.",
+    heroH1: "HOME SERVICES<br />IN PANCHKULA.",
+    heroSupport: "Deep cleaning, home organising, move-in setup, and interior styling across Panchkula sectors and surrounding Tricity.",
+    heading: "CLEAN, ORGANISE & STYLE IN PANCHKULA.",
+    intro: "From full-home deep cleaning and bathroom/kitchen resets to wardrobe organising and room styling in Panchkula, Her Homes Co. handles one room or the whole home in one continuous engagement.",
+  },
+};
+
+function renderCityPage(key) {
+  const c = CITY_PAGES[key];
+  if (!c) throw new Error("Missing CITY_PAGES." + key);
+  const serviceCards = (D.pricing.services || [])
+    .map((svc) => [
+      `      <article class="svc-page__sub">`,
+      `        <h3 class="f-display svc-page__sub-name">${esc(svc.name)}</h3>`,
+      `        <p class="f-body svc-page__sub-blurb">${esc(svc.description)}</p>`,
+      `        <p class="f-label svc-page__sub-price">From ${esc(inr(svc.startingPrice))}</p>`,
+      `        <a class="btn btn-outline svc-page__sub-cta" href="#book" data-quote-preselect="${esc(svc.name)}">Get a quote</a>`,
+      `      </article>`,
+    ].join("\n"))
+    .join("\n");
+
+  const mainHtml = `
+  <section class="section section-pad svc-page__hero">
+    <div class="container">
+      <p class="f-label">${esc(c.city)} · Tricity</p>
+      <h1 class="f-display svc-page__h1">${c.heroH1}</h1>
+      <p class="f-body t-body-lg svc-page__support">${esc(c.heroSupport)}</p>
+      <a class="btn btn-primary" href="#book">Get a WhatsApp quote</a>
+      <a class="btn btn-outline svc-page__hero-secondary" href="#services">See services &amp; pricing</a>
+    </div>
+  </section>
+
+  <section class="section section-pad svc-page__about">
+    <div class="container svc-page__grid">
+      <div>
+        <h2 class="f-display t-headline-lg">${esc(c.heading)}</h2>
+        <p class="f-body t-body-lg">${esc(c.intro)}</p>
+      </div>
+      <div>
+        <h3 class="f-label">Popular in ${esc(c.city)}</h3>
+        <ul class="svc-page__includes f-body">
+          <li>Full-home &amp; by-area deep cleaning (kitchen, bathroom, sofa, balcony)</li>
+          <li>Wardrobe, kitchen &amp; pantry organising</li>
+          <li>New-home move-in setup (unpack, clean &amp; organise)</li>
+          <li>Single-room styling &amp; full-home interior design</li>
+          <li>Combined Home Reset — clean, organise &amp; style together</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-pad svc-page__subs" id="services">
+    <div class="container">
+      <p class="f-label">Services in ${esc(c.city)}</p>
+      <h2 class="f-display t-headline-lg">BOOK ONE SERVICE OR THE FULL RESET.</h2>
+      <div class="svc-page__sub-grid">
+${serviceCards}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-pad final-cta" id="book">
+    <div class="container final-cta__top">
+      <h2 class="f-display final-cta__heading"><span class="line"><i>ASK FOR YOUR</i></span><span class="line"><i>${esc(c.city.toUpperCase())}</i></span><span class="line"><i>QUOTE.</i></span></h2>
+      <p class="f-body t-body-lg final-cta__support">Fill this in — we write the WhatsApp message and open it to ${esc(D.contact.phone.display)}.</p>
+    </div>
+    <div class="container final-cta__form-wrap">
+${renderQuoteForm({ id: "quote-form-" + c.slug })}
+    </div>
+  </section>
+`;
+
+  const canonical = D.site.url + "/" + c.slug;
+  const shellHtml = shell({
+    title: c.title,
+    metaDesc: c.metaDesc,
+    canonical,
+    bodyClass: "page-sub page-service has-quick-contact",
+    mainHtml,
+  });
+  const cityLd = `<script type="application/ld+json">\n${JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": canonical + "#service",
+        name: `Home Services in ${c.city}`,
+        description: c.metaDesc,
+        provider: { "@id": D.site.url + "/#business" },
+        areaServed: { "@type": "City", name: c.city, address: { "@type": "PostalAddress", addressLocality: c.city, addressCountry: "IN" } },
+        url: canonical,
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: D.site.url + "/" },
+          { "@type": "ListItem", position: 2, name: c.city, item: canonical },
+        ],
+      },
+    ],
+  }, null, 2)}\n</script>\n</head>`;
+  return shellHtml.replace("</head>", cityLd);
+}
+
 const pages = [
   ["deep-cleaning", () => renderServicePage("deep-cleaning")],
   ["organising", () => renderServicePage("organising")],
   ["interior-design", () => renderServicePage("interior-design")],
+  ["chandigarh", () => renderCityPage("chandigarh")],
+  ["panchkula", () => renderCityPage("panchkula")],
   ["contact", renderContactPage],
 ];
 
