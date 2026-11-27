@@ -44,6 +44,7 @@ const HHC_DATA = {
     ],
 
     ga4MeasurementId: null,
+    clarityProjectId: "zk5tjpllv5",
     searchConsoleVerification: null,
   },
 

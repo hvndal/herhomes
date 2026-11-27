@@ -160,6 +160,9 @@ function shell({ title, metaDesc, canonical, bodyClass, mainHtml, pageKey, start
   const jsonLd = pageKey
     ? renderServiceJsonLd({ title, metaDesc, canonical, pageKey, startingPrice })
     : "";
+  const clarityTag = D.site.clarityProjectId
+    ? `<script>\n  (function(c,l,a,r,i,t,y){\n    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};\n    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";\n    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);\n  })(window, document, "clarity", "script", "${esc(D.site.clarityProjectId)}");\n</script>`
+    : "";
   return `<!DOCTYPE html>
 <html lang="${esc(D.site.lang)}">
 <head>
@@ -185,6 +188,7 @@ function shell({ title, metaDesc, canonical, bodyClass, mainHtml, pageKey, start
 <link rel="stylesheet" href="/fonts.css" />
 <link rel="stylesheet" href="/styles.css" />
 ${jsonLd}
+${clarityTag}
 </head>
 <body class="${esc(bodyClass)}" data-page="sub">
 <a class="skip-link" href="#main">Skip to content</a>

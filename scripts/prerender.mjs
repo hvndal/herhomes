@@ -217,6 +217,18 @@ function renderHead() {
     L.push(`</` + `script>`);
   }
 
+  if (s.clarityProjectId) {
+    L.push("");
+    L.push(`<!-- Microsoft Clarity (heatmaps & session insights, linked via Bing Webmaster Tools) -->`);
+    L.push(`<script>`);
+    L.push(`  (function(c,l,a,r,i,t,y){`);
+    L.push(`    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};`);
+    L.push(`    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";`);
+    L.push(`    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);`);
+    L.push(`  })(window, document, "clarity", "script", "${esc(s.clarityProjectId)}");`);
+    L.push(`</` + `script>`);
+  }
+
   return L.join("\n");
 }
 
