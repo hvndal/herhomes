@@ -108,8 +108,9 @@ function renderServiceJsonLd({ title, metaDesc, canonical, pageKey, startingPric
     "@type": "Offer",
     name: sub.name,
     description: sub.blurb,
-    price: String(sub.startingPrice),
-    priceCurrency: "INR",
+    ...(sub.startingPrice != null
+      ? { price: String(sub.startingPrice), priceCurrency: "INR" }
+      : { availability: "https://schema.org/InStock" }),
     url: canonical,
   }));
   if (startingPrice != null && !offers.length) {
@@ -310,7 +311,7 @@ function renderServicePage(key) {
         `      <article class="svc-page__sub">`,
         `        <h3 class="f-display svc-page__sub-name">${esc(sub.name)}</h3>`,
         `        <p class="f-body svc-page__sub-blurb">${esc(sub.blurb || "")}</p>`,
-        `        <p class="f-label svc-page__sub-price">From ${esc(inr(sub.startingPrice))}</p>`,
+        `        <p class="f-label svc-page__sub-price">${sub.startingPrice != null ? "From " + esc(inr(sub.startingPrice)) : "Quoted on WhatsApp"}</p>`,
         `        <a class="btn btn-outline svc-page__sub-cta" href="#book" data-quote-preselect="${esc(label)}">Get a quote</a>`,
         `      </article>`,
       ].join("\n");

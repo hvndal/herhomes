@@ -345,8 +345,9 @@ function renderJsonLd() {
                 page.slug === "organising" ? "organising" : "deep-cleaning"
               )) },
             },
-            price: String(sub.startingPrice),
-            priceCurrency: "INR",
+            ...(sub.startingPrice != null
+              ? { price: String(sub.startingPrice), priceCurrency: "INR" }
+              : { availability: "https://schema.org/InStock" }),
           }))
         ),
         ...D.pricing.addOns.map((a) => ({
