@@ -1015,7 +1015,7 @@ function renderFooter() {
     `<div class="container site-footer__areas">`,
     `  <h2 class="f-label site-footer__areas-title">Areas we serve</h2>`,
     `  <p class="f-body site-footer__areas-list">${areas}</p>`,
-    `  <p class="f-body site-footer__areas-note">Home styling, organising and deep cleaning across Mohali, Chandigarh & Panchkula (Tricity). Not sure if you're in range? <a href="${esc(c.whatsapp.href)}" target="_blank" rel="noopener">Ask on WhatsApp</a> — it's a quick answer.</p>`,
+    `  <p class="f-body site-footer__areas-note">Home styling, organising and deep cleaning in Mohali (SAS Nagar), Punjab. Not sure if you're in range? <a href="${esc(c.whatsapp.href)}" target="_blank" rel="noopener">Ask on WhatsApp</a> — it's a quick answer.</p>`,
     `</div>`,
     `<div class="container site-footer__row">`,
     `  <div class="site-footer__mark">`,
@@ -1029,8 +1029,6 @@ function renderFooter() {
     `    <li><a href="/deep-cleaning">Deep Cleaning</a></li>`,
     `    <li><a href="/organising">Organising</a></li>`,
     `    <li><a href="/interior-design">Interior Design</a></li>`,
-    `    <li><a href="/chandigarh">Chandigarh</a></li>`,
-    `    <li><a href="/panchkula">Panchkula</a></li>`,
     `    <li><a href="/#work">Our Work</a></li>`,
     `    <li><a href="/contact">Contact</a></li>`,
     `    <li><a href="#faq">FAQ</a></li>`,
@@ -1094,7 +1092,7 @@ function splice(html, name, body) {
  * sitemap.xml + robots.txt — same source of truth, so the domain can
  * never be right in one file and stale in another.
  * ------------------------------------------------------------------ */
-const SUBPAGES = ["deep-cleaning", "organising", "interior-design", "chandigarh", "panchkula", "contact"];
+const SUBPAGES = ["deep-cleaning", "organising", "interior-design", "contact"];
 
 function renderSitemap() {
   const extras = SUBPAGES.map(
@@ -1151,7 +1149,7 @@ function renderLlmsTxt() {
     ``,
     `Website: ${abs("/")}`,
     `WhatsApp: ${D.contact.phone.display}`,
-    `Area served: ${D.site.areaServed.map((a) => (a.alsoKnownAs ? `${a.name} (${a.alsoKnownAs})` : a.name)).join(", ")} — Chandigarh Tricity, India`,
+    `Area served: Mohali (officially SAS Nagar), Punjab, India — Mohali and SAS Nagar are the same city.`,
     `Founder: ${D.founder.name} — ${D.founder.role}`,
     ``,
     `## Core services`,
@@ -1187,8 +1185,6 @@ function renderLlmsTxt() {
   lines.push(`- [Deep cleaning](${abs("/deep-cleaning")})`);
   lines.push(`- [Organising](${abs("/organising")})`);
   lines.push(`- [Interior design](${abs("/interior-design")})`);
-  lines.push(`- [Chandigarh services](${abs("/chandigarh")})`);
-  lines.push(`- [Panchkula services](${abs("/panchkula")})`);
   lines.push(`- [Contact / quote](${abs("/contact")})`);
   lines.push(``);
   return lines.join("\n");

@@ -26,25 +26,21 @@ const HHC_DATA = {
     lang: "en-IN",
     locale: "en_IN",
 
-    title: "Her Homes | Interiors, Organising & Deep Cleaning in Tricity",
+    title: "Her Homes | Interior Design, Organising & Deep Cleaning in Mohali",
     description:
-      "Interior design, home organising & deep cleaning across Mohali, Chandigarh & Panchkula (Tricity) by Her Homes Co. Book on WhatsApp: +91-9915217674.",
+      "Interior design, home organising & deep cleaning in Mohali (SAS Nagar), Punjab by Her Homes Co. New-home move-in setup & full resets. WhatsApp: +91-9915217674.",
 
     shareImage: {
       src: "assets/media/og-cover.jpg",
       width: 1200,
       height: 630,
-      alt: "A sunlit, softly styled home interior — Her Homes Co. Tricity",
+      alt: "A sunlit, softly styled home interior — Her Homes Co., Mohali (SAS Nagar)",
     },
 
-    address: { streetAddress: "", addressLocality: "Mohali", addressRegion: "Punjab", addressCountry: "IN", note: "Serving Mohali, Chandigarh & Panchkula (Tricity)" },
+    address: { streetAddress: "", addressLocality: "Mohali", addressRegion: "Punjab", addressCountry: "IN", note: "Serving Mohali (SAS Nagar), Punjab" },
 
     areaServed: [
       { name: "Mohali", region: "Punjab", country: "IN", alsoKnownAs: "SAS Nagar" },
-      { name: "Chandigarh", region: "Chandigarh", country: "IN", alsoKnownAs: "Tricity" },
-      { name: "Panchkula", region: "Haryana", country: "IN" },
-      { name: "Zirakpur", region: "Punjab", country: "IN" },
-      { name: "Kharar", region: "Punjab", country: "IN" },
     ],
 
     ga4MeasurementId: null,
@@ -74,7 +70,7 @@ const HHC_DATA = {
       href: "tel:+919915217674",
     },
     email: "hello@herhomes.shop",
-    location: "Serving Mohali, Chandigarh & Panchkula (Tricity)",
+    location: "Serving Mohali (SAS Nagar), Punjab",
   },
 
   /* ------------------------------------------------------------------
@@ -140,15 +136,14 @@ const HHC_DATA = {
         whatsappMessage: "Hey, I need some deep cleaning done.",
         // Crawlable in-tile copy for search + AI retrieval (always in HTML).
         detail:
-          "Her Homes Co. provides professional deep cleaning services across Mohali (SAS Nagar), Chandigarh, Panchkula, Zirakpur and Kharar (Tricity) — full-home deep cleaning (1–4 BHK & villas), move-in or post-renovation resets, or book-by-room: bathroom hard-water descaling, kitchen degreasing, balcony and window cleaning, and sofa / upholstery shampooing.",
+          "Her Homes Co. provides professional deep cleaning services in Mohali (officially SAS Nagar), Punjab — full-home deep cleaning (1–4 BHK & villas), move-in or post-renovation resets, or book-by-room: bathroom hard-water descaling, kitchen degreasing, balcony and window cleaning, and sofa / upholstery shampooing.",
         serviceType: "Deep cleaning service",
         keywords: [
           "deep cleaning services Mohali",
-          "deep cleaning services Chandigarh",
-          "deep cleaning Panchkula Tricity",
-          "kitchen and bathroom deep cleaning",
-          "sofa cleaning Mohali Chandigarh",
-          "move-in post-renovation deep clean",
+          "home deep clean SAS Nagar",
+          "kitchen and bathroom deep cleaning Mohali",
+          "sofa cleaning Mohali",
+          "move-in post-renovation deep clean Mohali",
         ],
         includes: [
           "Full-home deep clean (1–4 BHK / villa)",
@@ -169,14 +164,14 @@ const HHC_DATA = {
         quoteLabel: "Organising",
         whatsappMessage: "Hey, I need some home organising done.",
         detail:
-          "Professional home organising across Mohali, Chandigarh, Panchkula, Zirakpur and Kharar (Tricity) for wardrobes, kitchens, pantries, drawers, shelves and utility spaces. Her Homes Co. builds decluttering and storage systems you can keep — including move-in unpacking and Feng Shui-aligned placement on request.",
+          "Professional home organising in Mohali (officially SAS Nagar), Punjab for wardrobes, kitchens, pantries, drawers, shelves and utility spaces. Her Homes Co. builds decluttering and storage systems you can keep — including new-home move-in unpacking and Feng Shui-aligned placement on request.",
         serviceType: "Home organising service",
         keywords: [
-          "home organiser Mohali Chandigarh",
-          "professional organizer Tricity",
-          "wardrobe decluttering and organisation",
-          "kitchen pantry organising",
-          "move-in unpacking home setup",
+          "home organiser Mohali",
+          "professional organizer SAS Nagar",
+          "wardrobe decluttering and organisation Mohali",
+          "kitchen pantry organising Mohali",
+          "new-home move-in unpacking setup Mohali",
           "Feng Shui home organising",
         ],
         includes: [
@@ -194,19 +189,19 @@ const HHC_DATA = {
         id: "interior-design",
         index: "03",
         name: "Interior Design",
-        blurb: "Home interior design, decor direction, and room styling across Mohali, Chandigarh & Panchkula (Tricity).",
+        blurb: "Home interior design, decor direction, and room styling in Mohali (SAS Nagar), Punjab.",
         pageHref: "/interior-design",
         quoteLabel: "Interior Design",
         whatsappMessage: "Hey, I need home designing.",
         detail:
-          "Interior designers and home stylists across Mohali, Chandigarh, Panchkula and Tricity — decor direction, colour, furniture placement and single-room or full-home styling built around how you actually live. Pairs with organising and deep cleaning for a Combined Home Reset.",
+          "Interior designers and home stylists in Mohali (officially SAS Nagar), Punjab — decor direction, colour, furniture placement and single-room or full-home styling built around how you actually live. Pairs with organising and deep cleaning for a Combined Home Reset.",
         serviceType: "Interior design service",
         keywords: [
-          "interior designer Mohali Chandigarh",
-          "interior designer Panchkula Tricity",
-          "home stylist interior decorator near me",
-          "single room makeover Tricity",
-          "decor consultation Mohali Chandigarh",
+          "interior designer Mohali",
+          "interior designer SAS Nagar",
+          "home stylist interior decorator near me Mohali",
+          "single room makeover Mohali",
+          "decor consultation Mohali Punjab",
         ],
         includes: [
           "Decor and colour direction",
@@ -365,7 +360,7 @@ const HHC_DATA = {
       {
         id: "styling",
         name: "Home Styling / Interior Design",
-        description: "Decor direction, furniture placement, and full home interior design in Mohali & Tricity.",
+        description: "Decor direction, furniture placement, and full home interior design in Mohali.",
         startingPrice: 14999,
       },
       {
@@ -393,8 +388,8 @@ const HHC_DATA = {
   servicePages: {
     "deep-cleaning": {
       slug: "deep-cleaning",
-      title: "Deep Cleaning in Mohali & Tricity | Her Homes",
-      metaDesc: "Deep cleaning in Mohali, Chandigarh & Panchkula by Her Homes Co. Full-home from ₹5,399, or book kitchen, bath, balcony or sofa. WhatsApp for a quote.",
+      title: "Deep Cleaning Services in Mohali | Her Homes",
+      metaDesc: "Deep cleaning in Mohali (SAS Nagar) by Her Homes Co. Full-home from ₹5,399, or book kitchen, bathroom, balcony or sofa. WhatsApp +91-9915217674.",
       heroH1: "DEEP CLEANING<br />IN MOHALI.",
       heroSupport: "Book the full home — or just one area. Kitchen, baths, balcony, sofa. Premium finish, quoted on WhatsApp.",
       eyebrow: "Deep Cleaning",
@@ -450,8 +445,8 @@ const HHC_DATA = {
     },
     organising: {
       slug: "organising",
-      title: "Home Organising in Mohali & Tricity | Her Homes",
-      metaDesc: "Home organising in Mohali, Chandigarh & Panchkula — wardrobes, kitchens, drawers & pantries from ₹5,999. WhatsApp Her Homes Co. for a quote.",
+      title: "Home Organising Services in Mohali | Her Homes",
+      metaDesc: "Home organising in Mohali (SAS Nagar) — wardrobes, kitchens, drawers, pantries & move-in setup from ₹5,999. WhatsApp Her Homes Co. for a quote.",
       heroH1: "HOME ORGANISING<br />THAT HOLDS.",
       heroSupport: "Wardrobes, kitchens, drawers, pantries — systems you can actually keep.",
       eyebrow: "Organising",
@@ -492,8 +487,8 @@ const HHC_DATA = {
     },
     "interior-design": {
       slug: "interior-design",
-      title: "Interior Designers in Mohali & Tricity | Her Homes",
-      metaDesc: "Interior design & home styling in Mohali, Chandigarh & Panchkula by Her Homes Co. Room styling from ₹4,999, full home from ₹14,999. WhatsApp for a quote.",
+      title: "Interior Designers in Mohali | Her Homes",
+      metaDesc: "Interior design & home styling in Mohali (SAS Nagar) by Her Homes Co. Room styling from ₹4,999, full home from ₹14,999. WhatsApp for a quote.",
       heroH1: "INTERIOR DESIGN<br />AROUND YOU.",
       heroSupport: "Decor, colour, furniture placement — built around how you actually live.",
       eyebrow: "Interior Design",
@@ -560,7 +555,7 @@ const HHC_DATA = {
     },
     {
       q: "Which areas do you serve?",
-      a: "Her Homes Co. serves the entire Chandigarh Tricity — Mohali (SAS Nagar), Chandigarh, Panchkula, Zirakpur and Kharar. If you are searching for an interior designer, home organiser or deep cleaning service anywhere in Tricity, message us on WhatsApp and ask; it is a quick answer.",
+      a: "Her Homes Co. serves Mohali (officially SAS Nagar), Punjab — Mohali and SAS Nagar are two names for the same city. Whether you are in any Mohali sector or residential society, message us on WhatsApp and ask; it is a quick answer.",
     },
     {
       q: "How much does it cost?",
